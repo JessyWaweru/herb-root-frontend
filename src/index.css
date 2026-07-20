@@ -1,0 +1,94 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream-50: #fffdf8;
+  --color-cream-100: #fbf7ee;
+  --color-cream-200: #f6efe1;
+  --color-cream-300: #e9ddc4;
+
+  --color-sage-50: #f2f6ee;
+  --color-sage-100: #e1ebd7;
+  --color-sage-200: #c3d8b0;
+  --color-sage-300: #a9c088;
+  --color-sage-400: #8aa876;
+  --color-sage-500: #6b8e5a;
+  --color-sage-600: #587649;
+  --color-sage-700: #45603a;
+  --color-sage-800: #3f5d3a;
+  --color-sage-900: #2c4023;
+
+  --color-gold-300: #f0dca4;
+  --color-gold-400: #e7c873;
+  --color-gold-500: #c9a15a;
+  --color-gold-600: #a8813f;
+
+  --color-rose-300: #edc2b6;
+  --color-rose-400: #e3a99a;
+  --color-rose-500: #c97b5f;
+  --color-rose-600: #a85f45;
+
+  --color-ink-600: #6b6146;
+  --color-ink-700: #4a4237;
+  --color-ink-800: #3b3226;
+  --color-ink-900: #2a241b;
+
+  --shadow-soft: 0 1px 2px rgba(43, 37, 24, 0.04), 0 8px 24px -8px rgba(43, 37, 24, 0.12);
+  --shadow-lift: 0 12px 32px -12px rgba(43, 37, 24, 0.28);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-cream-100);
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-sage-900);
+  }
+
+  ::selection {
+    background: var(--color-sage-200);
+    color: var(--color-sage-900);
+  }
+}
+
+@layer utilities {
+  .bg-botanical {
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(107, 142, 90, 0.08), transparent 32%),
+      radial-gradient(circle at 88% 8%, rgba(201, 161, 90, 0.1), transparent 30%),
+      radial-gradient(circle at 92% 78%, rgba(201, 123, 95, 0.08), transparent 34%);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes leaf-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-4px);
+  }
+}
+
+.animate-leaf-sway {
+  animation: leaf-sway 6s ease-in-out infinite;
+}
