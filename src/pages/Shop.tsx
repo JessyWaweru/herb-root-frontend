@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { SlidersHorizontal } from 'lucide-react';
-import { useProducts } from '../hooks/useProducts';
+import { Link, useSearchParams } from 'react-router-dom';
+import { SlidersHorizontal, X } from 'lucide-react';
+import { useProducts, useProductsBySymptoms, useSymptoms } from '../hooks/useProducts';
 import { FilterSidebar, type Filters } from '../components/product/FilterSidebar';
 import { ProductGrid } from '../components/product/ProductGrid';
 import { Spinner } from '../components/ui/Spinner';
@@ -16,6 +16,64 @@ const SORT_OPTIONS = [
 ];
 
 export function Shop() {
+  const [params] = useSearchParams();
+  const concernSlugs = (params.get('concerns') ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (concernSlugs.length > 0) {
+    return <SmartConcernResults slugs={concernSlugs} query={params.get('q') ?? ''} />;
+  }
+
+  return <StandardShop />;
+}
+
+/** Results for a natural-language "how are you feeling" search — an OR match across
+ * every concern the smart search bar detected, merged and ranked by relevance. */
+function SmartConcernResults({ slugs, query }: { slugs: string[]; query: string }) {
+  const { data: products, isLoading } = useProductsBySymptoms(slugs);
+  const { data: symptoms } = useSymptoms();
+
+  const matchedSymptoms = symptoms?.filter((s) => slugs.includes(s.slug)) ?? [];
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mb-8">
+        <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">Smart match</span>
+        <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">
+          {query ? `Remedies for "${query}"` : 'Remedies matched to your concerns'}
+        </h1>
+        {products && <p className="mt-2 text-sm text-ink-600">{products.length} remedies found</p>}
+
+        {matchedSymptoms.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {matchedSymptoms.map((s) => (
+              <Link
+                key={s.id}
+                to={`/shop?symptom=${s.slug}`}
+                className="flex items-center gap-1.5 rounded-full bg-sage-100 px-3 py-1.5 text-xs font-semibold text-sage-800 transition hover:bg-sage-200"
+              >
+                {s.icon} {s.name}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        <Link
+          to="/shop"
+          className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-ink-600 hover:text-ink-800"
+        >
+          <X size={12} /> Clear and browse all remedies
+        </Link>
+      </div>
+
+      {isLoading ? <Spinner /> : <ProductGrid products={products ?? []} />}
+    </div>
+  );
+}
+
+function StandardShop() {
   const [params, setParams] = useSearchParams();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 

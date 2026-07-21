@@ -7,7 +7,7 @@ import { useAddToCart } from '../../hooks/useCart';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { Button } from '../../components/ui/Button';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, resolveMediaUrl } from '../../lib/format';
 
 export function AccountWishlist() {
   const { data: wishlist, isLoading } = useWishlist();
@@ -41,7 +41,7 @@ export function AccountWishlist() {
       {wishlist.map((item) => (
         <div key={item.id} className="flex gap-4 rounded-2xl border border-cream-300 bg-cream-50 p-4">
           <Link to={`/shop/${item.product.slug}`} className="shrink-0">
-            <img src={item.product.primary_image_url} alt={item.product.name} className="h-20 w-20 rounded-xl object-cover" />
+            <img src={resolveMediaUrl(item.product.primary_image_url)} alt={item.product.name} className="h-20 w-20 rounded-xl object-cover" />
           </Link>
           <div className="flex flex-1 flex-col justify-between">
             <div>

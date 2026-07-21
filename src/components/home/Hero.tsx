@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Sparkles } from 'lucide-react';
+import { useSmartSearchNavigate } from '../../hooks/useSmartSearch';
 
 export function Hero() {
   const [query, setQuery] = useState('');
-  const navigate = useNavigate();
+  const smartSearch = useSmartSearchNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(query.trim() ? `/shop?search=${encodeURIComponent(query.trim())}` : '/shop');
+    smartSearch(query);
   };
 
   return (
@@ -79,7 +79,7 @@ export function Hero() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Try 'headache', 'sleep', or 'turmeric'..."
+            placeholder="Try &quot;I can't sleep and my head hurts&quot;..."
             className="w-full bg-transparent px-1 py-2 text-sm text-ink-800 placeholder:text-ink-600/50 focus:outline-none"
           />
           <button

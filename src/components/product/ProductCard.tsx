@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Heart, ShoppingBasket } from 'lucide-react';
 import clsx from 'clsx';
 import type { ProductSummary } from '../../types';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, resolveMediaUrl } from '../../lib/format';
 import { StarRating } from '../ui/StarRating';
 import { useAddToCart } from '../../hooks/useCart';
 import { useToggleWishlist } from '../../hooks/useWishlist';
@@ -33,7 +33,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
       <Link to={`/shop/${product.slug}`} className="block overflow-hidden">
         <div className="aspect-square overflow-hidden bg-sage-50">
           <img
-            src={product.primary_image_url}
+            src={resolveMediaUrl(product.primary_image_url)}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"

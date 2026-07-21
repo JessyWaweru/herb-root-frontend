@@ -55,7 +55,7 @@ export function Footer() {
             <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Shop</h4>
             <ul className="space-y-2 text-sm text-cream-100/90">
               <li><Link to="/shop" className="hover:text-gold-400">All remedies</Link></li>
-              <li><Link to="/#symptoms" className="hover:text-gold-400">Shop by concern</Link></li>
+              <li><Link to="/concerns" className="hover:text-gold-400">Shop by concern</Link></li>
               <li><Link to="/shop?is_bestseller=true" className="hover:text-gold-400">Bestsellers</Link></li>
             </ul>
           </div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import type { ProductDetail } from '../../types';
+import { resolveMediaUrl } from '../../lib/format';
 
 export function ProductGallery({ product }: { product: ProductDetail }) {
   const images = [
@@ -20,7 +21,7 @@ export function ProductGallery({ product }: { product: ProductDetail }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            src={images[active]?.image_url}
+            src={resolveMediaUrl(images[active]?.image_url ?? '')}
             alt={images[active]?.alt_text || product.name}
             className="h-full w-full object-cover"
           />
@@ -37,7 +38,7 @@ export function ProductGallery({ product }: { product: ProductDetail }) {
                 active === i ? 'border-sage-600' : 'border-transparent opacity-70 hover:opacity-100',
               )}
             >
-              <img src={img.image_url} alt="" className="h-full w-full object-cover" />
+              <img src={resolveMediaUrl(img.image_url)} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
