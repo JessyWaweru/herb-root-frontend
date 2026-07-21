@@ -1,5 +1,6 @@
 import { MapPin } from 'lucide-react';
 import type { ProductDetail } from '../../types';
+import { resolveMediaUrl } from '../../lib/format';
 
 export function PlantGardenAlbum({ product }: { product: ProductDetail }) {
   const { plant_origin, plant_gallery_images } = product;
@@ -26,7 +27,7 @@ export function PlantGardenAlbum({ product }: { product: ProductDetail }) {
         <div className="mt-4 grid grid-cols-3 gap-2">
           {plant_gallery_images.map((img) => (
             <figure key={img.id} className="overflow-hidden rounded-xl">
-              <img src={img.image_url} alt={img.caption} className="aspect-square w-full object-cover" />
+              <img src={resolveMediaUrl(img.image_url)} alt={img.caption} className="aspect-square w-full object-cover" />
               {img.caption && <figcaption className="mt-1 text-xs text-ink-600">{img.caption}</figcaption>}
             </figure>
           ))}

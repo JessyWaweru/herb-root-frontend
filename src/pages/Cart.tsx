@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/authStore';
 import { PageSpinner } from '../components/ui/Spinner';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
-import { formatPrice } from '../lib/format';
+import { formatPrice, resolveMediaUrl } from '../lib/format';
 
 export function Cart() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -63,7 +63,7 @@ export function Cart() {
             >
               <Link to={`/shop/${item.product.slug}`} className="shrink-0">
                 <img
-                  src={item.product.primary_image_url}
+                  src={resolveMediaUrl(item.product.primary_image_url)}
                   alt={item.product.name}
                   className="h-24 w-24 rounded-xl object-cover"
                 />

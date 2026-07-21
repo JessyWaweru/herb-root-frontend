@@ -9,6 +9,7 @@ import {
   fetchProduct,
   fetchProductReviews,
   fetchProducts,
+  fetchProductsForSymptoms,
   fetchSymptoms,
   type ProductQuery,
 } from '../lib/products';
@@ -19,6 +20,14 @@ export function useProducts(query: ProductQuery) {
     queryKey: ['products', query],
     queryFn: () => fetchProducts(query),
     placeholderData: (prev) => prev,
+  });
+}
+
+export function useProductsBySymptoms(slugs: string[]) {
+  return useQuery({
+    queryKey: ['products', 'bySymptoms', slugs],
+    queryFn: () => fetchProductsForSymptoms(slugs),
+    enabled: slugs.length > 0,
   });
 }
 

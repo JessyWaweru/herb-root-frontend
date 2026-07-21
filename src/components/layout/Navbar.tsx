@@ -1,30 +1,23 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Heart, Leaf, LogOut, Menu, Search, ShoppingBasket, User, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Heart, Leaf, LogOut, Menu, ShoppingBasket, User, X } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useCart } from '../../hooks/useCart';
 import { useLogout } from '../../hooks/useAuth';
+import { SmartSearchBar } from '../search/SmartSearchBar';
 
 const NAV_LINKS = [
   { to: '/shop', label: 'Shop' },
-  { to: '/#symptoms', label: 'Shop by Concern' },
+  { to: '/concerns', label: 'Shop by Concern' },
   { to: '/about', label: 'Our Story' },
   { to: '/contact', label: 'Contact' },
 ];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState('');
-  const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthStore();
   const { data: cart } = useCart();
   const logout = useLogout();
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    navigate(searchValue.trim() ? `/shop?search=${encodeURIComponent(searchValue.trim())}` : '/shop');
-    setMobileOpen(false);
-  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-cream-300 bg-cream-100/90 backdrop-blur">
@@ -48,17 +41,10 @@ export function Navbar() {
           ))}
         </nav>
 
-        <form onSubmit={handleSearch} className="ml-auto hidden flex-1 max-w-sm items-center md:flex">
-          <div className="flex w-full items-center gap-2 rounded-full border border-cream-300 bg-cream-50 px-4 py-2">
-            <Search size={16} className="text-ink-600/60" />
-            <input
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search by product or symptom..."
-              className="w-full bg-transparent text-sm text-ink-800 placeholder:text-ink-600/50 focus:outline-none"
-            />
-          </div>
-        </form>
+        <SmartSearchBar
+          placeholder="Search, or describe how you feel..."
+          className="ml-auto hidden flex-1 max-w-sm items-center md:flex"
+        />
 
         <div className="ml-auto flex items-center gap-1.5 md:ml-3">
           <Link
@@ -131,15 +117,11 @@ export function Navbar() {
 
       {mobileOpen && (
         <div className="border-t border-cream-300 bg-cream-100 px-4 py-4 lg:hidden">
-          <form onSubmit={handleSearch} className="mb-4 flex items-center gap-2 rounded-full border border-cream-300 bg-cream-50 px-4 py-2">
-            <Search size={16} className="text-ink-600/60" />
-            <input
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              placeholder="Search remedies or symptoms..."
-              className="w-full bg-transparent text-sm focus:outline-none"
-            />
-          </form>
+          <SmartSearchBar
+            placeholder="Search, or describe how you feel..."
+            className="mb-4 flex"
+            onNavigate={() => setMobileOpen(false)}
+          />
           <div className="flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <Link

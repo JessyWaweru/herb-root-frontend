@@ -3,6 +3,7 @@ import { Layout } from '../components/layout/Layout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Home } from '../pages/Home';
 import { Shop } from '../pages/Shop';
+import { ShopByConcern } from '../pages/ShopByConcern';
 import { ProductDetail } from '../pages/ProductDetail';
 import { Cart } from '../pages/Cart';
 import { Checkout } from '../pages/Checkout';
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home /> },
       { path: '/shop', element: <Shop /> },
+      { path: '/concerns', element: <ShopByConcern /> },
       { path: '/shop/:slug', element: <ProductDetail /> },
       { path: '/cart', element: <Cart /> },
       { path: '/about', element: <About /> },

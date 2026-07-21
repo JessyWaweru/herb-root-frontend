@@ -3,6 +3,7 @@ import { TrustStrip } from '../components/home/TrustStrip';
 import { SymptomGrid } from '../components/home/SymptomGrid';
 import { ProductSection } from '../components/home/ProductSection';
 import { GardenStory } from '../components/home/GardenStory';
+import { MindBodyTransition } from '../components/home/MindBodyTransition';
 import { useBestsellers, useFeaturedProducts } from '../hooks/useProducts';
 
 export function Home() {
@@ -13,6 +14,7 @@ export function Home() {
     <div>
       <Hero />
       <TrustStrip />
+      <MindBodyTransition />
       <SymptomGrid />
       <ProductSection
         eyebrow="Editor's picks"

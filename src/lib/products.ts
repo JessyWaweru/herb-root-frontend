@@ -29,6 +29,41 @@ export async function fetchProducts(query: ProductQuery = {}) {
   return data;
 }
 
+export interface SymptomMatchedProduct extends ProductSummary {
+  matched_symptom_slugs: string[];
+}
+
+/**
+ * The backend's `symptom` filter only accepts one slug at a time, so an
+ * OR-across-concerns search (from the smart search bar) is done here by
+ * fetching each matched symptom's products in parallel and merging by id.
+ */
+export async function fetchProductsForSymptoms(slugs: string[]): Promise<SymptomMatchedProduct[]> {
+  const pages = await Promise.all(
+    slugs.map((slug) => fetchProducts({ symptom: slug, ordering: '-average_rating' })),
+  );
+
+  const bySlugScore = new Map<string, SymptomMatchedProduct>();
+  pages.forEach((page, i) => {
+    const slug = slugs[i];
+    page.results.forEach((product) => {
+      const existing = bySlugScore.get(product.id);
+      if (existing) {
+        existing.matched_symptom_slugs.push(slug);
+      } else {
+        bySlugScore.set(product.id, { ...product, matched_symptom_slugs: [slug] });
+      }
+    });
+  });
+
+  return Array.from(bySlugScore.values()).sort((a, b) => {
+    if (b.matched_symptom_slugs.length !== a.matched_symptom_slugs.length) {
+      return b.matched_symptom_slugs.length - a.matched_symptom_slugs.length;
+    }
+    return parseFloat(b.average_rating) - parseFloat(a.average_rating);
+  });
+}
+
 export async function fetchProduct(slug: string) {
   const { data } = await api.get<ProductDetail>(`/products/${slug}/`);
   return data;
