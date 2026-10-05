@@ -21,7 +21,7 @@ export function About() {
             We believe a remedy should tell you where it came from.
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-ink-600">
-            Herb & Root started with a simple frustration: most "natural" products online tell you
+            GO herbal started with a simple frustration: most "natural" products online tell you
             almost nothing about what's actually inside, or where it grew. So we built a shop where
             every product carries its full story — ingredients, origin, and purpose.
           </p>

@@ -1,6 +1,6 @@
-# Herb & Root — Frontend
+# GO herbal — Frontend
 
-React + Vite + TypeScript storefront for the Herb & Root herbal remedies shop.
+React + Vite + TypeScript storefront for the GO herbal herbal remedies shop.
 
 ## Stack
 

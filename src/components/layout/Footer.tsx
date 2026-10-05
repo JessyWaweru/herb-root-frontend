@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { subscribeNewsletter } from '../../lib/core';
 import { apiErrorMessage } from '../../lib/api';
+import { Logo } from './Logo';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -29,12 +30,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-700">
-                <Leaf size={18} />
-              </span>
-              <span className="font-display text-xl">Herb &amp; Root</span>
-            </div>
+            <Logo dark tagline />
             <p className="mt-3 max-w-xs text-sm text-cream-200/80">
               Herbal remedies chosen by what you feel — grown with care, explained with honesty.
             </p>
@@ -96,7 +92,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-sage-700 pt-6 text-xs text-cream-200/60 sm:flex-row">
-          <p>© {new Date().getFullYear()} Herb &amp; Root. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} GO herbal. All rights reserved.</p>
           <p>Grown across Kenya's highlands and coast.</p>
         </div>
       </div>

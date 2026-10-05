@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf } from 'lucide-react';
+import { Logo } from './Logo';
 
 export function AuthLayout({
   title,
@@ -15,10 +15,7 @@ export function AuthLayout({
     <div className="grid min-h-[calc(100vh-64px)] lg:grid-cols-2">
       <div className="flex flex-col justify-center px-6 py-16 sm:px-12 lg:px-20">
         <Link to="/" className="mb-8 flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-800 text-cream-50">
-            <Leaf size={18} />
-          </span>
-          <span className="font-display text-xl text-sage-900">Herb &amp; Root</span>
+          <Logo />
         </Link>
         <h1 className="font-display text-3xl text-sage-900">{title}</h1>
         {subtitle && <p className="mt-2 text-sm text-ink-600">{subtitle}</p>}
@@ -32,7 +29,7 @@ export function AuthLayout({
           <p className="font-display text-2xl leading-snug">
             "Every remedy on our shelf started as a seed we could name."
           </p>
-          <p className="text-sm text-cream-100/70">— The Herb &amp; Root growers</p>
+          <p className="text-sm text-cream-100/70">— The GO herbal growers</p>
         </div>
       </div>
     </div>
