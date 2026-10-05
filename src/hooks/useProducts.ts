@@ -9,8 +9,8 @@ import {
   fetchProduct,
   fetchProductReviews,
   fetchProducts,
-  fetchProductsForSymptoms,
   fetchSymptoms,
+  smartSearch,
   type ProductQuery,
 } from '../lib/products';
 import { apiErrorMessage } from '../lib/api';
@@ -23,11 +23,14 @@ export function useProducts(query: ProductQuery) {
   });
 }
 
-export function useProductsBySymptoms(slugs: string[]) {
+export function useSmartSearch(q: string, limit?: number) {
+  const trimmed = q.trim();
   return useQuery({
-    queryKey: ['products', 'bySymptoms', slugs],
-    queryFn: () => fetchProductsForSymptoms(slugs),
-    enabled: slugs.length > 0,
+    queryKey: ['products', 'smartSearch', trimmed, limit],
+    queryFn: () => smartSearch(trimmed, limit),
+    enabled: trimmed.length >= 2,
+    placeholderData: (prev) => prev,
+    staleTime: 60_000,
   });
 }
 
