@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { useProducts, useProductsBySymptoms, useSymptoms } from '../hooks/useProducts';
+import { useProducts, useSmartSearch } from '../hooks/useProducts';
 import { FilterSidebar, type Filters } from '../components/product/FilterSidebar';
 import { ProductGrid } from '../components/product/ProductGrid';
 import { Spinner } from '../components/ui/Spinner';
@@ -17,38 +17,36 @@ const SORT_OPTIONS = [
 
 export function Shop() {
   const [params] = useSearchParams();
-  const concernSlugs = (params.get('concerns') ?? '')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const q = params.get('q')?.trim();
 
-  if (concernSlugs.length > 0) {
-    return <SmartConcernResults slugs={concernSlugs} query={params.get('q') ?? ''} />;
-  }
+  if (q) return <SmartResults query={q} />;
 
   return <StandardShop />;
 }
 
-/** Results for a natural-language "how are you feeling" search — an OR match across
- * every concern the smart search bar detected, merged and ranked by relevance. */
-function SmartConcernResults({ slugs, query }: { slugs: string[]; query: string }) {
-  const { data: products, isLoading } = useProductsBySymptoms(slugs);
-  const { data: symptoms } = useSymptoms();
-
-  const matchedSymptoms = symptoms?.filter((s) => slugs.includes(s.slug)) ?? [];
+/** Results for a free-text search — the backend detects concerns, tolerates typos and
+ * ranks by relevance, falling back to bestsellers rather than an empty page. */
+function SmartResults({ query }: { query: string }) {
+  const { data, isLoading } = useSmartSearch(query);
+  const isCurrent = data?.query === query;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
       <div className="mb-8">
         <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">Smart match</span>
-        <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">
-          {query ? `Remedies for "${query}"` : 'Remedies matched to your concerns'}
-        </h1>
-        {products && <p className="mt-2 text-sm text-ink-600">{products.length} remedies found</p>}
+        <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">Remedies for "{query}"</h1>
+        {data && isCurrent && (
+          <p className="mt-2 text-sm text-ink-600">
+            {data.fallback
+              ? "We couldn't find an exact match, so here are our most-loved remedies."
+              : `${data.count} ${data.count === 1 ? 'remedy' : 'remedies'} found`}
+          </p>
+        )}
 
-        {matchedSymptoms.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {matchedSymptoms.map((s) => (
+        {data && isCurrent && data.concerns.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            <span className="text-xs text-ink-600">Sounds like:</span>
+            {data.concerns.map((s) => (
               <Link
                 key={s.id}
                 to={`/shop?symptom=${s.slug}`}
@@ -68,7 +66,7 @@ function SmartConcernResults({ slugs, query }: { slugs: string[]; query: string 
         </Link>
       </div>
 
-      {isLoading ? <Spinner /> : <ProductGrid products={products ?? []} />}
+      {isLoading || !isCurrent ? <Spinner /> : <ProductGrid products={data?.results ?? []} />}
     </div>
   );
 }

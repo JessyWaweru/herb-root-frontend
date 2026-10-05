@@ -52,9 +52,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-balance font-display text-4xl leading-tight text-sage-900 sm:text-5xl md:text-6xl"
         >
-          Remedies rooted in nature,
-          <br />
-          chosen by how you feel.
+          Remedies rooted in nature.
         </motion.h1>
 
         <motion.p
@@ -63,9 +61,8 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-5 max-w-xl text-balance text-lg text-ink-600"
         >
-          Tell us what's bothering you — a headache, restless nights, a stubborn cold — and we'll point
-          you to the herbs traditionally used to help. Every product ships with its full ingredient
-          list and a look at the garden it came from.
+          Herbs traditionally used to ease what ails you, with full ingredients and origin on every
+          label.
         </motion.p>
 
         <motion.form
