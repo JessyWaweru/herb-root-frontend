@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { AuthLayout } from '../../components/layout/AuthLayout';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import { Turnstile, type TurnstileHandle } from '../../components/auth/Turnstile';
 import { requestPasswordReset } from '../../lib/auth';
 import { apiErrorMessage } from '../../lib/api';
 
@@ -16,6 +17,8 @@ type FormValues = z.infer<typeof schema>;
 export function ForgotPassword() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [botToken, setBotToken] = useState<string | null>(null);
+  const turnstile = useRef<TurnstileHandle>(null);
   const {
     register,
     handleSubmit,
@@ -23,11 +26,13 @@ export function ForgotPassword() {
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
 
   const onSubmit = async ({ email }: FormValues) => {
+    if (!botToken) return;
     setLoading(true);
     try {
-      await requestPasswordReset(email);
+      await requestPasswordReset(email, botToken);
       setSent(true);
     } catch (error) {
+      turnstile.current?.reset();
       toast.error(apiErrorMessage(error));
     } finally {
       setLoading(false);
@@ -42,8 +47,16 @@ export function ForgotPassword() {
         </p>
       ) : (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <Input label="Email" type="email" {...register('email')} error={errors.email?.message} />
-          <Button type="submit" size="lg" isLoading={loading}>
+          <Input
+            label="Email"
+            type="email"
+            autoComplete="username"
+            inputMode="email"
+            {...register('email')}
+            error={errors.email?.message}
+          />
+          <Turnstile ref={turnstile} action="password-reset" onToken={setBotToken} />
+          <Button type="submit" size="lg" isLoading={loading} disabled={!botToken}>
             Send reset link
           </Button>
         </form>

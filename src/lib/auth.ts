@@ -8,29 +8,38 @@ export interface RegisterPayload {
   last_name?: string;
   phone_number?: string;
   newsletter_opt_in?: boolean;
+  turnstile_token: string;
 }
 
+/** The session itself arrives as httpOnly cookies; the body only carries the profile. */
 export interface AuthResponse {
   user: User;
-  access: string;
-  refresh: string;
+}
+
+/** Sign-up and unverified sign-in both end here: a code was emailed and must be confirmed. */
+export interface PendingVerification {
+  email: string;
+  detail: string;
+  resend_in: number;
 }
 
 export async function registerUser(payload: RegisterPayload) {
-  const { data } = await api.post<AuthResponse>('/auth/register/', payload);
+  const { data } = await api.post<PendingVerification>('/auth/register/', payload);
   return data;
 }
 
 export async function loginUser(email: string, password: string) {
-  const { data } = await api.post<AuthResponse & { access: string; refresh: string }>('/auth/login/', {
-    email,
-    password,
-  });
+  const { data } = await api.post<AuthResponse>('/auth/login/', { email, password });
   return data;
 }
 
-export async function logoutUser(refresh: string) {
-  await api.post('/auth/logout/', { refresh });
+export async function verifyEmailCode(email: string, code: string) {
+  const { data } = await api.post<AuthResponse>('/auth/verify-email/', { email, code });
+  return data;
+}
+
+export async function logoutUser() {
+  await api.post('/auth/logout/');
 }
 
 export async function fetchMe() {
@@ -43,18 +52,13 @@ export async function updateMe(payload: Partial<User>) {
   return data;
 }
 
-export async function verifyEmail(uid: string, token: string) {
-  const { data } = await api.post<{ detail: string }>('/auth/verify-email/', { uid, token });
-  return data;
-}
-
 export async function resendVerificationEmail(email: string) {
-  const { data } = await api.post<{ detail: string }>('/auth/verify-email/resend/', { email });
+  const { data } = await api.post<{ detail: string; resend_in: number }>('/auth/verify-email/resend/', { email });
   return data;
 }
 
-export async function requestPasswordReset(email: string) {
-  const { data } = await api.post<{ detail: string }>('/auth/password-reset/', { email });
+export async function requestPasswordReset(email: string, turnstile_token: string) {
+  const { data } = await api.post<{ detail: string }>('/auth/password-reset/', { email, turnstile_token });
   return data;
 }
 
