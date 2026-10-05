@@ -30,7 +30,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <Logo dark tagline tone="white" stacked />
+            <Logo dark tagline tone="white" />
             <p className="mt-3 max-w-xs text-sm text-cream-200/80">
               Herbal remedies chosen by what you feel — grown with care, explained with honesty.
             </p>
