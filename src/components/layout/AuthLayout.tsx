@@ -29,7 +29,7 @@ export function AuthLayout({
           <p className="font-display text-2xl leading-snug">
             "Every remedy on our shelf started as a seed we could name."
           </p>
-          <p className="text-sm text-cream-100/70">— The GO herbal growers</p>
+          <p className="text-sm text-cream-100/70">— The GOherbal growers</p>
         </div>
       </div>
     </div>

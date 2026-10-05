@@ -30,21 +30,10 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div>
-            <Logo dark tagline />
+            <Logo dark tagline tone="white" stacked />
             <p className="mt-3 max-w-xs text-sm text-cream-200/80">
               Herbal remedies chosen by what you feel — grown with care, explained with honesty.
             </p>
-            <div className="mt-4 flex gap-3 text-lg text-cream-200/80">
-              <a href="#" aria-label="Instagram" className="hover:text-cream-50">
-                📷
-              </a>
-              <a href="#" aria-label="Facebook" className="hover:text-cream-50">
-                📘
-              </a>
-              <a href="#" aria-label="Twitter" className="hover:text-cream-50">
-                🐦
-              </a>
-            </div>
           </div>
 
           <div>
@@ -91,9 +80,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-sage-700 pt-6 text-xs text-cream-200/60 sm:flex-row">
-          <p>© {new Date().getFullYear()} GO herbal. All rights reserved.</p>
-          <p>Grown across Kenya's highlands and coast.</p>
+        <div className="mt-12 border-t border-sage-700 pt-6 text-center text-xs text-cream-200/60 sm:text-left">
+          <p>© {new Date().getFullYear()} GOherbal. All rights reserved.</p>
         </div>
       </div>
     </footer>
