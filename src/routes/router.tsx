@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet, ScrollRestoration } from 'react-router-dom';
 import { Layout } from '../components/layout/Layout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { Home } from '../pages/Home';
@@ -22,40 +22,54 @@ import { AccountAddresses } from '../pages/account/AccountAddresses';
 import { AccountOrders } from '../pages/account/AccountOrders';
 import { AccountWishlist } from '../pages/account/AccountWishlist';
 
+function Root() {
+  return (
+    <>
+      <ScrollRestoration />
+      <Outlet />
+    </>
+  );
+}
+
 export const router = createBrowserRouter([
   {
-    element: <Layout />,
+    element: <Root />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/shop', element: <Shop /> },
-      { path: '/concerns', element: <ShopByConcern /> },
-      { path: '/shop/:slug', element: <ProductDetail /> },
-      { path: '/cart', element: <Cart /> },
-      { path: '/about', element: <About /> },
-      { path: '/contact', element: <Contact /> },
       {
-        element: <ProtectedRoute />,
+        element: <Layout />,
         children: [
-          { path: '/checkout', element: <Checkout /> },
-          { path: '/orders/:orderNumber', element: <OrderDetail /> },
+          { path: '/', element: <Home /> },
+          { path: '/shop', element: <Shop /> },
+          { path: '/concerns', element: <ShopByConcern /> },
+          { path: '/shop/:slug', element: <ProductDetail /> },
+          { path: '/cart', element: <Cart /> },
+          { path: '/about', element: <About /> },
+          { path: '/contact', element: <Contact /> },
           {
-            path: '/account',
-            element: <AccountLayout />,
+            element: <ProtectedRoute />,
             children: [
-              { index: true, element: <AccountProfile /> },
-              { path: 'addresses', element: <AccountAddresses /> },
-              { path: 'orders', element: <AccountOrders /> },
-              { path: 'wishlist', element: <AccountWishlist /> },
+              { path: '/checkout', element: <Checkout /> },
+              { path: '/orders/:orderNumber', element: <OrderDetail /> },
+              {
+                path: '/account',
+                element: <AccountLayout />,
+                children: [
+                  { index: true, element: <AccountProfile /> },
+                  { path: 'addresses', element: <AccountAddresses /> },
+                  { path: 'orders', element: <AccountOrders /> },
+                  { path: 'wishlist', element: <AccountWishlist /> },
+                ],
+              },
             ],
           },
+          { path: '*', element: <NotFound /> },
         ],
       },
-      { path: '*', element: <NotFound /> },
+      { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
+      { path: '/verify-email/:uid/:token', element: <VerifyEmail /> },
+      { path: '/forgot-password', element: <ForgotPassword /> },
+      { path: '/reset-password/:uid/:token', element: <ResetPassword /> },
     ],
   },
-  { path: '/login', element: <Login /> },
-  { path: '/register', element: <Register /> },
-  { path: '/verify-email/:uid/:token', element: <VerifyEmail /> },
-  { path: '/forgot-password', element: <ForgotPassword /> },
-  { path: '/reset-password/:uid/:token', element: <ResetPassword /> },
 ]);
