@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Leaf, LogOut, Menu, ShoppingBasket, User, X } from 'lucide-react';
+import { Heart, LogOut, Menu, ShoppingBasket, User, X } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useCart } from '../../hooks/useCart';
 import { useLogout } from '../../hooks/useAuth';
 import { SmartSearchBar } from '../search/SmartSearchBar';
+import { Logo } from './Logo';
 
 const NAV_LINKS = [
   { to: '/shop', label: 'Shop' },
@@ -23,10 +24,7 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-cream-300 bg-cream-100/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sage-800 text-cream-50">
-            <Leaf size={18} className="animate-leaf-sway" />
-          </span>
-          <span className="font-display text-xl text-sage-900">Herb &amp; Root</span>
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">

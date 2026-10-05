@@ -33,7 +33,7 @@ export function Contact() {
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.3fr]">
         <div className="flex flex-col gap-5">
-          <ContactRow icon={Mail} label="Email" value="hello@herbandroot.test" />
+          <ContactRow icon={Mail} label="Email" value="hello@goherbal.health" />
           <ContactRow icon={Phone} label="Phone" value="+254 700 000 000" />
           <ContactRow icon={MapPin} label="Studio" value="Nairobi, Kenya" />
         </div>
