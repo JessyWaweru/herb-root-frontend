@@ -32,7 +32,7 @@ export function VerifyEmail() {
         {status === 'success' ? (
           <>
             <CheckCircle2 size={40} className="text-sage-600" />
-            <p className="text-ink-700">Your email is verified. Welcome to GO herbal!</p>
+            <p className="text-ink-700">Your email is verified. Welcome to GOherbal!</p>
             <Link to="/account">
               <Button className="mt-2">Go to my account</Button>
             </Link>
