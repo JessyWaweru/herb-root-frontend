@@ -5,12 +5,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { AuthLayout } from '../../components/layout/AuthLayout';
-import { Input } from '../../components/ui/Input';
+import { PasswordInput } from '../../components/ui/PasswordInput';
 import { Button } from '../../components/ui/Button';
+import { PasswordChecklist } from '../../components/auth/PasswordChecklist';
+import { meetsPasswordRules } from '../../lib/passwordRules';
 import { confirmPasswordReset } from '../../lib/auth';
 import { apiErrorMessage } from '../../lib/api';
 
-const schema = z.object({ new_password: z.string().min(8, 'At least 8 characters') });
+const schema = z.object({
+  new_password: z
+    .string()
+    .max(128)
+    .refine(meetsPasswordRules, "Your password doesn't meet all the requirements yet"),
+});
 type FormValues = z.infer<typeof schema>;
 
 export function ResetPassword() {
@@ -20,8 +27,10 @@ export function ResetPassword() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  const password = watch('new_password') ?? '';
 
   const onSubmit = async ({ new_password }: FormValues) => {
     if (!uid || !token) return;
@@ -40,7 +49,16 @@ export function ResetPassword() {
   return (
     <AuthLayout title="Choose a new password">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <Input label="New password" type="password" {...register('new_password')} error={errors.new_password?.message} />
+        <div className="flex flex-col gap-2">
+          <PasswordInput
+            label="New password"
+            autoComplete="new-password"
+            aria-describedby="password-rules"
+            {...register('new_password')}
+            error={errors.new_password?.message}
+          />
+          <PasswordChecklist password={password} id="password-rules" />
+        </div>
         <Button type="submit" size="lg" isLoading={loading}>
           Reset password
         </Button>
