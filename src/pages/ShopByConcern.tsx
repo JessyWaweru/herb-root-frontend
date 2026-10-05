@@ -44,7 +44,9 @@ export function ShopByConcern() {
                 {symptom.description && (
                   <span className="text-xs text-ink-600/70">{symptom.description}</span>
                 )}
-                <span className="text-xs font-medium text-sage-600">{symptom.product_count} remedies</span>
+                <span className="text-xs font-medium text-sage-600">
+                  {symptom.product_count} {symptom.product_count === 1 ? 'remedy' : 'remedies'}
+                </span>
               </Link>
             </motion.div>
           ))}

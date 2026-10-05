@@ -40,10 +40,6 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     margin: 0;
     background-color: var(--color-cream-100);
