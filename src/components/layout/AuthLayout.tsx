@@ -12,7 +12,7 @@ export function AuthLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="grid min-h-[calc(100vh-64px)] lg:grid-cols-2">
+    <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex flex-col justify-center px-6 py-16 sm:px-12 lg:px-20">
         <Link to="/" className="mb-8 flex items-center gap-2">
           <Logo />
@@ -25,7 +25,16 @@ export function AuthLayout({
       <div className="relative hidden overflow-hidden bg-sage-800 lg:block">
         <div className="absolute inset-0 bg-botanical opacity-40" />
         <div className="flex h-full flex-col items-center justify-center gap-6 p-16 text-center text-cream-50">
-          <span className="text-6xl">🌿</span>
+          <div className="relative h-44 w-44">
+            <div className="absolute -inset-6 rounded-full bg-sage-300/25 blur-3xl" aria-hidden="true" />
+            <img
+              src="/images/auth/basil-leaf.webp"
+              alt=""
+              width={600}
+              height={600}
+              className="relative h-full w-full rounded-full object-cover shadow-lift ring-1 ring-cream-50/15"
+            />
+          </div>
           <p className="font-display text-2xl leading-snug">
             "Every remedy on our shelf started as a seed we could name."
           </p>
