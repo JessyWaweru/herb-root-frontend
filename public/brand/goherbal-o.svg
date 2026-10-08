@@ -1,0 +1,14 @@
+<svg version="1.2" baseProfile="tiny-ps" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>GOherbal</title>
+  <rect width="512" height="512" fill="#0e4d3a"/>
+  <g transform="translate(248 264) scale(3.75) translate(-137.5 -44.5)">
+    <circle cx="137.5" cy="44.5" r="41" fill="none" stroke="#8fd2b1" stroke-width="7"/>
+    <path d="M137.5 19.7C154 28 158 50 137.5 69.3 117 50 121 28 137.5 19.7Z" fill="#8fd2b1"/>
+    <g fill="none" stroke="#0e4d3a" stroke-width="2.8" stroke-linecap="round">
+      <path d="M137.5 70V31"/>
+      <path d="M137.5 46L130 38.5"/>
+      <path d="M137.5 56.5L145.5 48"/>
+    </g>
+    <circle cx="166.74" cy="15.76" r="10.1" fill="#e8b751"/>
+  </g>
+</svg>
