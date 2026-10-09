@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { CheckCircle2, Clock, PackageSearch, XCircle } from 'lucide-react';
+import { Bike, CheckCircle2, Clock, PackageSearch, Store, XCircle } from 'lucide-react';
 import { useOrder } from '../hooks/useOrders';
 import { useVerifyPayment } from '../hooks/usePayments';
 import { PageSpinner } from '../components/ui/Spinner';
 import { Button } from '../components/ui/Button';
+import { OrderTimeline } from '../components/order/OrderTimeline';
 import { formatDate, formatPrice } from '../lib/format';
 import type { OrderStatus } from '../types';
 
 const STATUS_META: Record<OrderStatus, { label: string; tone: string; icon: typeof Clock }> = {
   pending: { label: 'Awaiting payment', tone: 'text-gold-600 bg-gold-300/40', icon: Clock },
   paid: { label: 'Paid', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
-  processing: { label: 'Processing', tone: 'text-sage-700 bg-sage-100', icon: PackageSearch },
-  shipped: { label: 'Shipped', tone: 'text-sage-700 bg-sage-100', icon: PackageSearch },
+  processing: { label: 'Being prepared', tone: 'text-sage-700 bg-sage-100', icon: PackageSearch },
+  ready_for_pickup: { label: 'Ready for pickup', tone: 'text-sage-700 bg-sage-100', icon: Store },
+  out_for_delivery: { label: 'Out for delivery', tone: 'text-sage-700 bg-sage-100', icon: Bike },
+  shipped: { label: 'At your pickup agent', tone: 'text-sage-700 bg-sage-100', icon: PackageSearch },
   delivered: { label: 'Delivered', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
   cancelled: { label: 'Cancelled', tone: 'text-rose-700 bg-rose-300/40', icon: XCircle },
   refunded: { label: 'Refunded', tone: 'text-rose-700 bg-rose-300/40', icon: XCircle },
@@ -101,11 +104,22 @@ export function OrderDetail() {
           </div>
         </div>
 
+        {order.status !== 'cancelled' && order.status !== 'refunded' && (
+          <div className="mt-6 border-t border-cream-300 pt-6">
+            <p className="mb-4 text-sm font-semibold text-sage-900">Order progress</p>
+            <OrderTimeline order={order} />
+          </div>
+        )}
+
         <div className="mt-6 border-t border-cream-300 pt-6 text-sm text-ink-700">
-          <p className="font-semibold text-sage-900">Shipping to</p>
-          <p>{order.full_name}</p>
+          <p className="font-semibold text-sage-900">{order.delivery_option_name || 'Shipping to'}</p>
+          <p>{order.full_name} · {order.phone_number}</p>
           <p>{order.shipping_address_text}</p>
-          <p>{order.phone_number}</p>
+          {order.tracking_code && (
+            <p className="mt-2">
+              Parcel code: <span className="font-semibold text-sage-900">{order.tracking_code}</span>
+            </p>
+          )}
         </div>
 
         {order.status === 'pending' && (

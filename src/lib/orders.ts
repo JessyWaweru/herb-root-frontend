@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { Cart, Order, Paginated } from '../types';
+import type { Cart, DeliveryMethod, Order, Paginated } from '../types';
 
 export async function fetchCart() {
   const { data } = await api.get<Cart>('/orders/cart/');
@@ -26,6 +26,8 @@ export async function clearCart() {
 }
 
 export interface CheckoutPayload {
+  delivery_method: DeliveryMethod;
+  delivery_option_id?: number;
   address_id?: string;
   full_name?: string;
   phone_number?: string;
@@ -35,6 +37,10 @@ export interface CheckoutPayload {
   county_or_state?: string;
   postal_code?: string;
   country?: string;
+  landmark?: string;
+  latitude?: string;
+  longitude?: string;
+  pickup_agent?: string;
   customer_notes?: string;
 }
 

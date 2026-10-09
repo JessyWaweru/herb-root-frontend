@@ -49,7 +49,7 @@ export function AccountOrders() {
             <p className="text-sm text-ink-600">{formatDate(order.created_at)} · {order.items.length} item(s)</p>
           </div>
           <div className="flex items-center gap-4">
-            <Badge tone={STATUS_TONE[order.status] ?? 'sage'}>{order.status}</Badge>
+            <Badge tone={STATUS_TONE[order.status] ?? 'sage'}>{order.status.replace(/_/g, ' ')}</Badge>
             <span className="font-semibold text-sage-900">{formatPrice(order.total_amount, order.currency)}</span>
           </div>
         </Link>

@@ -8,6 +8,7 @@ import { PageSpinner } from '../components/ui/Spinner';
 import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
+import { WhatsAppButton } from '../components/experts/WhatsAppButton';
 import { formatPrice } from '../lib/format';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PlantGardenAlbum } from '../components/product/PlantGardenAlbum';
@@ -140,6 +141,13 @@ export function ProductDetail() {
           <div className="mt-6 flex items-center gap-2 text-xs text-ink-600">
             <ShieldCheck size={15} className="text-sage-600" />
             Secure checkout via Paystack — cards &amp; M-Pesa
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <WhatsAppButton message={`Hi GOherbal, I have a question about ${product.name}.`} label="Ask about this product" />
+            <Link to="/experts" className="text-sm font-semibold text-sage-700 hover:underline">
+              Or book an expert →
+            </Link>
           </div>
 
           {product.ingredients.length > 0 && (

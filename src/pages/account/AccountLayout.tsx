@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import clsx from 'clsx';
-import { Heart, MapPin, Package, User } from 'lucide-react';
+import { Heart, MapPin, Package, Stethoscope, User } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useCurrentUser } from '../../hooks/useAuth';
 import { Badge } from '../../components/ui/Badge';
@@ -9,6 +9,7 @@ const LINKS = [
   { to: '/account', label: 'Profile', icon: User, end: true },
   { to: '/account/addresses', label: 'Addresses', icon: MapPin, end: false },
   { to: '/account/orders', label: 'Orders', icon: Package, end: false },
+  { to: '/account/consultations', label: 'Consultations', icon: Stethoscope, end: false },
   { to: '/account/wishlist', label: 'Wishlist', icon: Heart, end: false },
 ];
 
