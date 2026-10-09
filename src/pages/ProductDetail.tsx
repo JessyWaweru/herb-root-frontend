@@ -8,7 +8,7 @@ import { PageSpinner } from '../components/ui/Spinner';
 import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { WhatsAppButton } from '../components/experts/WhatsAppButton';
+import { EmailUsButton } from '../components/experts/EmailUsButton';
 import { formatPrice } from '../lib/format';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PlantGardenAlbum } from '../components/product/PlantGardenAlbum';
@@ -144,7 +144,7 @@ export function ProductDetail() {
           </div>
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <WhatsAppButton message={`Hi GOherbal, I have a question about ${product.name}.`} label="Ask about this product" />
+            <EmailUsButton subject={`Question about ${product.name}`} label="Ask about this product" />
             <Link to="/experts" className="text-sm font-semibold text-sage-700 hover:underline">
               Or book an expert →
             </Link>

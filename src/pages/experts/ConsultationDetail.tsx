@@ -18,7 +18,7 @@ const STATUS_META: Record<ConsultationStatus, { headline: string; tone: string; 
   refunded: { headline: 'Booking refunded', tone: 'text-rose-700 bg-rose-300/40', icon: XCircle },
 };
 
-const MODE_LABEL = { whatsapp: 'WhatsApp chat', phone: 'Phone call', video: 'Video call' } as const;
+const MODE_LABEL = { email: 'Email consultation', phone: 'Phone call', video: 'Video call' } as const;
 
 const dateTime = (iso: string) => new Intl.DateTimeFormat('en-KE', { dateStyle: 'full', timeStyle: 'short' }).format(new Date(iso));
 
@@ -73,7 +73,7 @@ export function ConsultationDetail() {
           <p className="mt-1 text-sm text-ink-600">Booking {consultation.reference}</p>
           {consultation.status === 'confirmed' && (
             <p className="mt-3 max-w-md text-sm text-ink-700">
-              {expert.name} will contact you on {consultation.phone_number} to confirm the exact time.
+              {expert.name} will email you to confirm the exact time{consultation.mode === 'video' ? ' and send the link to join' : ''}.
             </p>
           )}
         </div>

@@ -239,7 +239,7 @@ export interface Payment {
 }
 
 export type ExpertKind = 'herbal_coach' | 'medical_specialist';
-export type ConsultationMode = 'whatsapp' | 'phone' | 'video';
+export type ConsultationMode = 'email' | 'phone' | 'video';
 
 export interface Expert {
   id: string;
