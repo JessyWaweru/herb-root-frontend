@@ -15,7 +15,7 @@ export interface BookingPayload {
   expert_id: string;
   mode: ConsultationMode;
   preferred_time: string;
-  phone_number: string;
+  phone_number?: string;
   concern: string;
   consent: boolean;
 }

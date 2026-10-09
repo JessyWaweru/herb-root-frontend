@@ -4,7 +4,7 @@ import { useExperts } from '../../hooks/useConsultations';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { ExpertCard } from '../../components/experts/ExpertCard';
-import { WhatsAppButton } from '../../components/experts/WhatsAppButton';
+import { EmailUsButton } from '../../components/experts/EmailUsButton';
 import type { ExpertKind } from '../../types';
 
 const FILTERS: { kind?: ExpertKind; label: string }[] = [
@@ -23,9 +23,9 @@ export function Experts() {
         <h1 className="font-display text-4xl text-sage-900">Talk to an expert</h1>
         <p className="mt-3 text-ink-700">
           Not sure which remedy is right for you? Book a one-to-one session with one of our herbal coaches, or with a
-          licensed medical specialist, by WhatsApp, phone or video.
+          licensed medical specialist, by email, phone or video.
         </p>
-        <WhatsAppButton message="Hi GOherbal, I have a quick question about your remedies." label="Quick question? WhatsApp us" className="mt-5" />
+        <EmailUsButton subject="A quick question about your remedies" label="Quick question? Email us" className="mt-5" />
       </div>
 
       <div className="mt-10 flex gap-2 overflow-x-auto">
@@ -57,7 +57,7 @@ export function Experts() {
             icon="🌿"
             title="Our experts are joining soon"
             description="We're adding herbal coaches and medical specialists. In the meantime, message us and we'll help."
-            action={<WhatsAppButton message="Hi GOherbal, I'd like advice on a remedy." />}
+            action={<EmailUsButton subject="I'd like advice on a remedy" />}
           />
         )}
       </div>

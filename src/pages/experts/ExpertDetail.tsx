@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
-import { BadgeCheck, Clock, Languages, MessageCircle, Phone, ShieldCheck, Video } from 'lucide-react';
+import { BadgeCheck, Clock, Languages, Mail, Phone, ShieldCheck, Video } from 'lucide-react';
 import { useBookConsultation, useExpert } from '../../hooks/useConsultations';
 import { useInitializeConsultationPayment } from '../../hooks/usePayments';
 import { useAuthStore } from '../../stores/authStore';
@@ -17,18 +17,23 @@ import { apiErrorMessage } from '../../lib/api';
 import type { ConsultationMode } from '../../types';
 
 const MODE_META: Record<ConsultationMode, { label: string; icon: typeof Phone }> = {
-  whatsapp: { label: 'WhatsApp', icon: MessageCircle },
+  email: { label: 'Email', icon: Mail },
   phone: { label: 'Phone call', icon: Phone },
   video: { label: 'Video call', icon: Video },
 };
 
-const bookingSchema = z.object({
-  mode: z.enum(['whatsapp', 'phone', 'video'], { message: 'Choose how you’d like to talk' }),
-  preferred_time: z.string().min(1, 'Pick a day and time'),
-  phone_number: z.string().min(9, 'Enter a phone number the expert can reach'),
-  concern: z.string().min(10, 'Tell the expert a little more (at least 10 characters)'),
-  consent: z.literal(true, { message: 'Please agree so we can share your details with the expert' }),
-});
+const bookingSchema = z
+  .object({
+    mode: z.enum(['email', 'phone', 'video'], { message: 'Choose how you’d like to talk' }),
+    preferred_time: z.string().min(1, 'Pick a day and time'),
+    phone_number: z.string().optional(),
+    concern: z.string().min(10, 'Tell the expert a little more (at least 10 characters)'),
+    consent: z.literal(true, { message: 'Please agree so we can share your details with the expert' }),
+  })
+  .refine((values) => values.mode !== 'phone' || (values.phone_number?.trim().length ?? 0) >= 9, {
+    path: ['phone_number'],
+    message: 'Enter the number the expert should call',
+  });
 
 type BookingForm = z.infer<typeof bookingSchema>;
 
@@ -189,7 +194,9 @@ export function ExpertDetail() {
                 {...register('preferred_time')}
                 error={errors.preferred_time?.message}
               />
-              <Input label="Phone number" type="tel" {...register('phone_number')} error={errors.phone_number?.message} />
+              {selectedMode === 'phone' && (
+                <Input label="Number to call" type="tel" {...register('phone_number')} error={errors.phone_number?.message} />
+              )}
               <Textarea
                 label="What would you like help with?"
                 rows={4}
@@ -213,8 +220,8 @@ export function ExpertDetail() {
               <p className="flex items-start gap-2 text-xs text-ink-600">
                 <ShieldCheck size={14} className="mt-0.5 shrink-0 text-sage-600" />
                 {isFree
-                  ? 'The expert will contact you to confirm the exact time.'
-                  : 'Pay securely with M-Pesa or card. The expert will contact you to confirm the exact time.'}
+                  ? `The expert will email you at ${user?.email} to confirm the exact time.`
+                  : `Pay securely with M-Pesa or card. The expert will email you at ${user?.email} to confirm the exact time.`}
               </p>
             </form>
           )}
