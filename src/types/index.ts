@@ -120,6 +120,9 @@ export interface Address {
   county_or_state: string;
   postal_code: string;
   country: string;
+  landmark: string;
+  latitude: string | null;
+  longitude: string | null;
   is_default: boolean;
   created_at: string;
 }
@@ -154,19 +157,55 @@ export type OrderStatus =
   | 'pending'
   | 'paid'
   | 'processing'
+  | 'ready_for_pickup'
+  | 'out_for_delivery'
   | 'shipped'
   | 'delivered'
   | 'cancelled'
   | 'refunded';
 
+export type DeliveryMethod = 'pickup' | 'rider' | 'agent';
+
+export interface DeliveryOption {
+  id: number;
+  method: DeliveryMethod;
+  name: string;
+  description: string;
+  eta: string;
+  fee: string;
+  max_distance_km: string | null;
+  address: string;
+  latitude: string | null;
+  longitude: string | null;
+}
+
+export interface DeliveryQuote {
+  available: boolean;
+  distance_km: number;
+  option: DeliveryOption | null;
+}
+
+export interface OrderStatusEvent {
+  status: OrderStatus;
+  created_at: string;
+}
+
 export interface Order {
   id: string;
   order_number: string;
   status: OrderStatus;
+  status_events: OrderStatusEvent[];
   items: OrderItem[];
   full_name: string;
   phone_number: string;
   shipping_address_text: string;
+  delivery_method: DeliveryMethod | '';
+  delivery_option_name: string;
+  latitude: string | null;
+  longitude: string | null;
+  landmark: string;
+  pickup_agent: string;
+  tracking_code: string;
   subtotal: string;
   shipping_fee: string;
   total_amount: string;
@@ -195,6 +234,47 @@ export interface Payment {
   amount: string;
   currency: string;
   channel: string;
+  paid_at: string | null;
+  created_at: string;
+}
+
+export type ExpertKind = 'herbal_coach' | 'medical_specialist';
+export type ConsultationMode = 'whatsapp' | 'phone' | 'video';
+
+export interface Expert {
+  id: string;
+  slug: string;
+  name: string;
+  kind: ExpertKind;
+  kind_label: string;
+  title: string;
+  photo_url: string;
+  bio: string;
+  specialties: string;
+  languages: string;
+  licence_number: string;
+  fee: string;
+  currency: string;
+  session_minutes: number;
+  modes: ConsultationMode[];
+}
+
+export type ConsultationStatus = 'pending_payment' | 'confirmed' | 'scheduled' | 'completed' | 'cancelled' | 'refunded';
+
+export interface Consultation {
+  id: string;
+  reference: string;
+  expert: Expert;
+  status: ConsultationStatus;
+  status_label: string;
+  mode: ConsultationMode;
+  preferred_time: string;
+  scheduled_for: string | null;
+  meeting_link: string;
+  phone_number: string;
+  concern: string;
+  fee: string;
+  currency: string;
   paid_at: string | null;
   created_at: string;
 }

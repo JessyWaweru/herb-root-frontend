@@ -20,6 +20,10 @@ import { AccountProfile } from '../pages/account/AccountProfile';
 import { AccountAddresses } from '../pages/account/AccountAddresses';
 import { AccountOrders } from '../pages/account/AccountOrders';
 import { AccountWishlist } from '../pages/account/AccountWishlist';
+import { AccountConsultations } from '../pages/account/AccountConsultations';
+import { Experts } from '../pages/experts/Experts';
+import { ExpertDetail } from '../pages/experts/ExpertDetail';
+import { ConsultationDetail } from '../pages/experts/ConsultationDetail';
 
 function Root() {
   return (
@@ -44,11 +48,14 @@ export const router = createBrowserRouter([
           { path: '/cart', element: <Cart /> },
           { path: '/about', element: <About /> },
           { path: '/contact', element: <Contact /> },
+          { path: '/experts', element: <Experts /> },
+          { path: '/experts/:slug', element: <ExpertDetail /> },
           {
             element: <ProtectedRoute />,
             children: [
               { path: '/checkout', element: <Checkout /> },
               { path: '/orders/:orderNumber', element: <OrderDetail /> },
+              { path: '/consultations/:reference', element: <ConsultationDetail /> },
               {
                 path: '/account',
                 element: <AccountLayout />,
@@ -57,6 +64,7 @@ export const router = createBrowserRouter([
                   { path: 'addresses', element: <AccountAddresses /> },
                   { path: 'orders', element: <AccountOrders /> },
                   { path: 'wishlist', element: <AccountWishlist /> },
+                  { path: 'consultations', element: <AccountConsultations /> },
                 ],
               },
             ],

@@ -12,6 +12,7 @@ import { displayName } from '../../lib/displayName';
 const NAV_LINKS = [
   { to: '/shop', label: 'Shop' },
   { to: '/concerns', label: 'Shop by Concern' },
+  { to: '/experts', label: 'Talk to an Expert' },
   { to: '/about', label: 'Our Story' },
   { to: '/contact', label: 'Contact' },
 ];
