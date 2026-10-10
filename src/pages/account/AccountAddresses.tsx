@@ -5,13 +5,13 @@ import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { MapPin, MapPinOff, Pencil, Plus, Star, Trash2 } from 'lucide-react';
 import { useAddresses, useCreateAddress, useDeleteAddress, useUpdateAddress } from '../../hooks/useAddresses';
+import { useAddressAutofill } from '../../hooks/useAddressAutofill';
 import { useAuthStore } from '../../stores/authStore';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import type { Pin } from '../../components/checkout/LocationPicker';
-import type { Place } from '../../lib/geocoding';
 import { isValidPhone, PHONE_HELP } from '../../lib/phone';
 import type { Address } from '../../types';
 
@@ -54,9 +54,14 @@ export function AccountAddresses() {
     getValues,
     formState: { errors },
   } = useForm<AddressForm>({ resolver: zodResolver(schema) });
+  const autofill = useAddressAutofill(
+    (field) => getValues(field),
+    (field, value) => setValue(field, value, { shouldValidate: Boolean(value) }),
+  );
 
   const openForm = (address: Address | 'new') => {
     setEditing(address);
+    autofill.forget();
     if (address === 'new') {
       reset({
         label: addresses?.length ? '' : 'Home',
@@ -82,17 +87,6 @@ export function AccountAddresses() {
   const closeForm = () => {
     setEditing(null);
     setPin(null);
-  };
-
-  // Prefill empty fields from the pin, without overwriting what was typed.
-  const fillFromPlace = (place: Place) => {
-    const fill = (field: 'address_line1' | 'address_line2' | 'city' | 'county_or_state', value: string) => {
-      if (value && !getValues(field)) setValue(field, value);
-    };
-    fill('address_line1', place.road);
-    fill('address_line2', place.area);
-    fill('city', place.city);
-    fill('county_or_state', place.county);
   };
 
   const onSubmit = (values: AddressForm) => {
@@ -217,7 +211,7 @@ export function AccountAddresses() {
               key={editing === 'new' ? 'new' : editing.id}
               value={pin}
               onChange={setPin}
-              onPlaceFound={fillFromPlace}
+              onPlaceFound={autofill.fillFromPlace}
             />
           </Suspense>
           <Input label="Street, building or house" {...register('address_line1')} error={errors.address_line1?.message} />
@@ -235,13 +229,17 @@ export function AccountAddresses() {
             <Input label="Label" placeholder="Home, Office…" {...register('label')} error={errors.label?.message} />
             <Input label="Recipient's name" autoComplete="name" {...register('full_name')} error={errors.full_name?.message} />
             <Input
-              label="Phone number"
+              label="Recipient's phone"
               type="tel"
               autoComplete="tel"
               {...register('phone_number')}
               error={errors.phone_number?.message}
             />
           </div>
+          <p className="-mt-2 text-xs text-ink-600">
+            The recipient can be someone else, like a family member at home. Changing these doesn't change your account
+            details.
+          </p>
           <div className="flex gap-3">
             <Button type="submit" isLoading={createAddress.isPending || updateAddress.isPending}>
               Save address
