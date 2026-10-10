@@ -115,6 +115,15 @@ export function OrderDetail() {
           <p className="font-semibold text-sage-900">{order.delivery_option_name || 'Shipping to'}</p>
           <p>{order.full_name} · {order.phone_number}</p>
           <p>{order.shipping_address_text}</p>
+          {order.rider && (
+            <p className="mt-2 rounded-xl bg-sage-50 p-3">
+              Your rider is <span className="font-semibold text-sage-900">{order.rider.name}</span>,{' '}
+              <a href={`tel:${order.rider.phone_number}`} className="font-semibold text-sage-700 underline">
+                {order.rider.phone_number}
+              </a>
+              .
+            </p>
+          )}
           {order.tracking_code && (
             <p className="mt-2">
               Parcel code: <span className="font-semibold text-sage-900">{order.tracking_code}</span>
