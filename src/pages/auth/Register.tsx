@@ -16,12 +16,14 @@ import { useCompleteSignIn, useRegister } from '../../hooks/useAuth';
 import { apiErrorMessage } from '../../lib/api';
 import { offerToSavePassword } from '../../lib/credentials';
 import { meetsPasswordRules } from '../../lib/passwordRules';
+import { isValidPhone, PHONE_HELP } from '../../lib/phone';
 import type { PendingVerification } from '../../lib/auth';
 
 const schema = z.object({
   first_name: z.string().trim().min(1, 'Enter your first name').max(150),
   last_name: z.string().trim().max(150).optional(),
   email: z.string().trim().email('Enter a valid email'),
+  phone_number: z.string().trim().min(1, 'Enter your phone number').refine(isValidPhone, PHONE_HELP),
   password: z.string().max(128).refine(meetsPasswordRules, "Your password doesn't meet all the requirements yet"),
   newsletter_opt_in: z.boolean().optional(),
 });
@@ -54,7 +56,7 @@ export function Register() {
         const fieldErrors = axios.isAxiosError(error) ? error.response?.data : undefined;
         let mapped = false;
         if (fieldErrors && typeof fieldErrors === 'object') {
-          for (const field of ['first_name', 'last_name', 'email', 'password'] as const) {
+          for (const field of ['first_name', 'last_name', 'email', 'phone_number', 'password'] as const) {
             const message = fieldErrors[field];
             if (message) {
               setError(field as Path<FormValues>, { message: Array.isArray(message) ? message.join(' ') : message });
@@ -104,6 +106,15 @@ export function Register() {
           inputMode="email"
           {...register('email')}
           error={errors.email?.message}
+        />
+        <Input
+          label="Phone number"
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          placeholder="0712 345 678"
+          {...register('phone_number')}
+          error={errors.phone_number?.message}
         />
         <div className="flex flex-col gap-2">
           <PasswordInput
