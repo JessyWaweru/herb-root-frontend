@@ -6,7 +6,7 @@ export interface RegisterPayload {
   password: string;
   first_name?: string;
   last_name?: string;
-  phone_number?: string;
+  phone_number: string;
   newsletter_opt_in?: boolean;
   turnstile_token: string;
 }

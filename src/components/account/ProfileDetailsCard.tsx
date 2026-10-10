@@ -11,15 +11,12 @@ import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { ConfirmDialog } from '../ui/Dialog';
 import { ChangeEmailDialog } from './ChangeEmailDialog';
+import { isValidPhone, PHONE_HELP } from '../../lib/phone';
 
 const schema = z.object({
   first_name: z.string().trim().min(1, 'Enter your first name').max(150),
   last_name: z.string().trim().max(150),
-  phone_number: z
-    .string()
-    .trim()
-    .max(20)
-    .refine((v) => v === '' || /^\+?[\d\s-]{9,}$/.test(v), 'Enter a valid phone number, e.g. 0712 345 678'),
+  phone_number: z.string().trim().min(1, 'Enter your phone number').refine(isValidPhone, PHONE_HELP),
 });
 
 type ProfileForm = z.infer<typeof schema>;
