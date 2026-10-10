@@ -11,6 +11,7 @@ import { useAddresses } from '../hooks/useAddresses';
 import { useCheckout } from '../hooks/useOrders';
 import { useInitializePayment } from '../hooks/usePayments';
 import { useDeliveryOptions, useDeliveryQuote } from '../hooks/useDelivery';
+import { useAddressAutofill } from '../hooks/useAddressAutofill';
 import { useAuthStore } from '../stores/authStore';
 import { PageSpinner, Spinner } from '../components/ui/Spinner';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -19,7 +20,6 @@ import { Input, Textarea } from '../components/ui/Input';
 import type { Pin } from '../components/checkout/LocationPicker';
 import { formatPrice } from '../lib/format';
 import { apiErrorMessage } from '../lib/api';
-import type { Place } from '../lib/geocoding';
 import type { CheckoutPayload } from '../lib/orders';
 import type { Address, DeliveryMethod, DeliveryOption } from '../types';
 
@@ -80,6 +80,11 @@ export function Checkout() {
     },
   });
 
+  const autofill = useAddressAutofill(
+    (field) => getValues(field),
+    (field, value) => setValue(field, value, { shouldValidate: Boolean(value) }),
+  );
+
   if (cartLoading || addressesLoading || optionsLoading) return <PageSpinner />;
 
   if (!cart || cart.items.length === 0) {
@@ -102,6 +107,7 @@ export function Checkout() {
 
   const applySavedAddress = (address: Address) => {
     setSelectedAddressId(address.id);
+    autofill.forget();
     setValue('full_name', address.full_name);
     setValue('phone_number', address.phone_number);
     setValue('address_line1', address.address_line1);
@@ -110,17 +116,6 @@ export function Checkout() {
     setValue('county_or_state', address.county_or_state);
     setValue('landmark', address.landmark);
     setPin(address.latitude && address.longitude ? { latitude: parseFloat(address.latitude), longitude: parseFloat(address.longitude) } : null);
-  };
-
-  // Prefill empty address fields from the pin, without overwriting what the customer typed.
-  const fillFromPlace = (place: Place) => {
-    const fill = (field: 'address_line1' | 'address_line2' | 'city' | 'county_or_state', value: string) => {
-      if (value && !getValues(field)) setValue(field, value);
-    };
-    fill('address_line1', place.road);
-    fill('address_line2', place.area);
-    fill('city', place.city);
-    fill('county_or_state', place.county);
   };
 
   const placeOrder = async (values: CheckoutForm) => {
@@ -235,7 +230,7 @@ export function Checkout() {
                     </div>
                   )}
                   <Suspense fallback={<Spinner />}>
-                    <LocationPicker value={pin} onChange={setPin} onPlaceFound={fillFromPlace} />
+                    <LocationPicker value={pin} onChange={setPin} onPlaceFound={autofill.fillFromPlace} />
                   </Suspense>
                   {quote.data && (
                     <p
