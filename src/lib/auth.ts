@@ -97,3 +97,18 @@ export async function updateAddress(id: string, payload: Partial<Address>) {
 export async function deleteAddress(id: string) {
   await api.delete(`/auth/addresses/${id}/`);
 }
+
+export async function startEmailChange(new_email: string, password: string) {
+  const { data } = await api.post<{ detail: string; new_email: string }>('/auth/change-email/', { new_email, password });
+  return data;
+}
+
+export async function confirmEmailChange(code: string) {
+  const { data } = await api.post<{ detail: string; user: User }>('/auth/change-email/confirm/', { code });
+  return data;
+}
+
+export async function revertEmailChange(token: string) {
+  const { data } = await api.post<{ detail: string }>('/auth/change-email/revert/', { token });
+  return data;
+}

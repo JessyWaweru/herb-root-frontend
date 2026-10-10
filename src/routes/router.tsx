@@ -15,6 +15,7 @@ import { Login } from '../pages/auth/Login';
 import { Register } from '../pages/auth/Register';
 import { ForgotPassword } from '../pages/auth/ForgotPassword';
 import { ResetPassword } from '../pages/auth/ResetPassword';
+import { RevertEmail } from '../pages/auth/RevertEmail';
 import { AccountLayout } from '../pages/account/AccountLayout';
 import { AccountProfile } from '../pages/account/AccountProfile';
 import { AccountAddresses } from '../pages/account/AccountAddresses';
@@ -76,6 +77,7 @@ export const router = createBrowserRouter([
       { path: '/register', element: <Register /> },
       { path: '/forgot-password', element: <ForgotPassword /> },
       { path: '/reset-password/:uid/:token', element: <ResetPassword /> },
+      { path: '/revert-email', element: <RevertEmail /> },
     ],
   },
 ]);
