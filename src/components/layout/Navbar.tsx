@@ -17,6 +17,12 @@ const NAV_LINKS = [
   { to: '/contact', label: 'Contact' },
 ];
 
+const ACCOUNT_LINKS = [
+  { to: '/account', label: 'My account' },
+  { to: '/account/orders', label: 'Orders' },
+  { to: '/account/consultations', label: 'Consultations' },
+];
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isAuthenticated, user } = useAuthStore();
@@ -159,7 +165,29 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {!isAuthenticated && (
+            {isAuthenticated ? (
+              <div className="mt-2 flex flex-col gap-1 border-t border-cream-300 pt-2">
+                {ACCOUNT_LINKS.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMobileOpen(false)}
+                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-ink-700 hover:bg-sage-50"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    logout.mutate();
+                  }}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-rose-600 hover:bg-rose-50"
+                >
+                  <LogOut size={15} /> Sign out
+                </button>
+              </div>
+            ) : (
               <Link
                 to="/login"
                 onClick={() => setMobileOpen(false)}

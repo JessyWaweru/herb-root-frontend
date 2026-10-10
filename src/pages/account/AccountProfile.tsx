@@ -4,6 +4,7 @@ import { useAuthStore } from '../../stores/authStore';
 import { Button } from '../../components/ui/Button';
 import { ProfileDetailsCard } from '../../components/account/ProfileDetailsCard';
 import { ChangePasswordCard } from '../../components/account/ChangePasswordCard';
+import { DeleteAccountCard } from '../../components/account/DeleteAccountCard';
 import { resendVerificationEmail } from '../../lib/auth';
 import { apiErrorMessage } from '../../lib/api';
 
@@ -36,6 +37,7 @@ export function AccountProfile() {
       )}
       <ProfileDetailsCard />
       <ChangePasswordCard />
+      <DeleteAccountCard />
     </div>
   );
 }

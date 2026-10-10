@@ -112,3 +112,13 @@ export async function revertEmailChange(token: string) {
   const { data } = await api.post<{ detail: string }>('/auth/change-email/revert/', { token });
   return data;
 }
+
+export async function fetchDeletionBlockers() {
+  const { data } = await api.get<{ blockers: string[] }>('/auth/delete-account/');
+  return data.blockers;
+}
+
+export async function deleteAccount(password: string, confirm: string) {
+  const { data } = await api.post<{ detail: string }>('/auth/delete-account/', { password, confirm });
+  return data;
+}
