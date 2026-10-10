@@ -66,6 +66,8 @@ export function AccountProfile() {
     try {
       await resendVerificationEmail(user.email);
       toast.success('Verification email sent.');
+    } catch (error) {
+      toast.error(apiErrorMessage(error, 'Could not resend verification email.'));
     } finally {
       setResending(false);
     }
