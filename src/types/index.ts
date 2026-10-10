@@ -206,6 +206,7 @@ export interface Order {
   landmark: string;
   pickup_agent: string;
   tracking_code: string;
+  rider: { name: string; phone_number: string } | null;
   subtotal: string;
   shipping_fee: string;
   total_amount: string;
