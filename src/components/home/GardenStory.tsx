@@ -16,7 +16,7 @@ export function GardenStory() {
             Every product grew in one place: our Senses Garden.
           </h2>
           <p className="mt-4 max-w-md text-sm text-cream-100/85">
-            Our herbs are grown at the Senses Garden, tended at home by the founder. Open any remedy and
+            Our herbs are grown at the Senses Garden, tended at home. Open any remedy and
             you'll find its full ingredient list, a small photo album of the plant, and a plain-language
             note on what it's traditionally used for — no guesswork, no vague marketing.
           </p>
