@@ -2,7 +2,7 @@ import { Leaf, MapPinned, ShieldCheck, Truck } from 'lucide-react';
 
 const ITEMS = [
   { icon: Leaf, title: 'Grown, not synthesized', desc: 'Whole-herb ingredients, nothing artificial.' },
-  { icon: MapPinned, title: 'Traceable to the garden', desc: 'See exactly which farm each herb comes from.' },
+  { icon: MapPinned, title: 'Traceable to our garden', desc: 'Every herb is grown in our own Senses Garden.' },
   { icon: ShieldCheck, title: 'Secure checkout', desc: 'Payments processed safely via Paystack.' },
   { icon: Truck, title: 'Delivered fresh', desc: 'Packed to order across Kenya.' },
 ];

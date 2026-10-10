@@ -4,8 +4,8 @@ import { Leaf, MapPinned, ShieldCheck, Sprout } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 
 const VALUES = [
-  { icon: Sprout, title: 'Grown with intention', desc: 'Every herb is cultivated on partner farms across Kenya, never mass-synthesized.' },
-  { icon: MapPinned, title: 'Traced to the source', desc: 'We show you the garden — literally — behind every remedy on the shelf.' },
+  { icon: Sprout, title: 'Grown with intention', desc: 'Every herb is grown in our own Senses Garden, never mass-synthesized.' },
+  { icon: MapPinned, title: 'Traced to the source', desc: 'Every remedy on the shelf comes from the Senses Garden, and we show you the plants behind it.' },
   { icon: ShieldCheck, title: 'Honest labeling', desc: 'Full ingredient lists, plain-language notes on what each herb is traditionally used for.' },
 ];
 
