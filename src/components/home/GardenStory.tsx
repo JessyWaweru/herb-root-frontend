@@ -13,18 +13,18 @@ export function GardenStory() {
         >
           <span className="text-xs font-semibold uppercase tracking-wide text-gold-400">From seed to shelf</span>
           <h2 className="mt-3 font-display text-3xl leading-snug text-cream-50 sm:text-4xl">
-            Every product tells you exactly which garden it grew in.
+            Every product grew in one place: our Senses Garden.
           </h2>
           <p className="mt-4 max-w-md text-sm text-cream-100/85">
-            Open any remedy and you'll find its full ingredient list, a small photo album of the plant
-            growing in its home soil, and a plain-language note on what it's traditionally used for —
-            no guesswork, no vague marketing.
+            Our herbs are grown at the Senses Garden, tended at home by the founder. Open any remedy and
+            you'll find its full ingredient list, a small photo album of the plant, and a plain-language
+            note on what it's traditionally used for — no guesswork, no vague marketing.
           </p>
           <Link
             to="/shop"
             className="mt-6 inline-flex rounded-full bg-gold-500 px-6 py-3 text-sm font-semibold text-ink-900 transition hover:bg-gold-400"
           >
-            Explore the garden
+            Explore the remedies
           </Link>
         </motion.div>
 
