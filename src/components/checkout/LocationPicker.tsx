@@ -48,9 +48,19 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
   const [searching, setSearching] = useState(false);
   const [flyTarget, setFlyTarget] = useState<Pin | null>(null);
   const lookupTimer = useRef<number | undefined>(undefined);
+  const lastSetHere = useRef<Pin | null>(value);
+
+  // A pin set from outside (e.g. choosing a saved address) moves the map to it.
+  useEffect(() => {
+    if (value && value !== lastSetHere.current) {
+      lastSetHere.current = value;
+      setFlyTarget(value);
+    }
+  }, [value]);
 
   // Look up the address at a dropped pin, debounced so dragging doesn't flood the geocoder.
   const setPin = (pin: Pin, fly = false) => {
+    lastSetHere.current = pin;
     onChange(pin);
     if (fly) setFlyTarget(pin);
     window.clearTimeout(lookupTimer.current);
