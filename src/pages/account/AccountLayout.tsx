@@ -1,8 +1,8 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import clsx from 'clsx';
-import { Heart, MapPin, Package, Stethoscope, User } from 'lucide-react';
+import { Heart, LogOut, MapPin, Package, Stethoscope, User } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
-import { useCurrentUser } from '../../hooks/useAuth';
+import { useCurrentUser, useLogout } from '../../hooks/useAuth';
 import { Badge } from '../../components/ui/Badge';
 
 const LINKS = [
@@ -16,6 +16,7 @@ const LINKS = [
 export function AccountLayout() {
   useCurrentUser();
   const user = useAuthStore((s) => s.user);
+  const logout = useLogout();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
@@ -47,6 +48,13 @@ export function AccountLayout() {
               {label}
             </NavLink>
           ))}
+          <button
+            onClick={() => logout.mutate()}
+            className="flex shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-rose-600 transition hover:bg-rose-50 lg:mt-2"
+          >
+            <LogOut size={16} />
+            Sign out
+          </button>
         </nav>
         <div className="flex-1">
           <Outlet />
