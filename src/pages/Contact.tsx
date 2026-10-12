@@ -6,15 +6,20 @@ import { Input, Textarea } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { sendContactMessage, type ContactPayload } from '../lib/core';
 import { apiErrorMessage } from '../lib/api';
+import { useAuthStore } from '../stores/authStore';
 
 export function Contact() {
   const [loading, setLoading] = useState(false);
+  const user = useAuthStore((s) => s.user);
   const { register, handleSubmit, reset } = useForm<ContactPayload>();
+  const userName = user ? `${user.first_name} ${user.last_name}`.trim() || user.email : '';
 
   const onSubmit = async (values: ContactPayload) => {
     setLoading(true);
     try {
-      const { detail } = await sendContactMessage(values);
+      // Signed-in customers aren't asked for details we already have.
+      const payload = user ? { ...values, name: userName, email: user.email } : values;
+      const { detail } = await sendContactMessage(payload);
       toast.success(detail);
       reset();
     } catch (error) {
@@ -34,15 +39,21 @@ export function Contact() {
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.3fr]">
         <div className="flex flex-col gap-5">
           <ContactRow icon={Mail} label="Email" value="hello@goherbal.health" />
-          <ContactRow icon={Phone} label="Phone" value="+254 700 000 000" />
-          <ContactRow icon={MapPin} label="Studio" value="Nairobi, Kenya" />
+          <ContactRow icon={Phone} label="Phone" value="0115393779" />
+          <ContactRow icon={MapPin} label="Studio" value="JBNMedia · Nairobi, Kenya" />
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 rounded-3xl border border-cream-300 bg-cream-50 p-6">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Name" {...register('name', { required: true })} />
-            <Input label="Email" type="email" {...register('email', { required: true })} />
-          </div>
+          {user ? (
+            <p className="text-sm text-ink-600">
+              Sending as <span className="font-semibold text-sage-900">{userName}</span> ({user.email})
+            </p>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input label="Name" {...register('name', { required: true })} />
+              <Input label="Email" type="email" {...register('email', { required: true })} />
+            </div>
+          )}
           <Input label="Subject (optional)" {...register('subject')} />
           <Textarea label="Message" rows={5} {...register('message', { required: true })} />
           <Button type="submit" isLoading={loading} className="w-fit">
