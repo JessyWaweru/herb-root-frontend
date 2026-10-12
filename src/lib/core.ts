@@ -16,3 +16,8 @@ export async function sendContactMessage(payload: ContactPayload) {
   const { data } = await api.post<{ detail: string }>('/contact/', payload);
   return data;
 }
+
+export async function unsubscribeNewsletter(token: string) {
+  const { data } = await api.post<{ detail: string }>('/newsletter/unsubscribe/', { token });
+  return data;
+}
