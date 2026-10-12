@@ -80,8 +80,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-sage-700 pt-6 text-center text-xs text-cream-200/60 sm:text-left">
+        <div className="mt-12 flex flex-col gap-2 border-t border-sage-700 pt-6 text-center text-xs text-cream-200/60 sm:flex-row sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} GOherbal. All rights reserved.</p>
+          <p>Designed &amp; built by JBNMedia</p>
         </div>
       </div>
     </footer>
