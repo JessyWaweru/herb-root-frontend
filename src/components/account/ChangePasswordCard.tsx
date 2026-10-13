@@ -10,8 +10,6 @@ import { Button } from '../ui/Button';
 import { PasswordInput } from '../ui/PasswordInput';
 import { ConfirmDialog } from '../ui/Dialog';
 import { PasswordChecklist } from '../auth/PasswordChecklist';
-import { useAuthStore } from '../../stores/authStore';
-import { SetPasswordFirst } from './SetPasswordFirst';
 import { useSecurityErrorHandler } from './useLockoutHandler';
 
 const schema = z
@@ -26,7 +24,6 @@ const schema = z
 type PasswordForm = z.infer<typeof schema>;
 
 export function ChangePasswordCard() {
-  const hasPassword = useAuthStore((s) => s.user?.has_password !== false);
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState<PasswordForm | null>(null);
   const [saving, setSaving] = useState(false);
@@ -59,15 +56,6 @@ export function ChangePasswordCard() {
       setSaving(false);
     }
   };
-
-  if (!hasPassword) {
-    return (
-      <div className="rounded-2xl border border-cream-300 bg-cream-50 p-6">
-        <h2 className="mb-2 font-display text-lg text-sage-900">Password</h2>
-        <SetPasswordFirst action="add one" />
-      </div>
-    );
-  }
 
   return (
     <div className="rounded-2xl border border-cream-300 bg-cream-50 p-6">

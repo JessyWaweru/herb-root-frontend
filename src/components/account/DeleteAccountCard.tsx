@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 import { Trash2 } from 'lucide-react';
 import { deleteAccount, fetchDeletionBlockers } from '../../lib/auth';
 import { useAuthStore } from '../../stores/authStore';
-import { SetPasswordFirst } from './SetPasswordFirst';
 import { Button } from '../ui/Button';
 import { Dialog } from '../ui/Dialog';
 import { Input } from '../ui/Input';
@@ -26,7 +25,6 @@ export function DeleteAccountCard() {
   const [open, setOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const clearAuth = useAuthStore((s) => s.clearAuth);
-  const hasPassword = useAuthStore((s) => s.user?.has_password !== false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const handleError = useSecurityErrorHandler();
@@ -85,8 +83,6 @@ export function DeleteAccountCard() {
               <Button onClick={close}>OK</Button>
             </div>
           </div>
-        ) : !hasPassword ? (
-          <SetPasswordFirst action="delete your account" />
         ) : (
           <form onSubmit={handleSubmit(onDelete)} className="flex flex-col gap-4 text-sm text-ink-700">
             <div>
