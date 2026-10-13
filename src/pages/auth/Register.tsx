@@ -10,6 +10,7 @@ import { Input } from '../../components/ui/Input';
 import { PasswordInput } from '../../components/ui/PasswordInput';
 import { Button } from '../../components/ui/Button';
 import { PasswordChecklist } from '../../components/auth/PasswordChecklist';
+import { GoogleSignIn } from '../../components/auth/GoogleSignIn';
 import { VerifyCodeForm } from '../../components/auth/VerifyCodeForm';
 import { Turnstile, type TurnstileHandle } from '../../components/auth/Turnstile';
 import { useCompleteSignIn, useRegister } from '../../hooks/useAuth';
@@ -84,6 +85,7 @@ export function Register() {
 
   return (
     <AuthLayout title="Create your account" subtitle="Save your basket, track orders, and get remedy recommendations.">
+      <GoogleSignIn onSignedIn={(data) => completeSignIn(data, 'welcome')} />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
         <div className="grid grid-cols-2 gap-3">
           <Input

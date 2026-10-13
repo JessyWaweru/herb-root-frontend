@@ -33,6 +33,11 @@ export async function loginUser(email: string, password: string) {
   return data;
 }
 
+export async function googleLogin(credential: string) {
+  const { data } = await api.post<AuthResponse>('/auth/google/', { credential });
+  return data;
+}
+
 export async function verifyEmailCode(email: string, code: string) {
   const { data } = await api.post<AuthResponse>('/auth/verify-email/', { email, code });
   return data;

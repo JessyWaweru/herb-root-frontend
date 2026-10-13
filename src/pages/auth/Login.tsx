@@ -7,6 +7,7 @@ import { AuthLayout } from '../../components/layout/AuthLayout';
 import { Input } from '../../components/ui/Input';
 import { PasswordInput } from '../../components/ui/PasswordInput';
 import { Button } from '../../components/ui/Button';
+import { GoogleSignIn } from '../../components/auth/GoogleSignIn';
 import { VerifyCodeForm } from '../../components/auth/VerifyCodeForm';
 import { useCompleteSignIn, useLogin } from '../../hooks/useAuth';
 import { offerToSavePassword } from '../../lib/credentials';
@@ -51,6 +52,7 @@ export function Login() {
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to reach your basket, orders and wishlist.">
+      <GoogleSignIn onSignedIn={(data) => completeSignIn(data, 'welcome-back')} />
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
         <Input
           label="Email"
