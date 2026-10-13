@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ShieldAlert } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +12,7 @@ import { VerifyCodeForm } from '../../components/auth/VerifyCodeForm';
 import { useCompleteSignIn, useLogin } from '../../hooks/useAuth';
 import { offerToSavePassword } from '../../lib/credentials';
 import type { PendingVerification } from '../../lib/auth';
+import { clearSignOutNotice, peekSignOutNotice } from '../../lib/signOutNotice';
 
 const schema = z.object({
   email: z.string().trim().email('Enter a valid email'),
@@ -22,7 +23,8 @@ type FormValues = z.infer<typeof schema>;
 export function Login() {
   const [pending, setPending] = useState<PendingVerification | null>(null);
   // Set when the account was signed out for security, e.g. too many wrong passwords.
-  const notice = (useLocation().state as { notice?: string } | null)?.notice;
+  const [notice] = useState(peekSignOutNotice);
+  useEffect(() => clearSignOutNotice, []);
   const completeSignIn = useCompleteSignIn();
   const login = useLogin({ onNeedsVerification: setPending });
   const {

@@ -36,6 +36,7 @@ export function ChangePasswordCard() {
     reset,
     watch,
     setError,
+    setFocus,
     formState: { errors },
   } = useForm<PasswordForm>({ resolver: zodResolver(schema) });
 
@@ -57,11 +58,12 @@ export function ChangePasswordCard() {
       setPending(null);
       // Say which field is wrong right on the form; a toast alone is easy to miss.
       const body = axios.isAxiosError(error) ? error.response?.data : undefined;
-      if (body?.code === 'wrong_password') {
-        setError('old_password', { message: body.detail }, { shouldFocus: true });
-      } else if (body?.new_password) {
-        const message = Array.isArray(body.new_password) ? body.new_password.join(' ') : String(body.new_password);
-        setError('new_password', { message }, { shouldFocus: true });
+      const field = body?.code === 'wrong_password' ? 'old_password' : body?.new_password ? 'new_password' : null;
+      if (field) {
+        const raw = field === 'old_password' ? body.detail : body.new_password;
+        setError(field, { message: Array.isArray(raw) ? raw.join(' ') : String(raw) });
+        // The closing confirm dialog hands focus back to the button that opened it, so focus after that.
+        setTimeout(() => setFocus(field), 50);
       }
       handleError(error, 'Could not change your password.');
     } finally {
