@@ -95,3 +95,8 @@
 .animate-leaf-sway {
   animation: leaf-sway 6s ease-in-out infinite;
 }
+
+/* While a modal is open its own toaster shows the messages; see AppToaster. */
+body:has(dialog[open]) .page-toaster {
+  display: none;
+}
