@@ -1,9 +1,9 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useState, type ReactNode } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import { MapPin, MapPinOff, Pencil, Plus, Star, Trash2 } from 'lucide-react';
+import { Home, Landmark, MapPin, MapPinOff, Pencil, Phone, Plus, Star, Trash2, User, type LucideIcon } from 'lucide-react';
 import { useAddresses, useCreateAddress, useDeleteAddress, useUpdateAddress } from '../../hooks/useAddresses';
 import { useAddressAutofill } from '../../hooks/useAddressAutofill';
 import { useAuthStore } from '../../stores/authStore';
@@ -135,35 +135,48 @@ export function AccountAddresses() {
             const hasPin = toPin(addr) !== null;
             return (
               <div key={addr.id} className="flex flex-col rounded-2xl border border-cream-300 bg-cream-50 p-5">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="font-semibold text-sage-900">{addr.label}</p>
-                    <p className="text-sm text-ink-700">{addr.full_name}</p>
-                  </div>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-display text-lg text-sage-900">{addr.label}</p>
                   {addr.is_default && (
-                    <span className="flex items-center gap-1 rounded-full bg-gold-300/50 px-2 py-0.5 text-xs font-semibold text-gold-600">
+                    <span className="flex shrink-0 items-center gap-1 rounded-full bg-gold-300/50 px-2 py-0.5 text-xs font-semibold text-gold-600">
                       <Star size={11} className="fill-current" /> Default
                     </span>
                   )}
                 </div>
-                <p className="mt-2 text-sm text-ink-600">
-                  {[addr.address_line1, addr.address_line2, addr.city].filter(Boolean).join(', ')}
-                </p>
-                {addr.landmark && <p className="text-sm text-ink-600">Near: {addr.landmark}</p>}
-                <p className="text-sm text-ink-600">{addr.phone_number}</p>
+
+                <dl className="mt-3 flex flex-col gap-2.5 text-sm">
+                  <AddressRow icon={User} label="Recipient">
+                    <span className="font-medium text-ink-800">{addr.full_name}</span>
+                  </AddressRow>
+                  <AddressRow icon={Phone} label="Phone">
+                    {addr.phone_number}
+                  </AddressRow>
+                  <AddressRow icon={Home} label="Address">
+                    <span className="block">{addr.address_line1}</span>
+                    {addr.address_line2 && <span className="block">{addr.address_line2}</span>}
+                    <span className="block">{[addr.city, addr.county_or_state].filter(Boolean).join(', ')}</span>
+                  </AddressRow>
+                  {addr.landmark && (
+                    <AddressRow icon={Landmark} label="Landmark">
+                      {addr.landmark}
+                    </AddressRow>
+                  )}
+                </dl>
+
                 {hasPin ? (
-                  <p className="mt-2 flex items-center gap-1 text-xs font-medium text-sage-700">
+                  <p className="mt-3 flex w-fit items-center gap-1 rounded-full bg-sage-100 px-2.5 py-1 text-xs font-medium text-sage-700">
                     <MapPin size={12} /> Map pin saved
                   </p>
                 ) : (
                   <button
                     onClick={() => openForm(addr)}
-                    className="mt-2 flex w-fit items-center gap-1 rounded-full bg-gold-300/40 px-2.5 py-1 text-xs font-semibold text-gold-600"
+                    className="mt-3 flex w-fit items-center gap-1 rounded-full bg-gold-300/40 px-2.5 py-1 text-xs font-semibold text-gold-600"
                   >
                     <MapPinOff size={12} /> No map pin — add one for rider delivery
                   </button>
                 )}
-                <div className="mt-auto flex gap-4 pt-3">
+                <div className="flex-1" />
+                <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-cream-300 pt-3">
                   <button
                     onClick={() => openForm(addr)}
                     className="flex items-center gap-1 text-xs font-semibold text-sage-700 hover:underline"
@@ -250,6 +263,18 @@ export function AccountAddresses() {
           </div>
         </form>
       )}
+    </div>
+  );
+}
+
+function AddressRow({ icon: Icon, label, children }: { icon: LucideIcon; label: string; children: ReactNode }) {
+  return (
+    <div className="flex gap-2.5">
+      <Icon size={15} className="mt-0.5 shrink-0 text-sage-600" aria-hidden="true" />
+      <div className="min-w-0">
+        <dt className="sr-only">{label}</dt>
+        <dd className="break-words text-ink-700">{children}</dd>
+      </div>
     </div>
   );
 }
