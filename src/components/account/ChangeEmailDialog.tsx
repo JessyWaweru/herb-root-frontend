@@ -104,7 +104,7 @@ export function ChangeEmailDialog({ open, onClose }: { open: boolean; onClose: (
           <p className="flex items-start gap-2 text-xs text-ink-600">
             <ShieldAlert size={14} className="mt-0.5 shrink-0 text-sage-600" />
             We ask for your password so nobody using your device can take over your account. Too many wrong
-            tries will lock the account for 15 minutes.
+            tries will lock the account for 5 minutes.
           </p>
           <div className="flex justify-end gap-3">
             <Button type="button" variant="ghost" onClick={close}>
