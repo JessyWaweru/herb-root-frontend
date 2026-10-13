@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { ShieldAlert } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -20,6 +21,8 @@ type FormValues = z.infer<typeof schema>;
 
 export function Login() {
   const [pending, setPending] = useState<PendingVerification | null>(null);
+  // Set when the account was signed out for security, e.g. too many wrong passwords.
+  const notice = (useLocation().state as { notice?: string } | null)?.notice;
   const completeSignIn = useCompleteSignIn();
   const login = useLogin({ onNeedsVerification: setPending });
   const {
@@ -51,6 +54,12 @@ export function Login() {
 
   return (
     <AuthLayout title="Welcome back" subtitle="Sign in to reach your basket, orders and wishlist.">
+      {notice && (
+        <div role="alert" className="mb-5 flex gap-3 rounded-2xl border border-rose-300 bg-rose-50 p-4 text-sm text-rose-700">
+          <ShieldAlert size={18} className="mt-0.5 shrink-0" />
+          <p>{notice}</p>
+        </div>
+      )}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
         <Input
           label="Email"
