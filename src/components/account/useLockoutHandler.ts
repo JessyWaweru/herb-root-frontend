@@ -11,10 +11,13 @@ export function useSecurityErrorHandler() {
   const navigate = useNavigate();
 
   return (error: unknown, fallback: string) => {
-    toast.error(apiErrorMessage(error, fallback), { duration: 6000 });
+    const message = apiErrorMessage(error, fallback);
     if (axios.isAxiosError(error) && error.response?.data?.code === 'account_locked') {
       clearAuth();
-      navigate('/login', { replace: true });
+      // A toast is easy to miss during the redirect, so the sign-in page explains it instead.
+      navigate('/login', { replace: true, state: { notice: message } });
+      return;
     }
+    toast.error(message, { duration: 6000 });
   };
 }
