@@ -41,11 +41,13 @@ const STEPS: Record<Platform, string[]> = {
     'Click the icon to the left of the web address.',
     'Next to “Access your location”, click the × to clear the block.',
     'Tap Try again and choose Allow when asked.',
+    'Still blocked? Your computer may have location off. Windows: Settings → Privacy & security → Location → on. Mac: System Settings → Privacy & Security → Location Services → turn on Firefox.',
   ],
   desktop: [
     'Click the icon to the left of the web address (a slider or padlock).',
     'Turn Location on, or open Site settings and set Location to Allow.',
     'Reload the page if asked, then tap Try again.',
+    'Still blocked? Your computer may have location off. Windows: Settings → Privacy & security → Location → on. Mac: System Settings → Privacy & Security → Location Services → turn on your browser.',
   ],
 };
 
