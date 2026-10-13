@@ -20,6 +20,7 @@ const NAV_LINKS = [
 const ACCOUNT_LINKS = [
   { to: '/account', label: 'My account' },
   { to: '/account/orders', label: 'Orders' },
+  { to: '/account/wishlist', label: 'Wishlist' },
   { to: '/account/consultations', label: 'Consultations' },
 ];
 
