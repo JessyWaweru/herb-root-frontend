@@ -17,10 +17,11 @@ function detectPlatform(): Platform {
 // A site can't grant itself location access, and once it's blocked the browser won't ask
 // again, so the visitor has to turn it back on themselves.
 const STEPS: Record<Platform, string[]> = {
+  // Safari's in-page "aA" menu moved or changed in newer iOS versions, so use the Settings app.
   'ios-safari': [
-    'Open the Settings app → Privacy & Security → Location Services, and make sure it is on.',
-    'In the same list, tap Safari Websites and choose “While Using the App” or “Ask Next Time”.',
-    'Back in Safari, tap the “aA” button beside the web address → Website Settings → Location → Allow.',
+    'Open the Settings app → Privacy & Security → Location Services. Make sure it is on, then tap Safari Websites and choose “While Using the App”.',
+    'Go back to the main Settings screen → Apps → Safari → Location (on older iPhones: Settings → Safari → Location), and choose Allow or Ask.',
+    'Come back here, refresh the page, and tap Try again.',
   ],
   'ios-chrome': [
     'Open the Settings app → Privacy & Security → Location Services, and make sure it is on.',
