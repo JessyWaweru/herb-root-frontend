@@ -5,7 +5,6 @@ import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { ShieldAlert } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
-import { SetPasswordFirst } from './SetPasswordFirst';
 import { confirmEmailChange, startEmailChange } from '../../lib/auth';
 import { Dialog } from '../ui/Dialog';
 import { Button } from '../ui/Button';
@@ -86,9 +85,7 @@ export function ChangeEmailDialog({ open, onClose }: { open: boolean; onClose: (
         </div>
       )}
 
-      {step === 'details' && user?.has_password === false && <SetPasswordFirst action="change your email" />}
-
-      {step === 'details' && user?.has_password !== false && (
+      {step === 'details' && (
         <form onSubmit={form.handleSubmit(sendCode)} className="flex flex-col gap-4">
           <Input
             label="New email address"
