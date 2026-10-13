@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { Button } from './Button';
+import { AppToaster } from './AppToaster';
 
 /** A modal built on the native <dialog>, which handles focus trapping and Escape for us. */
 export function Dialog({
@@ -39,6 +40,7 @@ export function Dialog({
         </div>
         <div className="mt-4">{children}</div>
       </div>
+      {open && <AppToaster inDialog />}
     </dialog>
   );
 }
