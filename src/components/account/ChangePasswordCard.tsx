@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import { KeyRound } from 'lucide-react';
+import axios from 'axios';
+import { CheckCircle2, KeyRound } from 'lucide-react';
 import { changePassword } from '../../lib/auth';
 import { meetsPasswordRules } from '../../lib/passwordRules';
 import { Button } from '../ui/Button';
@@ -27,12 +28,14 @@ export function ChangePasswordCard() {
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState<PasswordForm | null>(null);
   const [saving, setSaving] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const handleError = useSecurityErrorHandler();
   const {
     register,
     handleSubmit,
     reset,
     watch,
+    setError,
     formState: { errors },
   } = useForm<PasswordForm>({ resolver: zodResolver(schema) });
 
@@ -48,9 +51,18 @@ export function ChangePasswordCard() {
       const data = await changePassword(pending.old_password, pending.new_password);
       toast.success(data.detail, { duration: 6000 });
       setPending(null);
+      setSuccess(data.detail);
       close();
     } catch (error) {
       setPending(null);
+      // Say which field is wrong right on the form; a toast alone is easy to miss.
+      const body = axios.isAxiosError(error) ? error.response?.data : undefined;
+      if (body?.code === 'wrong_password') {
+        setError('old_password', { message: body.detail }, { shouldFocus: true });
+      } else if (body?.new_password) {
+        const message = Array.isArray(body.new_password) ? body.new_password.join(' ') : String(body.new_password);
+        setError('new_password', { message }, { shouldFocus: true });
+      }
       handleError(error, 'Could not change your password.');
     } finally {
       setSaving(false);
@@ -65,11 +77,26 @@ export function ChangePasswordCard() {
           {!open && <p className="mt-0.5 text-xs text-ink-600">Click Change password to set a new one.</p>}
         </div>
         {!open && (
-          <Button size="sm" variant="outline" icon={<KeyRound size={14} />} onClick={() => setOpen(true)}>
+          <Button
+            size="sm"
+            variant="outline"
+            icon={<KeyRound size={14} />}
+            onClick={() => {
+              setSuccess(null);
+              setOpen(true);
+            }}
+          >
             Change password
           </Button>
         )}
       </div>
+
+      {success && !open && (
+        <p role="status" className="mt-4 flex items-start gap-2 rounded-xl bg-sage-50 p-3 text-sm text-sage-800">
+          <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-sage-600" />
+          {success}
+        </p>
+      )}
 
       {open && (
         <form onSubmit={handleSubmit(setPending)} className="mt-4 flex flex-col gap-4 sm:max-w-sm">
