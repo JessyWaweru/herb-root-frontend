@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { Crosshair, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { reversePlace, searchPlaces, type Place } from '../../lib/geocoding';
+import { LocationHelpDialog } from './LocationHelpDialog';
 
 export interface Pin {
   latitude: number;
@@ -25,7 +26,6 @@ const pinIcon = L.divIcon({
 // Indexed by GeolocationPositionError.code; 0 is the fallback.
 const LOCATION_ERRORS: Record<number, string> = {
   0: "We couldn't get your location. Search or tap the map instead.",
-  1: 'Location access is blocked for this site. Allow it in your browser’s site settings (tap the icon beside the web address), or search or tap the map instead.',
   2: "Your device couldn't work out where you are. Check that location services are switched on, or search or tap the map instead.",
   3: 'Finding your location took too long. Try again outside or near a window, or search or tap the map instead.',
 };
@@ -55,6 +55,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
   const [results, setResults] = useState<Place[]>([]);
   const [searching, setSearching] = useState(false);
   const [locating, setLocating] = useState(false);
+  const [showLocationHelp, setShowLocationHelp] = useState(false);
   const [flyTarget, setFlyTarget] = useState<Pin | null>(null);
   const lookupTimer = useRef<number | undefined>(undefined);
   const lastSetHere = useRef<Pin | null>(value);
@@ -96,6 +97,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
   };
 
   const locateMe = () => {
+    setShowLocationHelp(false);
     if (!window.isSecureContext || !navigator.geolocation) {
       toast.error("This browser can't share your location here. Search or tap the map instead.");
       return;
@@ -118,6 +120,10 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
         (error) => {
           if (precise && error.code !== error.PERMISSION_DENIED) return attempt(false);
           setLocating(false);
+          if (error.code === error.PERMISSION_DENIED) {
+            setShowLocationHelp(true);
+            return;
+          }
           toast.error(LOCATION_ERRORS[error.code] ?? LOCATION_ERRORS[0], { duration: 8000 });
         },
         { enableHighAccuracy: precise, timeout: precise ? 8000 : 15000, maximumAge: 60000 },
@@ -135,6 +141,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
 
   return (
     <div className="flex flex-col gap-3">
+      <LocationHelpDialog open={showLocationHelp} onClose={() => setShowLocationHelp(false)} onRetry={locateMe} />
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="flex flex-1 gap-2">
           <input
