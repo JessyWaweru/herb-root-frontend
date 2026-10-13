@@ -107,6 +107,8 @@ export interface User {
   is_email_verified: boolean;
   newsletter_opt_in: boolean;
   date_joined: string;
+  /** False for accounts made with Google until a password is set via "Forgot password". */
+  has_password?: boolean;
 }
 
 export interface Address {
