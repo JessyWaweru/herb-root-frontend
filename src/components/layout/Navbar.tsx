@@ -20,7 +20,6 @@ const NAV_LINKS = [
 const ACCOUNT_LINKS = [
   { to: '/account', label: 'My account' },
   { to: '/account/orders', label: 'Orders' },
-  { to: '/account/wishlist', label: 'Wishlist' },
   { to: '/account/consultations', label: 'Consultations' },
 ];
 
@@ -58,7 +57,7 @@ export function Navbar() {
         <div className="ml-auto flex items-center gap-1.5 md:ml-3">
           <Link
             to="/account/wishlist"
-            className="hidden h-10 w-10 items-center justify-center rounded-full text-ink-700 transition hover:bg-sage-100 sm:flex"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-ink-700 transition hover:bg-sage-100"
             aria-label="Wishlist"
           >
             <Heart size={19} />
