@@ -173,7 +173,7 @@ export function ExpertDetail() {
                       <label
                         key={mode}
                         className={clsx(
-                          'flex cursor-pointer flex-col items-center gap-1 rounded-xl border p-3 text-xs font-semibold transition',
+                          'flex cursor-pointer flex-col items-center gap-1 rounded-xl border p-3 text-xs font-semibold transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-sage-400',
                           selectedMode === mode ? 'border-sage-500 bg-sage-50 text-sage-800' : 'border-cream-300 text-ink-700',
                         )}
                       >
@@ -209,7 +209,11 @@ export function ExpertDetail() {
                 <input type="checkbox" className="mt-0.5" {...register('consent')} />
                 <span>
                   I agree to share these health details with {expert.name} and the GOherbal team, only to arrange and
-                  carry out this consultation.
+                  carry out this consultation. See our{' '}
+                  <Link to="/privacy" className="font-semibold text-sage-700 underline">
+                    Privacy Policy
+                  </Link>
+                  .
                 </span>
               </label>
               {errors.consent && <span className="-mt-3 text-xs text-rose-600">{errors.consent.message}</span>}

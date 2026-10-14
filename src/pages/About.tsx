@@ -35,7 +35,7 @@ export function About() {
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sage-100 text-sage-700">
                 <Icon size={20} />
               </span>
-              <h3 className="mt-4 font-display text-lg text-sage-900">{title}</h3>
+              <h2 className="mt-4 font-display text-lg text-sage-900">{title}</h2>
               <p className="mt-2 text-sm text-ink-600">{desc}</p>
             </div>
           ))}

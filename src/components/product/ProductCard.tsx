@@ -8,7 +8,8 @@ import { StarRating } from '../ui/StarRating';
 import { useAddToCart } from '../../hooks/useCart';
 import { useToggleWishlist } from '../../hooks/useWishlist';
 
-export function ProductCard({ product }: { product: ProductSummary }) {
+export function ProductCard({ product, headingLevel = 3 }: { product: ProductSummary; headingLevel?: 2 | 3 }) {
+  const Heading = headingLevel === 2 ? 'h2' : 'h3';
   const addToCart = useAddToCart();
   const { isWishlisted, toggle } = useToggleWishlist();
   const wishlisted = isWishlisted(product.id);
@@ -48,9 +49,9 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           </span>
         )}
         <Link to={`/shop/${product.slug}`}>
-          <h3 className="font-display text-lg leading-snug text-sage-900 hover:text-sage-700">
+          <Heading className="font-display text-lg leading-snug text-sage-900 hover:text-sage-700">
             {product.name}
-          </h3>
+          </Heading>
         </Link>
         <p className="line-clamp-2 text-sm text-ink-600">{product.short_description}</p>
 
@@ -72,7 +73,7 @@ export function ProductCard({ product }: { product: ProductSummary }) {
           <div className="flex items-baseline gap-2">
             <span className="font-display text-lg text-sage-900">{formatPrice(product.price, product.currency)}</span>
             {product.compare_at_price && (
-              <span className="text-xs text-ink-600/60 line-through">
+              <span className="text-xs text-ink-600 line-through">
                 {formatPrice(product.compare_at_price, product.currency)}
               </span>
             )}

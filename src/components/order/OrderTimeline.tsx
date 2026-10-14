@@ -45,7 +45,7 @@ export function OrderTimeline({ order }: { order: Order }) {
               {!isLast && <span className={clsx('w-0.5 flex-1', index < currentIndex ? 'bg-sage-600' : 'bg-cream-300')} />}
             </div>
             <div className={clsx('pb-5', isLast && 'pb-0')}>
-              <p className={clsx('text-sm font-semibold', done ? 'text-sage-900' : 'text-ink-600/70')}>{step.label}</p>
+              <p className={clsx('text-sm font-semibold', done ? 'text-sage-900' : 'text-ink-600')}>{step.label}</p>
               {done && time && <p className="text-xs text-ink-600">{timeFormat.format(new Date(time))}</p>}
             </div>
           </li>

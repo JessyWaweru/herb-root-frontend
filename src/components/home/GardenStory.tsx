@@ -50,6 +50,23 @@ export function GardenStory() {
               </motion.figure>
             ))}
           </div>
+          {/* The CC BY-SA licences require visible credit, a licence link and the source. */}
+          <p className="mt-3 text-[11px] leading-relaxed text-cream-100/85">
+            Photos (cropped):{' '}
+            {PHOTOS.map((photo, i) => (
+              <span key={photo.name}>
+                <a href={photo.source} target="_blank" rel="noopener noreferrer" className="underline hover:text-gold-400">
+                  {photo.name}
+                </a>{' '}
+                by {photo.author},{' '}
+                <a href={photo.licenseUrl} target="_blank" rel="noopener noreferrer license" className="underline hover:text-gold-400">
+                  {photo.license}
+                </a>
+                {i < PHOTOS.length - 1 ? '; ' : '. '}
+              </span>
+            ))}
+            Via Wikimedia Commons.
+          </p>
         </div>
       </div>
     </section>

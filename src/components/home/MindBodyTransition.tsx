@@ -235,7 +235,7 @@ function Slide({
             <span className="h-px w-8" style={{ background: palette.stroke }} />
             {stage.eyebrow}
           </p>
-          <h3 className="mt-4 font-display text-4xl leading-tight text-sage-900 sm:text-5xl">{stage.title}</h3>
+          <h2 className="mt-4 font-display text-4xl leading-tight text-sage-900 sm:text-5xl">{stage.title}</h2>
           <p className="mx-auto mt-4 max-w-sm text-balance text-ink-600 md:mx-0">{stage.line}</p>
         </motion.div>
       </div>
@@ -291,7 +291,7 @@ export function MindBodyTransition() {
         ref={trackRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        className="no-scrollbar relative flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain focus:outline-none"
+        className="no-scrollbar relative flex snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-x-contain focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sage-400"
       >
         {STAGES.map((stage, i) => (
           <Slide key={stage.eyebrow} stage={stage} index={i} position={position} active={active === i} reduced={reduced} />

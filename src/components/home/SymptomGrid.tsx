@@ -38,7 +38,7 @@ export function SymptomGrid() {
               >
                 <span className="text-3xl">{symptom.icon || '🌿'}</span>
                 <span className="text-sm font-semibold text-sage-900">{symptom.name}</span>
-                <span className="text-xs text-ink-600/70">{symptom.product_count} remedies</span>
+                <span className="text-xs text-ink-600">{symptom.product_count} remedies</span>
               </Link>
             </motion.div>
           ))}

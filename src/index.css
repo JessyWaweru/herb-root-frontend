@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
 
   --color-cream-50: #fffdf8;
   --color-cream-100: #fbf7ee;
@@ -24,11 +24,14 @@
   --color-gold-400: #e7c873;
   --color-gold-500: #c9a15a;
   --color-gold-600: #a8813f;
+  /* Gold text on light gold backgrounds (5:1 contrast; gold-600 is only 3:1 there). */
+  --color-gold-700: #7d5f29;
 
   --color-rose-300: #edc2b6;
   --color-rose-400: #e3a99a;
   --color-rose-500: #c97b5f;
   --color-rose-600: #a85f45;
+  --color-rose-700: #8f4b37;
 
   --color-ink-600: #6b6146;
   --color-ink-700: #4a4237;
@@ -109,4 +112,40 @@
   background: transparent;
   overflow: visible;
   pointer-events: none;
+}
+
+/* Legal pages: links and lists inside policy text. */
+.legal a {
+  color: var(--color-sage-700);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.legal ul.bullets {
+  list-style: disc;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.legal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.legal th,
+.legal td {
+  border: 1px solid var(--color-cream-300);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.legal th {
+  background: var(--color-cream-100);
+  color: var(--color-sage-900);
+}
+
+/* A clear focus ring for keyboard users everywhere (mouse clicks don't show it). */
+:where(a, button, [role='button'], input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-sage-600);
+  outline-offset: 2px;
 }

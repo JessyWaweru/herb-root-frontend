@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Search, Sparkles } from 'lucide-react';
 import clsx from 'clsx';
@@ -14,7 +14,10 @@ export function SmartSearchBar({
   className,
   inputClassName,
   onNavigate,
+  label = 'Site search',
 }: {
+  /** Names the search region; must differ when two search bars can be on one page. */
+  label?: string;
   placeholder?: string;
   className?: string;
   inputClassName?: string;
@@ -25,6 +28,7 @@ export function SmartSearchBar({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const rootRef = useRef<HTMLFormElement>(null);
+  const listId = useId();
   const navigate = useNavigate();
   const smartSearch = useSmartSearchNavigate();
 
@@ -82,14 +86,14 @@ export function SmartSearchBar({
   };
 
   return (
-    <form ref={rootRef} onSubmit={handleSubmit} className={clsx('relative', className)} role="search">
+    <form ref={rootRef} onSubmit={handleSubmit} className={clsx('relative', className)} role="search" aria-label={label}>
       <div
         className={clsx(
-          'flex w-full items-center gap-2 rounded-full border border-cream-300 bg-cream-50 px-4 py-2',
+          'flex w-full items-center gap-2 rounded-full border border-cream-300 bg-cream-50 px-4 py-2 focus-within:ring-2 focus-within:ring-sage-400',
           inputClassName,
         )}
       >
-        <Search size={16} className="shrink-0 text-ink-600/60" />
+        <Search size={16} className="shrink-0 text-ink-600" />
         <input
           value={value}
           onChange={(e) => {
@@ -101,9 +105,12 @@ export function SmartSearchBar({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           aria-label="Search remedies"
+          role="combobox"
           aria-autocomplete="list"
-          aria-expanded={showPanel}
-          className="w-full bg-transparent text-sm text-ink-800 placeholder:text-ink-600/50 focus:outline-none"
+          aria-expanded={showPanel && suggestions.length > 0}
+          aria-controls={listId}
+          aria-activedescendant={showPanel && active >= 0 ? `${listId}-${active}` : undefined}
+          className="w-full bg-transparent text-sm text-ink-800 placeholder:text-ink-600 focus:outline-none"
         />
         <Sparkles
           size={15}
@@ -126,31 +133,35 @@ export function SmartSearchBar({
           )}
 
           {suggestions.length > 0 ? (
-            <ul role="listbox">
+            <ul role="listbox" id={listId} aria-label="Suggested remedies">
               {suggestions.map((p, i) => (
-                <li key={p.id} role="option" aria-selected={i === active}>
-                  <button
-                    type="button"
-                    onMouseEnter={() => setActive(i)}
-                    onClick={() => goToProduct(p.slug)}
-                    className={clsx(
-                      'flex w-full items-center gap-3 px-4 py-2 text-left transition',
-                      i === active ? 'bg-sage-50' : 'hover:bg-sage-50',
-                    )}
-                  >
-                    <img
-                      src={resolveMediaUrl(p.primary_image_url)}
-                      alt=""
-                      className="h-10 w-10 shrink-0 rounded-lg bg-sage-50 object-cover"
-                    />
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-medium text-ink-800">{p.name}</span>
-                      <span className="block truncate text-xs text-ink-600">{p.short_description}</span>
-                    </span>
-                    <span className="shrink-0 text-xs font-semibold text-sage-700">
-                      {formatPrice(p.price, p.currency)}
-                    </span>
-                  </button>
+                // Keyboard users pick with the arrow keys and Enter in the search box (the combobox
+                // pattern), so options are clickable but not separately focusable.
+                <li
+                  key={p.id}
+                  id={`${listId}-${i}`}
+                  role="option"
+                  aria-selected={i === active}
+                  onMouseEnter={() => setActive(i)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => goToProduct(p.slug)}
+                  className={clsx(
+                    'flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-left transition',
+                    i === active ? 'bg-sage-50' : 'hover:bg-sage-50',
+                  )}
+                >
+                  <img
+                    src={resolveMediaUrl(p.primary_image_url)}
+                    alt=""
+                    className="h-10 w-10 shrink-0 rounded-lg bg-sage-50 object-cover"
+                  />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-medium text-ink-800">{p.name}</span>
+                    <span className="block truncate text-xs text-ink-600">{p.short_description}</span>
+                  </span>
+                  <span className="shrink-0 text-xs font-semibold text-sage-700">
+                    {formatPrice(p.price, p.currency)}
+                  </span>
                 </li>
               ))}
             </ul>

@@ -75,7 +75,7 @@ export function ProductDetail() {
               {formatPrice(product.price, product.currency)}
             </span>
             {product.compare_at_price && (
-              <span className="text-base text-ink-600/60 line-through">
+              <span className="text-base text-ink-600 line-through">
                 {formatPrice(product.compare_at_price, product.currency)}
               </span>
             )}
@@ -152,7 +152,7 @@ export function ProductDetail() {
 
           {product.ingredients.length > 0 && (
             <div className="mt-8 rounded-2xl border border-cream-300 bg-cream-50 p-5">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-sage-700">Ingredients</h3>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-sage-700">Ingredients</h2>
               <ul className="mt-2 flex flex-wrap gap-2">
                 {product.ingredients.map((ing) => (
                   <li key={ing.id} title={ing.description} className="rounded-full bg-sage-50 px-3 py-1 text-sm text-sage-800">
@@ -169,19 +169,19 @@ export function ProductDetail() {
         <div className="space-y-6">
           {product.description && (
             <div>
-              <h3 className="font-display text-xl text-sage-900">About this remedy</h3>
+              <h2 className="font-display text-xl text-sage-900">About this remedy</h2>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-700">{product.description}</p>
             </div>
           )}
           {product.how_it_helps && (
             <div>
-              <h3 className="font-display text-xl text-sage-900">What it helps with</h3>
+              <h2 className="font-display text-xl text-sage-900">What it helps with</h2>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-700">{product.how_it_helps}</p>
             </div>
           )}
           {product.usage_instructions && (
             <div>
-              <h3 className="font-display text-xl text-sage-900">How to use</h3>
+              <h2 className="font-display text-xl text-sage-900">How to use</h2>
               <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-700">{product.usage_instructions}</p>
             </div>
           )}
@@ -196,7 +196,7 @@ export function ProductDetail() {
 
       {product.related_products.length > 0 && (
         <div className="mt-16">
-          <h3 className="mb-6 font-display text-xl text-sage-900">You might also like</h3>
+          <h2 className="mb-6 font-display text-xl text-sage-900">You might also like</h2>
           <ProductGrid products={product.related_products} />
         </div>
       )}

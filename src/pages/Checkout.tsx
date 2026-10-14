@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -178,6 +178,7 @@ export function Checkout() {
                     key={m}
                     type="button"
                     onClick={() => setMethod(m)}
+                    aria-pressed={method === m}
                     className={clsx(
                       'flex flex-col items-start gap-1 rounded-2xl border p-4 text-left transition',
                       method === m ? 'border-sage-500 bg-sage-50 ring-1 ring-sage-500' : 'border-cream-300 bg-cream-50 hover:border-sage-300',
@@ -217,6 +218,7 @@ export function Checkout() {
                           key={address.id}
                           type="button"
                           onClick={() => applySavedAddress(address)}
+                          aria-pressed={selectedAddressId === address.id}
                           className={clsx(
                             'rounded-full border px-3 py-1.5 text-xs font-semibold transition',
                             selectedAddressId === address.id
@@ -293,7 +295,7 @@ export function Checkout() {
         </div>
 
         <div className="h-fit rounded-2xl border border-cream-300 bg-cream-50 p-6 lg:sticky lg:top-24">
-          <h3 className="font-display text-lg text-sage-900">Order summary</h3>
+          <h2 className="font-display text-lg text-sage-900">Order summary</h2>
           <div className="mt-4 flex flex-col gap-3">
             {cart.items.map((item) => (
               <div key={item.id} className="flex justify-between text-sm text-ink-700">
@@ -337,6 +339,17 @@ export function Checkout() {
             <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-sage-600" />
             You'll be redirected to Paystack to complete payment securely via card or M-Pesa.
           </div>
+          <p className="mt-3 text-xs text-ink-600">
+            By continuing you agree to our{' '}
+            <Link to="/terms" className="font-semibold text-sage-700 underline">
+              Terms
+            </Link>{' '}
+            and{' '}
+            <Link to="/refunds" className="font-semibold text-sage-700 underline">
+              Refund Policy
+            </Link>
+            .
+          </p>
           <button
             type="button"
             onClick={() => navigate('/cart')}

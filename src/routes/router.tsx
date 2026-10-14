@@ -9,6 +9,10 @@ import { Cart } from '../pages/Cart';
 import { Checkout } from '../pages/Checkout';
 import { OrderDetail } from '../pages/OrderDetail';
 import { About } from '../pages/About';
+import { Privacy } from '../pages/legal/Privacy';
+import { Terms } from '../pages/legal/Terms';
+import { Cookies } from '../pages/legal/Cookies';
+import { Refunds } from '../pages/legal/Refunds';
 import { Contact } from '../pages/Contact';
 import { NotFound } from '../pages/NotFound';
 import { Login } from '../pages/auth/Login';
@@ -51,6 +55,10 @@ export const router = createBrowserRouter([
           { path: '/cart', element: <Cart /> },
           { path: '/about', element: <About /> },
           { path: '/contact', element: <Contact /> },
+          { path: '/privacy', element: <Privacy /> },
+          { path: '/terms', element: <Terms /> },
+          { path: '/cookies', element: <Cookies /> },
+          { path: '/refunds', element: <Refunds /> },
           { path: '/experts', element: <Experts /> },
           { path: '/experts/:slug', element: <ExpertDetail /> },
           {

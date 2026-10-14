@@ -37,7 +37,7 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
   return (
     <div className="grid gap-10 md:grid-cols-[1fr_1.2fr]">
       <div>
-        <h3 className="font-display text-xl text-sage-900">Customer reviews</h3>
+        <h2 className="font-display text-xl text-sage-900">Customer reviews</h2>
         {reviews.length === 0 ? (
           <p className="mt-3 text-sm text-ink-600">No reviews yet — be the first to share your experience.</p>
         ) : (
@@ -46,7 +46,7 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
               <div key={review.id} className="border-b border-cream-300 pb-5 last:border-0">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-sage-900">{review.user_name}</p>
-                  <span className="text-xs text-ink-600/70">{formatDate(review.created_at)}</span>
+                  <span className="text-xs text-ink-600">{formatDate(review.created_at)}</span>
                 </div>
                 <StarRating value={review.rating} size={14} />
                 {review.is_verified_purchase && (
@@ -63,7 +63,7 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
       </div>
 
       <div className="rounded-3xl border border-cream-300 bg-cream-50 p-6">
-        <h4 className="font-display text-lg text-sage-900">Leave a review</h4>
+        <h3 className="font-display text-lg text-sage-900">Leave a review</h3>
         {!isAuthenticated ? (
           <p className="mt-2 text-sm text-ink-600">
             <Link to="/login" className="font-semibold text-sage-700 underline">

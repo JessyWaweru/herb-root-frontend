@@ -17,6 +17,7 @@ export function ShopByConcern() {
           traditionally used for it.
         </p>
         <SmartSearchBar
+          label="Search by how you feel"
           placeholder="e.g. &quot;I can't sleep and my head hurts&quot;"
           className="mt-6 w-full max-w-lg"
           inputClassName="py-3"
@@ -42,7 +43,7 @@ export function ShopByConcern() {
                 <span className="text-3xl">{symptom.icon || '🌿'}</span>
                 <span className="text-sm font-semibold text-sage-900">{symptom.name}</span>
                 {symptom.description && (
-                  <span className="text-xs text-ink-600/70">{symptom.description}</span>
+                  <span className="text-xs text-ink-600">{symptom.description}</span>
                 )}
                 <span className="text-xs font-medium text-sage-600">
                   {symptom.product_count} {symptom.product_count === 1 ? 'remedy' : 'remedies'}

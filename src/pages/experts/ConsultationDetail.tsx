@@ -10,7 +10,7 @@ import { formatPrice } from '../../lib/format';
 import type { ConsultationStatus } from '../../types';
 
 const STATUS_META: Record<ConsultationStatus, { headline: string; tone: string; icon: typeof Clock }> = {
-  pending_payment: { headline: 'Awaiting payment', tone: 'text-gold-600 bg-gold-300/40', icon: Clock },
+  pending_payment: { headline: 'Awaiting payment', tone: 'text-gold-700 bg-gold-300/40', icon: Clock },
   confirmed: { headline: 'You’re booked in!', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
   scheduled: { headline: 'Your session is scheduled', tone: 'text-sage-700 bg-sage-100', icon: CalendarCheck },
   completed: { headline: 'Session completed', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },

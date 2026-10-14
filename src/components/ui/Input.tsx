@@ -20,7 +20,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={clsx(
-            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600/50',
+            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600',
             'focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 transition',
             error ? 'border-rose-400' : 'border-cream-300',
             className,
@@ -53,7 +53,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={inputId}
           className={clsx(
-            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600/50',
+            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600',
             'focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 transition resize-none',
             error ? 'border-rose-400' : 'border-cream-300',
             className,

@@ -10,7 +10,7 @@ import { formatDate, formatPrice } from '../lib/format';
 import type { OrderStatus } from '../types';
 
 const STATUS_META: Record<OrderStatus, { label: string; tone: string; icon: typeof Clock }> = {
-  pending: { label: 'Awaiting payment', tone: 'text-gold-600 bg-gold-300/40', icon: Clock },
+  pending: { label: 'Awaiting payment', tone: 'text-gold-700 bg-gold-300/40', icon: Clock },
   paid: { label: 'Paid', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
   processing: { label: 'Being prepared', tone: 'text-sage-700 bg-sage-100', icon: PackageSearch },
   ready_for_pickup: { label: 'Ready for pickup', tone: 'text-sage-700 bg-sage-100', icon: Store },
