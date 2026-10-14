@@ -28,7 +28,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             autoCorrect="off"
             spellCheck={false}
             className={clsx(
-              'w-full rounded-xl border bg-cream-50 py-2.5 pl-4 pr-12 text-ink-900 placeholder:text-ink-600/50',
+              'w-full rounded-xl border bg-cream-50 py-2.5 pl-4 pr-12 text-ink-900 placeholder:text-ink-600',
               'transition focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400',
               error ? 'border-rose-400' : 'border-cream-300',
               className,

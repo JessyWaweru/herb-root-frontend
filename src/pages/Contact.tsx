@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Mail, MapPin, Phone } from 'lucide-react';
@@ -56,6 +57,13 @@ export function Contact() {
           )}
           <Input label="Subject (optional)" {...register('subject')} />
           <Textarea label="Message" rows={5} {...register('message', { required: true })} />
+          <p className="text-xs text-ink-600">
+            We'll only use your details to reply to you. See our{' '}
+            <Link to="/privacy" className="font-semibold text-sage-700 underline">
+              Privacy Policy
+            </Link>
+            .
+          </p>
           <Button type="submit" isLoading={loading} className="w-fit">
             Send message
           </Button>
@@ -72,7 +80,7 @@ function ContactRow({ icon: Icon, label, value }: { icon: typeof Mail; label: st
         <Icon size={18} />
       </span>
       <div>
-        <p className="text-xs uppercase tracking-wide text-ink-600/70">{label}</p>
+        <p className="text-xs uppercase tracking-wide text-ink-600">{label}</p>
         <p className="text-sm font-semibold text-sage-900">{value}</p>
       </div>
     </div>

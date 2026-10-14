@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 const toneClasses = {
   sage: 'bg-sage-100 text-sage-800',
-  gold: 'bg-gold-300/60 text-gold-600',
+  gold: 'bg-gold-300/60 text-gold-700',
   rose: 'bg-rose-300/50 text-rose-600',
   cream: 'bg-cream-200 text-ink-700',
 } as const;

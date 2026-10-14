@@ -37,7 +37,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Shop</h4>
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Shop</h2>
             <ul className="space-y-2 text-sm text-cream-100/90">
               <li><Link to="/shop" className="hover:text-gold-400">All remedies</Link></li>
               <li><Link to="/concerns" className="hover:text-gold-400">Shop by concern</Link></li>
@@ -46,7 +46,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Company</h4>
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Company</h2>
             <ul className="space-y-2 text-sm text-cream-100/90">
               <li><Link to="/about" className="hover:text-gold-400">Our story</Link></li>
               <li><Link to="/contact" className="hover:text-gold-400">Contact us</Link></li>
@@ -55,9 +55,9 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">
               Join the garden letter
-            </h4>
+            </h2>
             <p className="mb-3 text-sm text-cream-100/80">Seasonal remedies &amp; growing notes, monthly.</p>
             <form onSubmit={handleSubscribe} className="flex gap-2">
               <input
@@ -77,11 +77,26 @@ export function Footer() {
                 <Send size={15} />
               </button>
             </form>
+            <p className="mt-2 text-xs text-cream-200/70">
+              Unsubscribe anytime. See our{' '}
+              <Link to="/privacy" className="underline hover:text-gold-400">
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-sage-700 pt-6 text-center text-xs text-cream-200/60 sm:flex-row sm:justify-between sm:text-left">
           <p>© {new Date().getFullYear()} GOherbal. All rights reserved.</p>
+          <nav aria-label="Legal">
+            <ul className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+              <li><Link to="/privacy" className="hover:text-gold-400">Privacy</Link></li>
+              <li><Link to="/terms" className="hover:text-gold-400">Terms</Link></li>
+              <li><Link to="/cookies" className="hover:text-gold-400">Cookies</Link></li>
+              <li><Link to="/refunds" className="hover:text-gold-400">Refunds</Link></li>
+            </ul>
+          </nav>
           <p>Designed &amp; built by JBNMedia</p>
         </div>
       </div>

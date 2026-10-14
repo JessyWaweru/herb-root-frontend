@@ -8,7 +8,7 @@ export function PlantGardenAlbum({ product }: { product: ProductDetail }) {
 
   return (
     <div className="rounded-3xl border border-cream-300 bg-cream-50 p-6">
-      <h3 className="font-display text-xl text-sage-900">From the garden</h3>
+      <h2 className="font-display text-xl text-sage-900">From the garden</h2>
 
       {plant_origin && (
         <div className="mt-3 flex items-start gap-2 text-sm text-ink-700">
@@ -25,9 +25,13 @@ export function PlantGardenAlbum({ product }: { product: ProductDetail }) {
 
       {plant_gallery_images.length > 0 && (
         <div className="mt-4 grid grid-cols-3 gap-2">
-          {plant_gallery_images.map((img) => (
+          {plant_gallery_images.map((img, i) => (
             <figure key={img.id} className="overflow-hidden rounded-xl">
-              <img src={resolveMediaUrl(img.image_url)} alt={img.caption} className="aspect-square w-full object-cover" />
+              <img
+                src={resolveMediaUrl(img.image_url)}
+                alt={img.caption || `Garden photo ${i + 1} of the plant used in ${product.name}`}
+                className="aspect-square w-full object-cover"
+              />
               {img.caption && <figcaption className="mt-1 text-xs text-ink-600">{img.caption}</figcaption>}
             </figure>
           ))}

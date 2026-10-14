@@ -16,7 +16,7 @@ const variantClasses: Record<Variant, string> = {
   secondary: 'bg-gold-500 text-ink-900 hover:bg-gold-600 shadow-soft',
   outline: 'border border-sage-400 text-sage-800 hover:bg-sage-50',
   ghost: 'text-sage-800 hover:bg-sage-100',
-  danger: 'bg-rose-500 text-cream-50 hover:bg-rose-600',
+  danger: 'bg-rose-600 text-cream-50 hover:bg-rose-700',
 };
 
 const sizeClasses: Record<Size, string> = {

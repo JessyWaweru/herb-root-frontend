@@ -71,9 +71,9 @@ export function Cart() {
               <div className="flex flex-1 flex-col justify-between">
                 <div>
                   <Link to={`/shop/${item.product.slug}`}>
-                    <h3 className="font-display text-lg text-sage-900 hover:text-sage-700">
+                    <h2 className="font-display text-lg text-sage-900 hover:text-sage-700">
                       {item.product.name}
-                    </h3>
+                    </h2>
                   </Link>
                   <p className="text-sm text-ink-600">
                     {formatPrice(item.product.price, item.product.currency)} each
@@ -104,7 +104,7 @@ export function Cart() {
                     <button
                       onClick={() => removeItem.mutate(item.id)}
                       aria-label="Remove item"
-                      className="text-ink-600/60 hover:text-rose-600"
+                      className="text-ink-600 hover:text-rose-600"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -116,7 +116,7 @@ export function Cart() {
         </div>
 
         <div className="h-fit rounded-2xl border border-cream-300 bg-cream-50 p-6">
-          <h3 className="font-display text-lg text-sage-900">Order summary</h3>
+          <h2 className="font-display text-lg text-sage-900">Order summary</h2>
           <div className="mt-4 flex justify-between text-sm text-ink-700">
             <span>Subtotal ({cart.total_items} items)</span>
             <span>{formatPrice(cart.subtotal)}</span>

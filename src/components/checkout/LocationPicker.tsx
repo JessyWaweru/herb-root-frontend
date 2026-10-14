@@ -150,7 +150,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
             onKeyDown={searchOnEnter}
             enterKeyHint="search"
             placeholder="Search estate, street or landmark"
-            className="min-w-0 flex-1 rounded-xl border border-cream-300 bg-cream-50 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-600/50 focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400"
+            className="min-w-0 flex-1 rounded-xl border border-cream-300 bg-cream-50 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-600 focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400"
           />
           <button
             type="button"

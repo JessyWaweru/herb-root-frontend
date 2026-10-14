@@ -32,7 +32,10 @@ export function ProductGallery({ product }: { product: ProductDetail }) {
           {images.map((img, i) => (
             <button
               key={img.id}
+              type="button"
               onClick={() => setActive(i)}
+              aria-label={`Show photo ${i + 1} of ${images.length}`}
+              aria-pressed={active === i}
               className={clsx(
                 'h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition',
                 active === i ? 'border-sage-600' : 'border-transparent opacity-70 hover:opacity-100',

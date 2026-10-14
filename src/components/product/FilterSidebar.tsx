@@ -22,7 +22,7 @@ export function FilterSidebar({
   return (
     <aside className="flex w-full flex-col gap-8 lg:w-64 lg:shrink-0">
       <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Concern</h3>
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Concern</h2>
         <div className="flex flex-col gap-1">
           <FilterButton
             active={!filters.symptom}
@@ -42,7 +42,7 @@ export function FilterSidebar({
       </div>
 
       <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Category</h3>
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Category</h2>
         <div className="flex flex-col gap-1">
           <FilterButton
             active={!filters.category}
@@ -62,7 +62,7 @@ export function FilterSidebar({
       </div>
 
       <div>
-        <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Price (KES)</h3>
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-sage-700">Price (KES)</h2>
         <div className="flex items-center gap-2">
           <input
             type="number"
@@ -72,7 +72,7 @@ export function FilterSidebar({
             onChange={(e) => onChange({ min_price: e.target.value || undefined })}
             className="w-full rounded-lg border border-cream-300 bg-cream-50 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-sage-400"
           />
-          <span className="text-ink-600/50">–</span>
+          <span aria-hidden="true" className="text-ink-600">–</span>
           <input
             type="number"
             min={0}
@@ -118,7 +118,7 @@ function FilterButton({
     >
       <span>{label}</span>
       {typeof count === 'number' && (
-        <span className={clsx('text-xs', active ? 'text-cream-100/80' : 'text-ink-600/60')}>{count}</span>
+        <span className={clsx('text-xs', active ? 'text-cream-100/80' : 'text-ink-600')}>{count}</span>
       )}
     </button>
   );

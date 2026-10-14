@@ -46,7 +46,7 @@ export function AccountWishlist() {
           <div className="flex flex-1 flex-col justify-between">
             <div>
               <Link to={`/shop/${item.product.slug}`}>
-                <h3 className="font-display text-base text-sage-900 hover:text-sage-700">{item.product.name}</h3>
+                <h2 className="font-display text-base text-sage-900 hover:text-sage-700">{item.product.name}</h2>
               </Link>
               <p className="text-sm font-semibold text-sage-800">{formatPrice(item.product.price, item.product.currency)}</p>
             </div>

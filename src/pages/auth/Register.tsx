@@ -41,7 +41,7 @@ export function Register() {
     watch,
     setError,
     formState: { errors },
-  } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { newsletter_opt_in: true } });
+  } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { newsletter_opt_in: false } });
   const password = watch('password') ?? '';
 
   const onSubmit = (values: FormValues) => {
@@ -131,6 +131,17 @@ export function Register() {
           Send me seasonal remedies &amp; growing notes
         </label>
         <Turnstile ref={turnstile} action="signup" onToken={setBotToken} />
+        <p className="text-xs text-ink-600">
+          By creating an account you agree to our{' '}
+          <Link to="/terms" className="font-semibold text-sage-700 underline">
+            Terms
+          </Link>{' '}
+          and confirm you've read our{' '}
+          <Link to="/privacy" className="font-semibold text-sage-700 underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
         <Button type="submit" size="lg" isLoading={registerMutation.isPending} disabled={!botToken}>
           Create account
         </Button>

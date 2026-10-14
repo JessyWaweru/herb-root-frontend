@@ -70,14 +70,15 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           onSubmit={handleSubmit}
-          className="mt-8 flex w-full max-w-lg items-center gap-2 rounded-full border border-cream-300 bg-cream-50 p-2 shadow-soft"
+          className="mt-8 flex w-full max-w-lg items-center gap-2 rounded-full border border-cream-300 bg-cream-50 p-2 shadow-soft focus-within:ring-2 focus-within:ring-sage-400"
         >
-          <Search size={18} className="ml-3 shrink-0 text-ink-600/60" />
+          <Search size={18} className="ml-3 shrink-0 text-ink-600" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Try &quot;I can't sleep and my head hurts&quot;..."
-            className="w-full bg-transparent px-1 py-2 text-sm text-ink-800 placeholder:text-ink-600/50 focus:outline-none"
+            aria-label="Search remedies, or describe how you feel"
+            className="w-full bg-transparent px-1 py-2 text-sm text-ink-800 placeholder:text-ink-600 focus:outline-none"
           />
           <button
             type="submit"

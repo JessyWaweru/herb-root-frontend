@@ -37,7 +37,7 @@ export function Navbar() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.label}
@@ -66,11 +66,11 @@ export function Navbar() {
           <Link
             to="/cart"
             className="relative flex h-10 w-10 items-center justify-center rounded-full text-ink-700 transition hover:bg-sage-100"
-            aria-label="Cart"
+            aria-label={cart?.total_items ? `Basket, ${cart.total_items} item${cart.total_items === 1 ? '' : 's'}` : 'Basket'}
           >
             <ShoppingBasket size={19} />
             {Boolean(cart?.total_items) && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[10px] font-bold text-white">
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-rose-600 text-[10px] font-bold text-white">
                 {cart!.total_items}
               </span>
             )}
@@ -81,8 +81,9 @@ export function Navbar() {
               <Link
                 to="/account"
                 className="flex items-center gap-2.5 rounded-full p-1 transition hover:bg-sage-50 xl:pr-4"
-                aria-label={`Account — signed in as ${name}`}
               >
+                {/* On small screens the greeting is hidden, so name the link for screen readers. */}
+                <span className="sr-only xl:hidden">Your account, signed in as {name}</span>
                 <Avatar name={name} />
                 <motion.span
                   initial={{ opacity: 0, x: -6 }}

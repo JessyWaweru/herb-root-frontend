@@ -89,7 +89,7 @@ export function RiderDelivery() {
       <p className="text-sm text-ink-600">Hi {data.rider_name} · Order {data.order_number}</p>
       <span
         className={`mt-2 inline-block rounded-full px-3 py-1 text-xs font-semibold ${
-          data.status === 'out_for_delivery' ? 'bg-sage-100 text-sage-800' : 'bg-gold-300/50 text-gold-600'
+          data.status === 'out_for_delivery' ? 'bg-sage-100 text-sage-800' : 'bg-gold-300/50 text-gold-700'
         }`}
       >
         {data.status === 'out_for_delivery' ? 'On the way' : 'Ready for pickup at the shop'}
