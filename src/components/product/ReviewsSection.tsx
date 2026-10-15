@@ -16,8 +16,10 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
   const [comment, setComment] = useState('');
   const [title, setTitle] = useState('');
   const createReview = useCreateReview(productSlug);
+  const [justReviewed, setJustReviewed] = useState(false);
 
-  const alreadyReviewed = false; // backend enforces one-per-user; surfaced via error toast
+  // One review per customer: once theirs exists, thank them instead of showing the form again.
+  const alreadyReviewed = justReviewed || reviews.some((review) => review.is_mine);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
           setRating(0);
           setTitle('');
           setComment('');
+          setJustReviewed(true);
         },
       },
     );

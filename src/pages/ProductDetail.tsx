@@ -191,7 +191,7 @@ export function ProductDetail() {
       </div>
 
       <div className="mt-16">
-        <ReviewsSection productSlug={product.slug} reviews={product.reviews} />
+        <ReviewsSection key={product.slug} productSlug={product.slug} reviews={product.reviews} />
       </div>
 
       {product.related_products.length > 0 && (

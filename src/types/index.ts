@@ -63,6 +63,8 @@ export interface Review {
   title: string;
   comment: string;
   is_verified_purchase: boolean;
+  /** True when the signed-in visitor wrote this review. */
+  is_mine: boolean;
   created_at: string;
 }
 
