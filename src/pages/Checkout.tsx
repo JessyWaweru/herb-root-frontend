@@ -289,7 +289,7 @@ export function Checkout() {
                   error={errors.phone_number?.message}
                 />
               </div>
-              <Textarea label="Order notes (optional)" rows={3} {...register('customer_notes')} />
+              <Textarea label="Order notes (optional)" rows={3} maxLength={1000} {...register('customer_notes')} />
             </section>
           )}
         </div>

@@ -75,9 +75,15 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
           <p className="mt-2 text-sm text-ink-600">You've already reviewed this product. Thank you!</p>
         ) : (
           <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
-            <div className="flex gap-1">
+            <div className="flex gap-1" role="group" aria-label="Your rating">
               {Array.from({ length: 5 }).map((_, i) => (
-                <button type="button" key={i} onClick={() => setRating(i + 1)}>
+                <button
+                  type="button"
+                  key={i}
+                  onClick={() => setRating(i + 1)}
+                  aria-label={`${i + 1} star${i ? 's' : ''}`}
+                  aria-pressed={rating === i + 1}
+                >
                   <Star
                     size={22}
                     className={clsx(
@@ -91,13 +97,16 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title (optional)"
+              aria-label="Review title (optional)"
               className="rounded-xl border border-cream-300 bg-cream-50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sage-400"
             />
             <Textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="What did you notice after using this?"
+              aria-label="Your review"
               rows={4}
+              maxLength={3000}
             />
             <Button type="submit" disabled={!rating} isLoading={createReview.isPending}>
               Submit review
