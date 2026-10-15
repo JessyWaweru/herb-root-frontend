@@ -200,6 +200,7 @@ export function ExpertDetail() {
               <Textarea
                 label="What would you like help with?"
                 rows={4}
+                maxLength={4000}
                 placeholder="Symptoms, how long you've had them, any medication you take…"
                 {...register('concern')}
                 error={errors.concern?.message}

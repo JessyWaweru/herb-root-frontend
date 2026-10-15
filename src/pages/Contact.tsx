@@ -56,7 +56,7 @@ export function Contact() {
             </div>
           )}
           <Input label="Subject (optional)" {...register('subject')} />
-          <Textarea label="Message" rows={5} {...register('message', { required: true })} />
+          <Textarea label="Message" rows={5} maxLength={5000} {...register('message', { required: true })} />
           <p className="text-xs text-ink-600">
             We'll only use your details to reply to you. See our{' '}
             <Link to="/privacy" className="font-semibold text-sage-700 underline">
