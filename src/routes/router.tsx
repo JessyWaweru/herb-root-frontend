@@ -77,6 +77,7 @@ export const router = createBrowserRouter([
           { path: '/', element: <HomePage /> },
           { path: '/shop', ...lazyPage(() => import('../pages/Shop').then((m) => m.Shop)) },
           { path: '/concerns', ...lazyPage(() => import('../pages/ShopByConcern').then((m) => m.ShopByConcern), PAGES.concerns) },
+          { path: '/concerns/:slug', ...lazyPage(() => import('../pages/ConcernDetail').then((m) => m.ConcernDetail)) },
           { path: '/shop/:slug', ...lazyPage(() => import('../pages/ProductDetail').then((m) => m.ProductDetail)) },
           { path: '/cart', ...lazyPage(() => import('../pages/Cart').then((m) => m.Cart), PAGES.cart) },
           { path: '/about', ...lazyPage(() => import('../pages/About').then((m) => m.About), PAGES.about) },

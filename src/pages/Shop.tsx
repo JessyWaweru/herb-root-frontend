@@ -8,7 +8,7 @@ import { Spinner } from '../components/ui/Spinner';
 import { Button } from '../components/ui/Button';
 import { Seo } from '../components/seo/Seo';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
-import { PAGES, breadcrumbJsonLd, graph, type Crumb } from '../seo/site';
+import { PAGES, breadcrumbJsonLd, concernPath, graph, type Crumb } from '../seo/site';
 
 const SORT_OPTIONS = [
   { value: '', label: 'Newest' },
@@ -54,7 +54,7 @@ function SmartResults({ query }: { query: string }) {
             {data.concerns.map((s) => (
               <Link
                 key={s.id}
-                to={`/shop?symptom=${s.slug}`}
+                to={concernPath(s.slug)}
                 className="flex items-center gap-1.5 rounded-full bg-sage-100 px-3 py-1.5 text-xs font-semibold text-sage-800 transition hover:bg-sage-200"
               >
                 {s.icon} {s.name}
@@ -138,11 +138,11 @@ function StandardShop() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      {/* Filtered views all point search engines at /shop, so they aren't counted as duplicates. */}
+      {/* Filtered views point search engines at /shop, or at the concern's own page, so they aren't counted as duplicates. */}
       <Seo
         title={view.title}
         description={PAGES.shop.description}
-        path="/shop"
+        path={filters.symptom && symptomName ? concernPath(filters.symptom) : '/shop'}
         noindex={!!search}
         jsonLd={graph(breadcrumbJsonLd(crumbs))}
       />

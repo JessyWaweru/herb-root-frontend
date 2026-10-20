@@ -271,6 +271,67 @@ export function productJsonLd(product: ProductForJsonLd): JsonLd {
   };
 }
 
+// ---- Concern pages (/concerns/insomnia) ----
+
+export interface ConcernForSeo {
+  name: string;
+  slug: string;
+  description: string;
+  intro?: string;
+}
+
+export function concernPath(slug: string) {
+  return `/concerns/${slug}`;
+}
+
+export function concernCrumbs(concern: ConcernForSeo): Crumb[] {
+  return [...CRUMBS['/concerns'], { label: concern.name, to: concernPath(concern.slug) }];
+}
+
+/** Tab title, meta description and h1 for a concern page, from what staff wrote or, failing that, its remedies. */
+export function concernMeta(concern: ConcernForSeo, productNames: string[]) {
+  const examples = productNames.slice(0, 3).join(', ');
+  const fallback = [
+    concern.description,
+    `Herbal remedies traditionally used for ${concern.name.toLowerCase()}${examples ? `, including ${examples}` : ''}.`,
+    'Full ingredient lists and delivery across Kenya.',
+  ]
+    .filter(Boolean)
+    .join(' ');
+  return {
+    title: `Herbs Traditionally Used for ${concern.name}`,
+    heading: `Herbs traditionally used for ${concern.name}`,
+    description: summarize(concern.intro || fallback),
+  };
+}
+
+export function concernJsonLd(concern: ConcernForSeo, products: { name: string; slug: string }[]) {
+  const url = absoluteUrl(concernPath(concern.slug));
+  return graph(
+    {
+      '@type': 'CollectionPage',
+      '@id': url,
+      url,
+      name: concernMeta(concern, []).title,
+      isPartOf: { '@id': `${SITE.url}/#website` },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: products.map((product, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: product.name,
+          url: absoluteUrl(`/shop/${product.slug}`),
+        })),
+      },
+    },
+    breadcrumbJsonLd(concernCrumbs(concern)),
+  );
+}
+
+/** Shown on every concern page: traditional use isn't a diagnosis. */
+export const CONCERN_SAFETY_NOTE =
+  "These are traditional uses, not medical advice. If symptoms are severe or last more than two weeks, or you're pregnant, breastfeeding or taking medication, speak to a doctor before trying a herbal remedy.";
+
 export function graph(...items: JsonLd[]) {
   return { '@context': 'https://schema.org', '@graph': items };
 }

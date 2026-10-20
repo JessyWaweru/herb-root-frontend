@@ -67,6 +67,9 @@ hosts serve real files before rewrites, so the per-page HTML files described bel
   `sitemap.xml`, `robots.txt`, `llms.txt` and `404.html`. Products and experts come from
   `VITE_API_BASE_URL`; if the API can't be reached the build still succeeds with only the fixed
   pages, so **redeploy after adding or renaming products** to refresh the sitemap.
+- **Concern pages** (`/concerns/insomnia`, …) are each concern's own landing page, built from
+  the concern's *Intro* in the Django admin (Products → Symptoms) and the remedies tagged with
+  it. A concern without an intro still gets a page; writing one gives it something to rank with.
 - The site's address (`https://goherbal.health`) is set in `src/seo/site.ts`.
 - Icons are in `public/` (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icons/`), and the
   default link-preview image is `public/og/goherbal-share.png` (1200×630).

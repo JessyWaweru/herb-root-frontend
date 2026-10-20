@@ -21,6 +21,8 @@ export interface Symptom {
   name: string;
   slug: string;
   description: string;
+  /** Longer text for the concern's own page; may be empty. */
+  intro: string;
   icon: string;
   product_count: number;
 }
