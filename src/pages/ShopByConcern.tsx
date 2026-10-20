@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
-import { m } from 'framer-motion';
 import { useSymptoms } from '../hooks/useProducts';
 import { Spinner } from '../components/ui/Spinner';
 import { SmartSearchBar } from '../components/search/SmartSearchBar';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
-import { CRUMBS, concernPath } from '../seo/site';
+import { CRUMBS } from '../seo/site';
+import { ConcernCard } from '../components/concerns/ConcernCard';
 
 export function ShopByConcern() {
   const { data: symptoms, isLoading } = useSymptoms();
@@ -32,27 +31,7 @@ export function ShopByConcern() {
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {symptoms?.map((symptom, i) => (
-            <m.div
-              key={symptom.id}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: i * 0.03 }}
-            >
-              <Link
-                to={concernPath(symptom.slug)}
-                className="flex flex-col items-center gap-2 rounded-2xl border border-cream-300 bg-cream-50 px-3 py-6 text-center shadow-soft transition hover:-translate-y-1 hover:border-sage-300 hover:shadow-lift"
-              >
-                <span className="text-3xl">{symptom.icon || '🌿'}</span>
-                <span className="text-sm font-semibold text-sage-900">{symptom.name}</span>
-                {symptom.description && (
-                  <span className="text-xs text-ink-600">{symptom.description}</span>
-                )}
-                <span className="text-xs font-medium text-sage-600">
-                  {symptom.product_count} {symptom.product_count === 1 ? 'remedy' : 'remedies'}
-                </span>
-              </Link>
-            </m.div>
+            <ConcernCard key={symptom.id} concern={symptom} index={i} showDescription />
           ))}
         </div>
       )}
