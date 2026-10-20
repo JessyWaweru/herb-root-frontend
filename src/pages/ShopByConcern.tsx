@@ -4,7 +4,7 @@ import { useSymptoms } from '../hooks/useProducts';
 import { Spinner } from '../components/ui/Spinner';
 import { SmartSearchBar } from '../components/search/SmartSearchBar';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
-import { CRUMBS } from '../seo/site';
+import { CRUMBS, concernPath } from '../seo/site';
 
 export function ShopByConcern() {
   const { data: symptoms, isLoading } = useSymptoms();
@@ -40,7 +40,7 @@ export function ShopByConcern() {
               transition={{ duration: 0.3, delay: i * 0.03 }}
             >
               <Link
-                to={`/shop?symptom=${symptom.slug}`}
+                to={concernPath(symptom.slug)}
                 className="flex flex-col items-center gap-2 rounded-2xl border border-cream-300 bg-cream-50 px-3 py-6 text-center shadow-soft transition hover:-translate-y-1 hover:border-sage-300 hover:shadow-lift"
               >
                 <span className="text-3xl">{symptom.icon || '🌿'}</span>

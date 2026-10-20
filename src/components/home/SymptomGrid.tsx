@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useSymptoms } from '../../hooks/useProducts';
+import { concernPath } from '../../seo/site';
 import { Spinner } from '../ui/Spinner';
 
 const HOME_PREVIEW_COUNT = 8;
@@ -33,7 +34,7 @@ export function SymptomGrid() {
               transition={{ duration: 0.35, delay: i * 0.04 }}
             >
               <Link
-                to={`/shop?symptom=${symptom.slug}`}
+                to={concernPath(symptom.slug)}
                 className="flex flex-col items-center gap-2 rounded-2xl border border-cream-300 bg-cream-50 px-3 py-6 text-center shadow-soft transition hover:-translate-y-1 hover:border-sage-300 hover:shadow-lift"
               >
                 <span className="text-3xl">{symptom.icon || '🌿'}</span>

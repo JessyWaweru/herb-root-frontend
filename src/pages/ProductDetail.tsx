@@ -12,7 +12,7 @@ import { EmailUsButton } from '../components/experts/EmailUsButton';
 import { formatPrice, resolveMediaUrl } from '../lib/format';
 import { Seo } from '../components/seo/Seo';
 import { Breadcrumbs } from '../components/seo/Breadcrumbs';
-import { breadcrumbJsonLd, graph, productJsonLd, summarize, type Crumb } from '../seo/site';
+import { breadcrumbJsonLd, concernPath, graph, productJsonLd, summarize, type Crumb } from '../seo/site';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PlantGardenAlbum } from '../components/product/PlantGardenAlbum';
 import { ReviewsSection } from '../components/product/ReviewsSection';
@@ -89,7 +89,7 @@ export function ProductDetail() {
           {product.symptoms.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-2">
               {product.symptoms.map((s) => (
-                <Link key={s.id} to={`/shop?symptom=${s.slug}`}>
+                <Link key={s.id} to={concernPath(s.slug)}>
                   <Badge tone="sage">{s.icon} {s.name}</Badge>
                 </Link>
               ))}

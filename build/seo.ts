@@ -2,12 +2,17 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { Plugin } from 'vite';
 import {
+  CONCERN_SAFETY_NOTE,
   CRUMBS,
   PAGES,
   PUBLIC_PAGES,
   SITE,
   absoluteUrl,
   breadcrumbJsonLd,
+  concernCrumbs,
+  concernJsonLd,
+  concernMeta,
+  concernPath,
   fullTitle,
   graph,
   isShareableImage,
@@ -38,6 +43,7 @@ export function seoPages({ apiBaseUrl }: { apiBaseUrl: string }): Plugin {
       const data = await fetchCatalogue(apiBaseUrl);
       const pages = [
         ...fixedPages(data),
+        ...data.symptoms.map((symptom) => concernPage(symptom, data)),
         ...data.products.map((product) => productPage(product, data.mediaOrigin)),
         ...data.experts.map((expert) => expertPage(expert, data.mediaOrigin)),
       ];
@@ -100,6 +106,8 @@ interface ApiSymptom {
   name: string;
   slug: string;
   description: string;
+  intro?: string;
+  icon?: string;
 }
 
 interface Catalogue {
@@ -184,7 +192,7 @@ function fixedPages({ products, experts, symptoms }: Catalogue): StaticPage[] {
     : '';
   const concernList = symptoms.length
     ? `<h2>Shop by concern</h2><ul>${symptoms
-        .map((s) => `<li><a href="/shop?symptom=${esc(s.slug)}">${esc(s.name)}</a> — ${esc(s.description)}</li>`)
+        .map((s) => `<li><a href="${concernPath(esc(s.slug))}">${esc(s.name)}</a> — ${esc(s.description)}</li>`)
         .join('')}</ul>`
     : '';
   const expertList = experts.length
@@ -242,8 +250,34 @@ function productPage(product: ApiProduct, mediaOrigin: string): StaticPage {
       section('How to use', product.usage_instructions),
       product.symptoms.length
         ? `<p>Traditionally used for: ${product.symptoms
-            .map((s) => `<a href="/shop?symptom=${esc(s.slug)}">${esc(s.name)}</a>`)
+            .map((s) => `<a href="${concernPath(esc(s.slug))}">${esc(s.name)}</a>`)
             .join(', ')}</p>`
+        : '',
+    ].join(''),
+  };
+}
+
+function concernPage(concern: ApiSymptom, { products, symptoms }: Catalogue): StaticPage {
+  const remedies = products.filter((p) => p.symptoms.some((s) => s.slug === concern.slug));
+  const meta = concernMeta(concern, remedies.map((p) => p.name));
+  const others = symptoms.filter((s) => s.slug !== concern.slug);
+  return {
+    path: concernPath(concern.slug),
+    title: meta.title,
+    description: meta.description,
+    jsonLd: concernJsonLd(concern, remedies),
+    body: [
+      breadcrumbHtml(concernCrumbs(concern)),
+      `<h1>${esc(meta.heading)}</h1>`,
+      concern.description ? `<p>${esc(concern.description)}</p>` : '',
+      concern.intro ? concern.intro.split(/\n\s*\n/).map((para) => `<p>${esc(para.trim())}</p>`).join('') : '',
+      `<h2>Remedies for ${esc(concern.name.toLowerCase())}</h2>`,
+      remedies.length
+        ? `<ul>${remedies.map((p) => `<li><a href="/shop/${esc(p.slug)}">${esc(p.name)}</a> — ${esc(p.short_description)}</li>`).join('')}</ul>`
+        : '<p>No remedies listed for this concern yet.</p>',
+      `<p>${esc(CONCERN_SAFETY_NOTE)} <a href="/experts">Talk to an expert</a>.</p>`,
+      others.length
+        ? `<h2>Other concerns</h2><ul>${others.map((s) => `<li><a href="${concernPath(esc(s.slug))}">${esc(s.name)}</a></li>`).join('')}</ul>`
         : '',
     ].join(''),
   };
@@ -385,7 +419,7 @@ function llmsTxt({ products, experts, symptoms }: Catalogue) {
   }
   if (symptoms.length) {
     lines.push('', '## Shop by concern');
-    for (const s of symptoms) lines.push(link(s.name, `/shop?symptom=${s.slug}`, s.description));
+    for (const s of symptoms) lines.push(link(s.name, concernPath(s.slug), s.intro ? summarize(s.intro, 200) : s.description));
   }
   if (experts.length) {
     lines.push('', '## Experts');
