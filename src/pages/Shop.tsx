@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { SlidersHorizontal, X } from 'lucide-react';
-import { useProducts, useSmartSearch } from '../hooks/useProducts';
+import { useCategories, useProducts, useSmartSearch, useSymptoms } from '../hooks/useProducts';
 import { FilterSidebar, type Filters } from '../components/product/FilterSidebar';
 import { ProductGrid } from '../components/product/ProductGrid';
 import { Spinner } from '../components/ui/Spinner';
 import { Button } from '../components/ui/Button';
+import { Seo } from '../components/seo/Seo';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { PAGES, breadcrumbJsonLd, graph, type Crumb } from '../seo/site';
 
 const SORT_OPTIONS = [
   { value: '', label: 'Newest' },
@@ -32,6 +35,8 @@ function SmartResults({ query }: { query: string }) {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Seo title={`Remedies for "${query}"`} description={PAGES.shop.description} noindex />
+      <Breadcrumbs items={[{ label: 'Shop', to: '/shop' }, { label: `Search: ${query}`, to: `/shop?q=${encodeURIComponent(query)}` }]} />
       <div className="mb-8">
         <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">Smart match</span>
         <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">Remedies for "{query}"</h1>
@@ -118,17 +123,35 @@ function StandardShop() {
 
   const { data, isLoading, isFetching } = useProducts(query);
 
-  const activeSymptomLabel = filters.symptom;
+  const { data: symptoms } = useSymptoms();
+  const { data: categories } = useCategories();
+  const symptomName = symptoms?.find((s) => s.slug === filters.symptom)?.name;
+  const categoryName = categories?.find((c) => c.slug === filters.category)?.name;
+  const view = shopView({
+    search,
+    symptomName,
+    categoryName,
+    bestsellers: params.get('is_bestseller') === 'true',
+    featured: params.get('is_featured') === 'true',
+  });
+  const crumbs: Crumb[] = [{ label: 'Shop', to: '/shop' }, ...(view.crumb ? [{ label: view.crumb, to: `/shop?${params}` }] : [])];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      {/* Filtered views all point search engines at /shop, so they aren't counted as duplicates. */}
+      <Seo
+        title={view.title}
+        description={PAGES.shop.description}
+        path="/shop"
+        noindex={!!search}
+        jsonLd={graph(breadcrumbJsonLd(crumbs))}
+      />
+      <Breadcrumbs items={crumbs} />
       <div className="mb-8">
         <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">
-          {search ? `Results for "${search}"` : activeSymptomLabel ? 'Shopping by concern' : 'Shop all'}
+          {search ? `Results for "${search}"` : filters.symptom ? 'Shopping by concern' : 'Shop all'}
         </span>
-        <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">
-          {search ? 'Search results' : 'Every remedy, in one place'}
-        </h1>
+        <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">{view.heading}</h1>
         {typeof data?.count === 'number' && (
           <p className="mt-2 text-sm text-ink-600">{data.count} remedies found</p>
         )}
@@ -184,6 +207,34 @@ function StandardShop() {
       </div>
     </div>
   );
+}
+
+/** Heading, tab title and breadcrumb label for the current filter, so each view is named for what it shows. */
+function shopView({
+  search,
+  symptomName,
+  categoryName,
+  bestsellers,
+  featured,
+}: {
+  search: string;
+  symptomName?: string;
+  categoryName?: string;
+  bestsellers: boolean;
+  featured: boolean;
+}) {
+  if (search) return { heading: 'Search results', title: `Search: ${search}`, crumb: `Search: ${search}` };
+  if (symptomName) {
+    return {
+      heading: `Remedies traditionally used for ${symptomName}`,
+      title: `Herbs Traditionally Used for ${symptomName}`,
+      crumb: symptomName,
+    };
+  }
+  if (categoryName) return { heading: categoryName, title: `${categoryName} — Herbal Remedies`, crumb: categoryName };
+  if (bestsellers) return { heading: 'Bestsellers', title: 'Bestselling Herbal Remedies', crumb: 'Bestsellers' };
+  if (featured) return { heading: 'Featured remedies', title: 'Featured Herbal Remedies', crumb: 'Featured' };
+  return { heading: 'Every remedy, in one place', title: PAGES.shop.title, crumb: undefined };
 }
 
 function SortSelect({ ordering, onChange }: { ordering: string; onChange: (value: string) => void }) {

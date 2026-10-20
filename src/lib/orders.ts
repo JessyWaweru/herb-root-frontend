@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, listItems } from './api';
 import type { Cart, DeliveryMethod, Order, Paginated } from '../types';
 
 export async function fetchCart() {
@@ -51,7 +51,7 @@ export async function checkout(payload: CheckoutPayload) {
 
 export async function fetchOrders() {
   const { data } = await api.get<Paginated<Order> | Order[]>('/orders/orders/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function fetchOrder(orderNumber: string) {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Heart, LogOut, Menu, ShoppingBasket, X } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { useCart } from '../../hooks/useCart';
@@ -85,7 +85,7 @@ export function Navbar() {
                 {/* On small screens the greeting is hidden, so name the link for screen readers. */}
                 <span className="sr-only xl:hidden">Your account, signed in as {name}</span>
                 <Avatar name={name} />
-                <motion.span
+                <m.span
                   initial={{ opacity: 0, x: -6 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, ease: 'easeOut' }}
@@ -95,7 +95,7 @@ export function Navbar() {
                   <span className="block max-w-[8.5rem] truncate font-display text-[17px] italic text-sage-900">
                     {name}
                   </span>
-                </motion.span>
+                </m.span>
               </Link>
               <div className="invisible absolute right-0 mt-1 w-48 rounded-2xl border border-cream-300 bg-cream-50 p-2 opacity-0 shadow-lift transition group-hover:visible group-hover:opacity-100">
                 <p className="truncate px-3 py-1.5 text-xs text-ink-600">{user?.email}</p>

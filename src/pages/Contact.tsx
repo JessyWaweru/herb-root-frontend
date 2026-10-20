@@ -8,6 +8,8 @@ import { Button } from '../components/ui/Button';
 import { sendContactMessage, type ContactPayload } from '../lib/core';
 import { apiErrorMessage } from '../lib/api';
 import { useAuthStore } from '../stores/authStore';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { CRUMBS } from '../seo/site';
 
 export function Contact() {
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,8 @@ export function Contact() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <Breadcrumbs items={CRUMBS['/contact']} />
       <h1 className="font-display text-3xl text-sage-900 sm:text-4xl">Get in touch</h1>
       <p className="mt-3 max-w-lg text-ink-600">
         Questions about a remedy, an order, or growing partnerships? We'd love to hear from you.

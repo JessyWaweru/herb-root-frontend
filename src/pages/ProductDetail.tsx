@@ -9,11 +9,15 @@ import { StarRating } from '../components/ui/StarRating';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
 import { EmailUsButton } from '../components/experts/EmailUsButton';
-import { formatPrice } from '../lib/format';
+import { formatPrice, resolveMediaUrl } from '../lib/format';
+import { Seo } from '../components/seo/Seo';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { breadcrumbJsonLd, graph, productJsonLd, summarize, type Crumb } from '../seo/site';
 import { ProductGallery } from '../components/product/ProductGallery';
 import { PlantGardenAlbum } from '../components/product/PlantGardenAlbum';
 import { ReviewsSection } from '../components/product/ReviewsSection';
 import { ProductGrid } from '../components/product/ProductGrid';
+import { ItemNotFound } from '../components/ui/ItemNotFound';
 
 export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -24,32 +28,31 @@ export function ProductDetail() {
 
   if (isLoading) return <PageSpinner />;
   if (!product) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="font-display text-2xl text-sage-900">We couldn't find that remedy</h1>
-        <Link to="/shop" className="mt-4 inline-block text-sage-700 underline">
-          Back to shop
-        </Link>
-      </div>
-    );
+    return <ItemNotFound title="We couldn't find that remedy" linkTo="/shop" linkLabel="Back to shop" />;
   }
 
   const wishlisted = isWishlisted(product.id);
+  const crumbs: Crumb[] = [
+    { label: 'Shop', to: '/shop' },
+    ...(product.category ? [{ label: product.category.name, to: `/shop?category=${product.category.slug}` }] : []),
+    { label: product.name, to: `/shop/${product.slug}` },
+  ];
+  const images = [product.primary_image_url, ...product.gallery_images.map((img) => img.image_url)]
+    .filter(Boolean)
+    .map(resolveMediaUrl);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <nav className="mb-6 text-xs text-ink-600">
-        <Link to="/shop" className="hover:text-sage-700">Shop</Link>
-        {product.category && (
-          <>
-            {' '}/{' '}
-            <Link to={`/shop?category=${product.category.slug}`} className="hover:text-sage-700">
-              {product.category.name}
-            </Link>
-          </>
-        )}
-        {' '}/ <span className="text-ink-800">{product.name}</span>
-      </nav>
+      <Seo
+        title={product.category ? `${product.name} — ${product.category.name}` : product.name}
+        description={summarize(`${product.short_description} ${product.description}`)}
+        path={`/shop/${product.slug}`}
+        type="product"
+        image={images[0]}
+        imageAlt={product.name}
+        jsonLd={graph(productJsonLd({ ...product, images }), breadcrumbJsonLd(crumbs))}
+      />
+      <Breadcrumbs items={crumbs} />
 
       <div className="grid gap-12 lg:grid-cols-2">
         <ProductGallery product={product} />

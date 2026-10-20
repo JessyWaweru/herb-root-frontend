@@ -49,6 +49,7 @@ export function Footer() {
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-cream-200/70">Company</h2>
             <ul className="space-y-2 text-sm text-cream-100/90">
               <li><Link to="/about" className="hover:text-gold-400">Our story</Link></li>
+              <li><Link to="/experts" className="hover:text-gold-400">Talk to an expert</Link></li>
               <li><Link to="/contact" className="hover:text-gold-400">Contact us</Link></li>
               <li><Link to="/account/orders" className="hover:text-gold-400">Track an order</Link></li>
             </ul>

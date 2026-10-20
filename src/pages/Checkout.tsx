@@ -90,7 +90,12 @@ export function Checkout() {
   if (!cart || cart.items.length === 0) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-24">
-        <EmptyState icon="🧺" title="Your basket is empty" description="Add a few remedies before checking out." />
+        <EmptyState
+          icon="🧺"
+          headingLevel={1}
+          title="Your basket is empty"
+          description="Add a few remedies before checking out."
+        />
       </div>
     );
   }

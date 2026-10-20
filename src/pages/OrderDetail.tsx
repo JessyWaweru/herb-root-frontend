@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Bike, CheckCircle2, Clock, PackageSearch, Store, XCircle } from 'lucide-react';
 import { useOrder } from '../hooks/useOrders';
 import { useVerifyPayment } from '../hooks/usePayments';
 import { PageSpinner } from '../components/ui/Spinner';
-import { Button } from '../components/ui/Button';
+import { ButtonLink } from '../components/ui/Button';
 import { OrderTimeline } from '../components/order/OrderTimeline';
 import { formatDate, formatPrice } from '../lib/format';
 import type { OrderStatus } from '../types';
+import { ItemNotFound } from '../components/ui/ItemNotFound';
 
 const STATUS_META: Record<OrderStatus, { label: string; tone: string; icon: typeof Clock }> = {
   pending: { label: 'Awaiting payment', tone: 'text-gold-700 bg-gold-300/40', icon: Clock },
@@ -46,14 +47,7 @@ export function OrderDetail() {
   if (isLoading || verifying) return <PageSpinner />;
 
   if (!order) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="font-display text-2xl text-sage-900">Order not found</h1>
-        <Link to="/account/orders" className="mt-4 inline-block text-sage-700 underline">
-          View your orders
-        </Link>
-      </div>
-    );
+    return <ItemNotFound title="Order not found" linkTo="/account/orders" linkLabel="View your orders" />;
   }
 
   const status = STATUS_META[order.status];
@@ -138,12 +132,8 @@ export function OrderDetail() {
         )}
 
         <div className="mt-8 flex justify-center gap-3">
-          <Link to="/shop">
-            <Button variant="outline">Continue shopping</Button>
-          </Link>
-          <Link to="/account/orders">
-            <Button>View all orders</Button>
-          </Link>
+          <ButtonLink to="/shop" variant="outline">Continue shopping</ButtonLink>
+          <ButtonLink to="/account/orders">View all orders</ButtonLink>
         </div>
       </div>
     </div>

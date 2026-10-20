@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Search, Sparkles } from 'lucide-react';
 import { useSmartSearchNavigate } from '../../hooks/useSmartSearch';
 
@@ -14,48 +14,48 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-botanical">
-      <motion.div
+      <m.div
         className="pointer-events-none absolute -left-16 top-10 text-8xl opacity-20"
         animate={{ y: [0, -14, 0], rotate: [-4, 4, -4] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
         🌿
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         className="pointer-events-none absolute -right-10 top-32 text-7xl opacity-20"
         animate={{ y: [0, 16, 0], rotate: [3, -3, 3] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       >
         🌸
-      </motion.div>
-      <motion.div
+      </m.div>
+      <m.div
         className="pointer-events-none absolute bottom-0 left-1/4 text-6xl opacity-10"
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
       >
         🍃
-      </motion.div>
+      </m.div>
 
       <div className="mx-auto flex max-w-5xl flex-col items-center px-4 py-20 text-center sm:py-28">
-        <motion.span
+        <m.span
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-5 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-sage-700"
         >
           <Sparkles size={13} /> Grown, dried, and blended with care
-        </motion.span>
+        </m.span>
 
-        <motion.h1
+        <m.h1
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-balance font-display text-4xl leading-tight text-sage-900 sm:text-5xl md:text-6xl"
         >
           Remedies rooted in nature.
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -63,9 +63,9 @@ export function Hero() {
         >
           Herbs traditionally used to ease what ails you, with full ingredients and origin on every
           label.
-        </motion.p>
+        </m.p>
 
-        <motion.form
+        <m.form
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -86,7 +86,7 @@ export function Hero() {
           >
             Find relief
           </button>
-        </motion.form>
+        </m.form>
       </div>
     </section>
   );

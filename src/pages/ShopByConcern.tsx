@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useSymptoms } from '../hooks/useProducts';
 import { Spinner } from '../components/ui/Spinner';
 import { SmartSearchBar } from '../components/search/SmartSearchBar';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { CRUMBS } from '../seo/site';
 
 export function ShopByConcern() {
   const { data: symptoms, isLoading } = useSymptoms();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <Breadcrumbs items={CRUMBS['/concerns']} />
       <div className="mb-10 flex flex-col items-center text-center">
         <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">Shop by concern</span>
         <h1 className="mt-1 font-display text-3xl text-sage-900 sm:text-4xl">What are you feeling today?</h1>
@@ -29,7 +32,7 @@ export function ShopByConcern() {
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {symptoms?.map((symptom, i) => (
-            <motion.div
+            <m.div
               key={symptom.id}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -49,7 +52,7 @@ export function ShopByConcern() {
                   {symptom.product_count} {symptom.product_count === 1 ? 'remedy' : 'remedies'}
                 </span>
               </Link>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       )}

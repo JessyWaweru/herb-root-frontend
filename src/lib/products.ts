@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, listItems } from './api';
 import type {
   Category,
   Ingredient,
@@ -50,12 +50,12 @@ export async function fetchProduct(slug: string) {
 
 export async function fetchFeaturedProducts() {
   const { data } = await api.get<Paginated<ProductSummary> | ProductSummary[]>('/products/featured/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function fetchBestsellers() {
   const { data } = await api.get<Paginated<ProductSummary> | ProductSummary[]>('/products/bestsellers/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function fetchCategories() {
@@ -75,7 +75,7 @@ export async function fetchIngredients() {
 
 export async function fetchProductReviews(productSlug: string) {
   const { data } = await api.get<Paginated<Review> | Review[]>(`/products/${productSlug}/reviews/`);
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function createProductReview(
@@ -88,7 +88,7 @@ export async function createProductReview(
 
 export async function fetchWishlist() {
   const { data } = await api.get<Paginated<WishlistItem> | WishlistItem[]>('/wishlist/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function addToWishlist(productId: string) {

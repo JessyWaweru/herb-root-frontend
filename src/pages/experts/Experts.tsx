@@ -5,6 +5,8 @@ import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { ExpertCard } from '../../components/experts/ExpertCard';
 import { EmailUsButton } from '../../components/experts/EmailUsButton';
+import { Breadcrumbs } from '../../components/seo/Breadcrumbs';
+import { CRUMBS } from '../../seo/site';
 import type { ExpertKind } from '../../types';
 
 const FILTERS: { kind?: ExpertKind; label: string }[] = [
@@ -18,7 +20,8 @@ export function Experts() {
   const { data: experts, isLoading } = useExperts(kind);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <Breadcrumbs items={CRUMBS['/experts']} />
       <div className="max-w-2xl">
         <h1 className="font-display text-4xl text-sage-900">Talk to an expert</h1>
         <p className="mt-3 text-ink-700">

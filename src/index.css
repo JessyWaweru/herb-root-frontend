@@ -149,3 +149,36 @@
   outline: 2px solid var(--color-sage-600);
   outline-offset: 2px;
 }
+
+/* Plain page summary the build writes for visitors without JavaScript. */
+.noscript-page {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  line-height: 1.6;
+}
+.noscript-page nav ul,
+.noscript-page nav ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+.noscript-page h1 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+.noscript-page h2 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.noscript-page a {
+  color: var(--color-sage-700);
+  text-decoration: underline;
+}
+.legal nav[aria-label='Breadcrumb'] a {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
