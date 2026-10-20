@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import type { ProductDetail } from '../../types';
 import { resolveMediaUrl } from '../../lib/format';
@@ -15,7 +15,7 @@ export function ProductGallery({ product }: { product: ProductDetail }) {
     <div>
       <div className="aspect-square overflow-hidden rounded-3xl border border-cream-300 bg-sage-50">
         <AnimatePresence mode="wait">
-          <motion.img
+          <m.img
             key={images[active]?.id ?? active}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

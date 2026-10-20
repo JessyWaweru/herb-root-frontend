@@ -1,6 +1,6 @@
 import { useRef, useState, type ComponentType } from 'react';
 import {
-  motion,
+  m,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -40,15 +40,15 @@ function WholePlant({ stroke, fill, accent, active }: IllustrationProps) {
   });
   return (
     <svg viewBox="0 0 160 160" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-      <motion.path d="M28 100H132" stroke={stroke} strokeWidth="2" strokeDasharray="2 6" {...draw(active)} />
+      <m.path d="M28 100H132" stroke={stroke} strokeWidth="2" strokeDasharray="2 6" {...draw(active)} />
       <g stroke={stroke} strokeWidth="2.5">
-        <motion.path d="M80 100C80 112 74 121 64 129" {...draw(active, 0.2)} />
-        <motion.path d="M80 100C82 113 90 122 100 130" {...draw(active, 0.25)} />
-        <motion.path d="M80 103C78 116 80 127 80 138" {...draw(active, 0.3)} />
-        <motion.path d="M70 118L60 116M92 119L102 114M80 126L72 132" {...draw(active, 0.6)} />
+        <m.path d="M80 100C80 112 74 121 64 129" {...draw(active, 0.2)} />
+        <m.path d="M80 100C82 113 90 122 100 130" {...draw(active, 0.25)} />
+        <m.path d="M80 103C78 116 80 127 80 138" {...draw(active, 0.3)} />
+        <m.path d="M70 118L60 116M92 119L102 114M80 126L72 132" {...draw(active, 0.6)} />
       </g>
-      <motion.path d="M80 100C80 80 78 60 80 42" stroke={stroke} strokeWidth="3" {...draw(active, 0.35)} />
-      <motion.path
+      <m.path d="M80 100C80 80 78 60 80 42" stroke={stroke} strokeWidth="3" {...draw(active, 0.35)} />
+      <m.path
         d="M80 78C64 77 52 66 49 52C64 52 76 62 80 74Z"
         fill={fill}
         stroke={stroke}
@@ -56,7 +56,7 @@ function WholePlant({ stroke, fill, accent, active }: IllustrationProps) {
         {...pop(active, 0.75)}
         style={{ originX: '80px', originY: '76px' }}
       />
-      <motion.path
+      <m.path
         d="M80 64C94 61 106 50 111 37C96 37 84 47 80 60Z"
         fill={fill}
         stroke={stroke}
@@ -64,12 +64,12 @@ function WholePlant({ stroke, fill, accent, active }: IllustrationProps) {
         {...pop(active, 0.85)}
         style={{ originX: '80px', originY: '62px' }}
       />
-      <motion.g {...pop(active, 1)} style={{ originX: '80px', originY: '36px' }}>
+      <m.g {...pop(active, 1)} style={{ originX: '80px', originY: '36px' }}>
         {petals.map((p, i) => (
           <circle key={i} cx={p.cx} cy={p.cy} r="6.5" fill={fill} stroke={stroke} strokeWidth="2" />
         ))}
         <circle cx="80" cy="36" r="5" fill={accent} />
-      </motion.g>
+      </m.g>
     </svg>
   );
 }
@@ -77,7 +77,7 @@ function WholePlant({ stroke, fill, accent, active }: IllustrationProps) {
 function CalmMind({ stroke, fill, accent, active }: IllustrationProps) {
   return (
     <svg viewBox="0 0 160 160" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-      <motion.path
+      <m.path
         d="M60 136V114C44 107 36 91 38 72C40 46 61 28 88 28C113 28 130 47 128 70C128 78 132 84 136 90C138 94 134 97 130 97V107C130 115 124 119 116 119H104V136"
         fill={fill}
         stroke={stroke}
@@ -85,8 +85,8 @@ function CalmMind({ stroke, fill, accent, active }: IllustrationProps) {
         {...draw(active)}
         transition={{ pathLength: { duration: 1.4, ease: 'easeInOut' }, opacity: { duration: 0.2 } }}
       />
-      <motion.path d="M84 102C84 84 86 68 93 54" stroke={stroke} strokeWidth="2.5" {...draw(active, 0.7)} />
-      <motion.path
+      <m.path d="M84 102C84 84 86 68 93 54" stroke={stroke} strokeWidth="2.5" {...draw(active, 0.7)} />
+      <m.path
         d="M86 84C75 82 68 74 68 64C79 66 86 73 86 82Z"
         fill={accent}
         stroke={stroke}
@@ -94,7 +94,7 @@ function CalmMind({ stroke, fill, accent, active }: IllustrationProps) {
         {...pop(active, 1.1)}
         style={{ originX: '86px', originY: '83px' }}
       />
-      <motion.path
+      <m.path
         d="M89 68C99 64 105 55 105 46C96 48 90 55 89 64Z"
         fill={accent}
         stroke={stroke}
@@ -103,11 +103,11 @@ function CalmMind({ stroke, fill, accent, active }: IllustrationProps) {
         style={{ originX: '89px', originY: '66px' }}
       />
       <g stroke={stroke} strokeWidth="2">
-        <motion.path d="M138 40C142 36 146 36 150 40" {...draw(active, 1.3)} />
-        <motion.path d="M134 30C140 24 148 24 154 30" {...draw(active, 1.4)} />
+        <m.path d="M138 40C142 36 146 36 150 40" {...draw(active, 1.3)} />
+        <m.path d="M134 30C140 24 148 24 154 30" {...draw(active, 1.4)} />
       </g>
-      <motion.circle cx="30" cy="40" r="3" fill={accent} {...pop(active, 1.5)} />
-      <motion.circle cx="22" cy="58" r="2" fill={accent} {...pop(active, 1.6)} />
+      <m.circle cx="30" cy="40" r="3" fill={accent} {...pop(active, 1.5)} />
+      <m.circle cx="22" cy="58" r="2" fill={accent} {...pop(active, 1.6)} />
     </svg>
   );
 }
@@ -115,7 +115,7 @@ function CalmMind({ stroke, fill, accent, active }: IllustrationProps) {
 function CaredBody({ stroke, fill, accent, active }: IllustrationProps) {
   return (
     <svg viewBox="0 0 160 160" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-      <motion.path
+      <m.path
         d="M80 134C42 110 30 86 34 66C38 47 58 40 72 50C76 53 78 56 80 60C82 56 84 53 88 50C102 40 122 47 126 66C130 86 118 110 80 134Z"
         fill={fill}
         stroke={stroke}
@@ -123,14 +123,14 @@ function CaredBody({ stroke, fill, accent, active }: IllustrationProps) {
         {...draw(active)}
         transition={{ pathLength: { duration: 1.3, ease: 'easeInOut' }, opacity: { duration: 0.2 } }}
       />
-      <motion.path
+      <m.path
         d="M14 92H50L58 76L68 110L78 82L86 96H146"
         stroke={stroke}
         strokeWidth="3"
         {...draw(active, 0.6)}
       />
-      <motion.path d="M80 60C80 48 84 38 94 30" stroke={stroke} strokeWidth="2.5" {...draw(active, 1)} />
-      <motion.path
+      <m.path d="M80 60C80 48 84 38 94 30" stroke={stroke} strokeWidth="2.5" {...draw(active, 1)} />
+      <m.path
         d="M89 40C89 28 99 19 112 19C112 32 102 40 89 40Z"
         fill={accent}
         stroke={stroke}
@@ -209,12 +209,12 @@ function Slide({
       aria-label={`${index + 1} of ${STAGES.length}: ${stage.eyebrow}`}
     >
       <div className="grid w-full max-w-5xl items-center gap-8 md:grid-cols-2 md:gap-16">
-        <motion.div
+        <m.div
           style={{ x: artX, rotate: artRotate, scale: artScale, opacity: fade }}
           className="relative mx-auto aspect-square w-56 sm:w-72 md:w-80"
         >
           <div className="absolute inset-0 rounded-full" style={{ background: `radial-gradient(circle, ${palette.fill} 0%, transparent 70%)` }} />
-          <motion.svg
+          <m.svg
             viewBox="0 0 200 200"
             className="absolute inset-0"
             animate={reduced ? undefined : { rotate: 360 }}
@@ -222,14 +222,14 @@ function Slide({
           >
             <circle cx="100" cy="100" r="94" fill="none" stroke={palette.stroke} strokeOpacity="0.25" strokeWidth="1" strokeDasharray="3 7" />
             <circle cx="100" cy="6" r="3.5" fill={palette.accent} />
-          </motion.svg>
+          </m.svg>
           <div className="absolute inset-[14%] rounded-full bg-cream-50/70 shadow-soft backdrop-blur-sm" />
           <div className="absolute inset-[18%]">
             <Illustration {...palette} active={active || reduced} />
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div style={{ x: textX, opacity: fade }} className="text-center md:text-left">
+        <m.div style={{ x: textX, opacity: fade }} className="text-center md:text-left">
           <p className="flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] md:justify-start" style={{ color: palette.stroke }}>
             <span className="font-display text-2xl tracking-normal">0{index + 1}</span>
             <span className="h-px w-8" style={{ background: palette.stroke }} />
@@ -237,7 +237,7 @@ function Slide({
           </p>
           <h2 className="mt-4 font-display text-4xl leading-tight text-sage-900 sm:text-5xl">{stage.title}</h2>
           <p className="mx-auto mt-4 max-w-sm text-balance text-ink-600 md:mx-0">{stage.line}</p>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );
@@ -281,7 +281,7 @@ export function MindBodyTransition() {
 
   return (
     <section className="relative overflow-hidden bg-botanical py-16 sm:py-24" aria-roledescription="carousel" aria-label="One herb, taken whole">
-      <motion.div className="pointer-events-none absolute inset-0" style={{ background: backdrop }} />
+      <m.div className="pointer-events-none absolute inset-0" style={{ background: backdrop }} />
 
       <div className="relative mb-6 text-center sm:mb-10">
         <span className="text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">One herb, taken whole</span>
@@ -346,7 +346,7 @@ function ProgressSegment({
   return (
     <button onClick={onClick} aria-label={`Go to ${label}`} aria-current={current} className="relative h-8 flex-1">
       <span className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 overflow-hidden rounded-full bg-sage-200/60">
-        <motion.span className="absolute inset-0 origin-left rounded-full" style={{ background: color, scaleX: fill }} />
+        <m.span className="absolute inset-0 origin-left rounded-full" style={{ background: color, scaleX: fill }} />
       </span>
     </button>
   );

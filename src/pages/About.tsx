@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+
+import { m } from 'framer-motion';
 import { Leaf, MapPinned, ShieldCheck, Sprout } from 'lucide-react';
-import { Button } from '../components/ui/Button';
+import { ButtonLink } from '../components/ui/Button';
+import { Breadcrumbs } from '../components/seo/Breadcrumbs';
+import { CRUMBS } from '../seo/site';
 
 const VALUES = [
   { icon: Sprout, title: 'Grown with intention', desc: 'Every herb is grown in our own Senses Garden, never mass-synthesized.' },
@@ -12,8 +14,9 @@ const VALUES = [
 export function About() {
   return (
     <div>
-      <section className="bg-botanical px-4 py-20 text-center sm:px-6 lg:px-8">
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+      <section className="bg-botanical px-4 pb-20 pt-10 text-center sm:px-6 lg:px-8">
+        <Breadcrumbs items={CRUMBS['/about']} className="mx-auto mb-10 max-w-6xl text-left" />
+        <m.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-sage-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-sage-700">
             <Leaf size={13} /> Our story
           </span>
@@ -25,7 +28,7 @@ export function About() {
             almost nothing about what's actually inside, or where it grew. So we built a shop where
             every product carries its full story — ingredients, origin, and purpose.
           </p>
-        </motion.div>
+        </m.div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
@@ -45,9 +48,7 @@ export function About() {
       <section className="mx-auto max-w-4xl px-4 py-16 text-center sm:px-6 lg:px-8">
         <h2 className="font-display text-3xl text-sage-900">Ready to find what helps?</h2>
         <p className="mt-3 text-ink-600">Search by symptom or browse the full shop.</p>
-        <Link to="/shop">
-          <Button size="lg" className="mt-6">Explore remedies</Button>
-        </Link>
+        <ButtonLink to="/shop" size="lg" className="mt-6">Explore remedies</ButtonLink>
       </section>
     </div>
   );

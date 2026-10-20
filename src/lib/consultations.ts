@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, listItems } from './api';
 import type { Consultation, ConsultationMode, Expert, ExpertKind, Paginated } from '../types';
 
 export async function fetchExperts(kind?: ExpertKind) {
@@ -27,7 +27,7 @@ export async function bookConsultation(payload: BookingPayload) {
 
 export async function fetchConsultations() {
   const { data } = await api.get<Paginated<Consultation> | Consultation[]>('/consultations/bookings/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function fetchConsultation(reference: string) {

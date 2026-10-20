@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, listItems } from './api';
 import type { Address, User } from '../types';
 
 export interface RegisterPayload {
@@ -81,7 +81,7 @@ export async function changePassword(old_password: string, new_password: string)
 
 export async function fetchAddresses() {
   const { data } = await api.get<Address[] | { results: Address[] }>('/auth/addresses/');
-  return Array.isArray(data) ? data : data.results;
+  return listItems(data);
 }
 
 export async function createAddress(payload: Omit<Address, 'id' | 'created_at'>) {

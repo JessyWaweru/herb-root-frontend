@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useOrders } from '../../hooks/useOrders';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { Button } from '../../components/ui/Button';
+import { ButtonLink } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { formatDate, formatPrice } from '../../lib/format';
 
@@ -28,9 +28,7 @@ export function AccountOrders() {
         title="No orders yet"
         description="Once you place an order, you'll be able to track it here."
         action={
-          <Link to="/shop">
-            <Button>Start shopping</Button>
-          </Link>
+          <ButtonLink to="/shop">Start shopping</ButtonLink>
         }
       />
     );

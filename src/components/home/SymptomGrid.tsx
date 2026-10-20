@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useSymptoms } from '../../hooks/useProducts';
 import { Spinner } from '../ui/Spinner';
@@ -25,7 +25,7 @@ export function SymptomGrid() {
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
           {preview?.map((symptom, i) => (
-            <motion.div
+            <m.div
               key={symptom.id}
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -40,7 +40,7 @@ export function SymptomGrid() {
                 <span className="text-sm font-semibold text-sage-900">{symptom.name}</span>
                 <span className="text-xs text-ink-600">{symptom.product_count} remedies</span>
               </Link>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       )}

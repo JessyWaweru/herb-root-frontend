@@ -3,6 +3,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
+import { LazyMotion } from 'framer-motion';
 // Fonts are bundled with the site rather than loaded from Google, so visitors' IPs aren't sent there.
 import '@fontsource-variable/fraunces/opsz.css';
 import '@fontsource-variable/fraunces/opsz-italic.css';
@@ -28,7 +29,10 @@ if (useAuthStore.getState().isAuthenticated) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      {/* Animations use the lightweight `m` components; the engine loads separately. */}
+      <LazyMotion features={() => import('./lib/motionFeatures').then((mod) => mod.default)} strict>
+        <RouterProvider router={router} />
+      </LazyMotion>
       <AppToaster />
     </QueryClientProvider>
   </StrictMode>,

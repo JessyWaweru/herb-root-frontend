@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { CalendarCheck, CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { useConsultation } from '../../hooks/useConsultations';
 import { useVerifyPayment } from '../../hooks/usePayments';
 import { PageSpinner } from '../../components/ui/Spinner';
-import { Button } from '../../components/ui/Button';
+import { ButtonLink } from '../../components/ui/Button';
 import { ExpertAvatar } from '../../components/experts/ExpertCard';
 import { formatPrice } from '../../lib/format';
 import type { ConsultationStatus } from '../../types';
+import { ItemNotFound } from '../../components/ui/ItemNotFound';
 
 const STATUS_META: Record<ConsultationStatus, { headline: string; tone: string; icon: typeof Clock }> = {
   pending_payment: { headline: 'Awaiting payment', tone: 'text-gold-700 bg-gold-300/40', icon: Clock },
@@ -48,14 +49,7 @@ export function ConsultationDetail() {
   if (isLoading || verifying) return <PageSpinner />;
 
   if (!consultation) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="font-display text-2xl text-sage-900">Booking not found</h1>
-        <Link to="/account/consultations" className="mt-4 inline-block text-sage-700 underline">
-          View your consultations
-        </Link>
-      </div>
-    );
+    return <ItemNotFound title="Booking not found" linkTo="/account/consultations" linkLabel="View your consultations" />;
   }
 
   const status = STATUS_META[consultation.status];
@@ -122,12 +116,8 @@ export function ConsultationDetail() {
         )}
 
         <div className="mt-8 flex justify-center gap-3">
-          <Link to="/experts">
-            <Button variant="outline">Browse experts</Button>
-          </Link>
-          <Link to="/account/consultations">
-            <Button>My consultations</Button>
-          </Link>
+          <ButtonLink to="/experts" variant="outline">Browse experts</ButtonLink>
+          <ButtonLink to="/account/consultations">My consultations</ButtonLink>
         </div>
       </div>
     </div>

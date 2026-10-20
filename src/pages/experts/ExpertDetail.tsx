@@ -12,9 +12,13 @@ import { PageSpinner } from '../../components/ui/Spinner';
 import { Button } from '../../components/ui/Button';
 import { Input, Textarea } from '../../components/ui/Input';
 import { ExpertAvatar } from '../../components/experts/ExpertCard';
-import { formatPrice } from '../../lib/format';
+import { formatPrice, resolveMediaUrl } from '../../lib/format';
 import { apiErrorMessage } from '../../lib/api';
+import { Seo } from '../../components/seo/Seo';
+import { Breadcrumbs } from '../../components/seo/Breadcrumbs';
+import { breadcrumbJsonLd, graph, summarize, type Crumb } from '../../seo/site';
 import type { ConsultationMode } from '../../types';
+import { ItemNotFound } from '../../components/ui/ItemNotFound';
 
 const MODE_META: Record<ConsultationMode, { label: string; icon: typeof Phone }> = {
   email: { label: 'Email', icon: Mail },
@@ -67,17 +71,14 @@ export function ExpertDetail() {
   if (isLoading) return <PageSpinner />;
 
   if (!expert) {
-    return (
-      <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="font-display text-2xl text-sage-900">Expert not found</h1>
-        <Link to="/experts" className="mt-4 inline-block text-sage-700 underline">
-          See all experts
-        </Link>
-      </div>
-    );
+    return <ItemNotFound title="Expert not found" linkTo="/experts" linkLabel="See all experts" />;
   }
 
   const isFree = !Number(expert.fee);
+  const crumbs: Crumb[] = [
+    { label: 'Experts', to: '/experts' },
+    { label: expert.name, to: `/experts/${expert.slug}` },
+  ];
 
   const onSubmit = async (values: BookingForm) => {
     try {
@@ -98,12 +99,18 @@ export function ExpertDetail() {
   };
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
-      <Link to="/experts" className="text-sm font-semibold text-sage-700 hover:underline">
-        ← All experts
-      </Link>
+    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <Seo
+        title={`${expert.name}, ${expert.title}`}
+        description={summarize(`Book a ${expert.session_minutes}-minute session with ${expert.name} (${expert.kind_label}) by ${expert.modes.join(', ')}. ${expert.bio}`)}
+        path={`/experts/${expert.slug}`}
+        image={expert.photo_url ? resolveMediaUrl(expert.photo_url) : undefined}
+        imageAlt={expert.name}
+        jsonLd={graph(breadcrumbJsonLd(crumbs))}
+      />
+      <Breadcrumbs items={crumbs} />
 
-      <div className="mt-6 grid gap-10 lg:grid-cols-[1fr_380px]">
+      <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
         <div>
           <div className="flex items-center gap-5">
             <ExpertAvatar expert={expert} size="lg" />

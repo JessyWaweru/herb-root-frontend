@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export function GardenStory() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="grid items-center gap-10 rounded-[2.5rem] bg-sage-800 p-8 text-cream-50 sm:p-14 md:grid-cols-2">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: -16 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -24,12 +24,12 @@ export function GardenStory() {
           >
             Explore the remedies
           </Link>
-        </motion.div>
+        </m.div>
 
         <div>
           <div className="grid h-80 grid-cols-3 grid-rows-3 gap-2.5 sm:h-[26rem]">
             {PHOTOS.map((photo, i) => (
-              <motion.figure
+              <m.figure
                 key={photo.name}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -47,7 +47,7 @@ export function GardenStory() {
                 <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-3 pb-2 pt-6 text-[11px] font-medium italic tracking-wide text-cream-50/95">
                   {photo.name}
                 </figcaption>
-              </motion.figure>
+              </m.figure>
             ))}
           </div>
           {/* The CC BY-SA licences require visible credit, a licence link and the source. */}

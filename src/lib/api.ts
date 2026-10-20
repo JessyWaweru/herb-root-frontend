@@ -1,5 +1,6 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '../stores/authStore';
+import type { Paginated } from '../types';
 
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -9,6 +10,11 @@ export const api = axios.create({
   timeout: 15000,
   withCredentials: true,
 });
+
+/** Some list endpoints are paginated and some aren't; this returns the items either way. */
+export function listItems<T>(data: Pick<Paginated<T>, 'results'> | T[]): T[] {
+  return Array.isArray(data) ? data : data.results;
+}
 
 // The CSRF cookie belongs to the API's origin, which this page can't read, so the
 // token is fetched once from the API and sent back on every unsafe request.

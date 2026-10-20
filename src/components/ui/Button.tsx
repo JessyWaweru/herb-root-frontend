@@ -1,4 +1,5 @@
 import { type ButtonHTMLAttributes, type ReactNode, forwardRef } from 'react';
+import { Link, type LinkProps } from 'react-router-dom';
 import clsx from 'clsx';
 
 type Variant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
@@ -25,21 +26,20 @@ const sizeClasses: Record<Size, string> = {
   lg: 'text-base px-7 py-3.5 gap-2.5',
 };
 
+function buttonClasses(variant: Variant, size: Size, className?: string) {
+  return clsx(
+    'inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200',
+    'disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]',
+    variantClasses[variant],
+    sizeClasses[size],
+    className,
+  );
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', isLoading, icon, className, children, disabled, ...props }, ref) => {
     return (
-      <button
-        ref={ref}
-        disabled={disabled || isLoading}
-        className={clsx(
-          'inline-flex items-center justify-center rounded-full font-semibold transition-all duration-200',
-          'disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]',
-          variantClasses[variant],
-          sizeClasses[size],
-          className,
-        )}
-        {...props}
-      >
+      <button ref={ref} disabled={disabled || isLoading} className={buttonClasses(variant, size, className)} {...props}>
         {isLoading ? (
           <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
         ) : (
@@ -52,3 +52,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
+
+interface ButtonLinkProps extends LinkProps {
+  variant?: Variant;
+  size?: Size;
+  icon?: ReactNode;
+}
+
+/** A link that looks like a Button, for actions that go to another page. */
+export function ButtonLink({ variant = 'primary', size = 'md', icon, className, children, ...props }: ButtonLinkProps) {
+  return (
+    <Link className={buttonClasses(variant, size, className)} {...props}>
+      {icon}
+      {children}
+    </Link>
+  );
+}

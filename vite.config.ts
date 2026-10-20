@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { seoPages } from './build/seo.ts'
 
 /**
  * Content-Security-Policy for the built site: scripts only from this site and Cloudflare
@@ -38,7 +39,29 @@ function contentSecurityPolicy(apiBaseUrl: string): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
   return {
-    plugins: [react(), tailwindcss(), contentSecurityPolicy(env.VITE_API_BASE_URL)],
+    plugins: [
+      react(),
+      tailwindcss(),
+      contentSecurityPolicy(env.VITE_API_BASE_URL),
+      seoPages({ apiBaseUrl: env.VITE_API_BASE_URL }),
+    ],
+    build: {
+      // No source maps in production: they'd publish the original source code.
+      sourcemap: false,
+      rolldownOptions: {
+        output: {
+          // Libraries in their own files: they change rarely, so browsers keep them cached
+          // across deploys and download them in parallel with the app code.
+          codeSplitting: {
+            groups: [
+              { name: 'vendor', test: /node_modules[\\/](react|react-dom|scheduler)[\\/]/ },
+              { name: 'routing', test: /node_modules[\\/](react-router|react-router-dom)[\\/]/ },
+              // framer-motion is left to split by itself, so its animation engine stays lazy-loaded.
+            ],
+          },
+        },
+      },
+    },
     server: {
       port: 5173,
     },

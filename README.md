@@ -51,3 +51,22 @@ This is a static site: `npm run build` outputs `dist/`. On Render, create a **St
 pointing at this repo, build command `npm run build`, publish directory `dist`, and set
 `VITE_API_BASE_URL` to the deployed backend's URL. Remember to add this site's URL to the
 backend's `CORS_ALLOWED_ORIGINS` / `CSRF_TRUSTED_ORIGINS` / `FRONTEND_URL`.
+
+Add a rewrite rule `/*` → `/index.html` so app routes like `/orders/123` load the app. Static
+hosts serve real files before rewrites, so the per-page HTML files described below still win.
+
+## SEO
+
+- **Titles, descriptions, canonical links, link-preview tags and breadcrumbs** for fixed pages live
+  in `src/seo/site.ts`. `src/components/seo/Seo.tsx` updates the `<head>` as visitors move around;
+  product and expert pages build theirs from API data. Wording there should say what herbs are
+  *traditionally used for*, never that they treat or cure anything.
+- **At build time** `build/seo.ts` writes a separate HTML file for every public page, product and
+  expert (`dist/about/index.html` and `dist/about.html`, and so on), each with its own head tags,
+  JSON-LD (Organization, WebSite, Store, Product, BreadcrumbList) and a `<noscript>` summary, plus
+  `sitemap.xml`, `robots.txt`, `llms.txt` and `404.html`. Products and experts come from
+  `VITE_API_BASE_URL`; if the API can't be reached the build still succeeds with only the fixed
+  pages, so **redeploy after adding or renaming products** to refresh the sitemap.
+- The site's address (`https://goherbal.health`) is set in `src/seo/site.ts`.
+- Icons are in `public/` (`favicon.ico`, `favicon.svg`, `apple-touch-icon.png`, `icons/`), and the
+  default link-preview image is `public/og/goherbal-share.png` (1200×630).

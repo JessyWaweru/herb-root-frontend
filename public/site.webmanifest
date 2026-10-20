@@ -1,0 +1,14 @@
+{
+  "name": "GOherbal",
+  "short_name": "GOherbal",
+  "description": "Herbal remedies chosen by how you feel, grown in our Senses Garden in Kenya.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fbf7ee",
+  "theme_color": "#0e4d3a",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

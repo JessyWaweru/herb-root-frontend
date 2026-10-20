@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Heart, ShoppingBasket } from 'lucide-react';
 import clsx from 'clsx';
 import type { ProductSummary } from '../../types';
@@ -15,7 +15,7 @@ export function ProductCard({ product, headingLevel = 3 }: { product: ProductSum
   const wishlisted = isWishlisted(product.id);
 
   return (
-    <motion.div
+    <m.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
       className="group relative flex flex-col overflow-hidden rounded-3xl border border-cream-300 bg-cream-50 shadow-soft"
@@ -89,6 +89,6 @@ export function ProductCard({ product, headingLevel = 3 }: { product: ProductSum
         </div>
         {!product.is_in_stock && <span className="text-xs font-medium text-rose-600">Out of stock</span>}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

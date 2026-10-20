@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAddToCart } from '../../hooks/useCart';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { Button } from '../../components/ui/Button';
+import { ButtonLink } from '../../components/ui/Button';
 import { formatPrice, resolveMediaUrl } from '../../lib/format';
 
 export function AccountWishlist() {
@@ -28,9 +28,7 @@ export function AccountWishlist() {
         title="Your wishlist is empty"
         description="Tap the heart on any product to save it here for later."
         action={
-          <Link to="/shop">
-            <Button>Browse remedies</Button>
-          </Link>
+          <ButtonLink to="/shop">Browse remedies</ButtonLink>
         }
       />
     );

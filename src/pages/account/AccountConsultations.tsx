@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useConsultations } from '../../hooks/useConsultations';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
-import { Button } from '../../components/ui/Button';
+import { ButtonLink } from '../../components/ui/Button';
 import { Badge } from '../../components/ui/Badge';
 import { formatDate } from '../../lib/format';
 import type { ConsultationStatus } from '../../types';
@@ -28,9 +28,7 @@ export function AccountConsultations() {
         title="No consultations yet"
         description="Book a session with a herbal coach or medical specialist."
         action={
-          <Link to="/experts">
-            <Button>Talk to an expert</Button>
-          </Link>
+          <ButtonLink to="/experts">Talk to an expert</ButtonLink>
         }
       />
     );

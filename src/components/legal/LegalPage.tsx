@@ -1,6 +1,7 @@
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { LEGAL } from '../../lib/legal';
+import { Breadcrumbs } from '../seo/Breadcrumbs';
 
 const LEGAL_LINKS = [
   { to: '/privacy', label: 'Privacy Policy' },
@@ -11,12 +12,11 @@ const LEGAL_LINKS = [
 
 /** Shared layout for the legal pages: readable line length, last-updated date, links between them. */
 export function LegalPage({ title, intro, children }: { title: string; intro: ReactNode; children: ReactNode }) {
-  useEffect(() => {
-    document.title = `${title} — GOherbal`;
-  }, [title]);
+  const path = LEGAL_LINKS.find((link) => link.label === title)?.to ?? '/';
 
   return (
-    <article className="legal mx-auto max-w-3xl px-4 py-14 sm:px-6 lg:px-8">
+    <article className="legal mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: title, to: path }]} />
       <p className="text-xs font-semibold uppercase tracking-wide text-sage-700">Last updated {LEGAL.lastUpdated}</p>
       <h1 className="mt-2 font-display text-3xl text-sage-900 sm:text-4xl">{title}</h1>
       <div className="mt-4 text-ink-700">{intro}</div>

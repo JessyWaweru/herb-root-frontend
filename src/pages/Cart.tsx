@@ -4,7 +4,7 @@ import { useCart, useRemoveCartItem, useUpdateCartItem } from '../hooks/useCart'
 import { useAuthStore } from '../stores/authStore';
 import { PageSpinner } from '../components/ui/Spinner';
 import { EmptyState } from '../components/ui/EmptyState';
-import { Button } from '../components/ui/Button';
+import { Button, ButtonLink } from '../components/ui/Button';
 import { formatPrice, resolveMediaUrl } from '../lib/format';
 
 export function Cart() {
@@ -19,12 +19,11 @@ export function Cart() {
       <div className="mx-auto max-w-2xl px-4 py-24">
         <EmptyState
           icon="🧺"
+          headingLevel={1}
           title="Sign in to see your basket"
           description="Your basket is saved to your account so it's there whenever you come back."
           action={
-            <Link to="/login">
-              <Button>Sign in</Button>
-            </Link>
+            <ButtonLink to="/login">Sign in</ButtonLink>
           }
         />
       </div>
@@ -38,12 +37,11 @@ export function Cart() {
       <div className="mx-auto max-w-2xl px-4 py-24">
         <EmptyState
           icon="🧺"
+          headingLevel={1}
           title="Your basket is empty"
           description="Explore remedies by what you're feeling, or browse the full shop."
           action={
-            <Link to="/shop">
-              <Button>Start shopping</Button>
-            </Link>
+            <ButtonLink to="/shop">Start shopping</ButtonLink>
           }
         />
       </div>
