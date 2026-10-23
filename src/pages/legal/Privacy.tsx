@@ -52,7 +52,11 @@ export function Privacy() {
               </tr>
               <tr>
                 <td>Payments: payment reference, amount, currency, method (e.g. card or M-Pesa) and status</td>
-                <td>To confirm you paid and to reconcile our accounts. Your card or M-Pesa details are entered on Paystack's page and never reach our servers</td>
+                <td>
+                  To confirm you paid and to reconcile our accounts. Card details are entered on Paystack's page and never
+                  reach our servers. If you choose an M-Pesa prompt, your M-Pesa number passes through our server to
+                  Paystack to send the prompt, and we don't keep it with your payment
+                </td>
                 <td>Contract; legal obligation</td>
               </tr>
               <tr>
@@ -111,7 +115,8 @@ export function Privacy() {
             out your consultation.
           </li>
           <li>
-            <strong>Paystack</strong> processes payments. You pay on Paystack's own page, under{' '}
+            <strong>Paystack</strong> processes payments, either on Paystack's own page or by sending an M-Pesa prompt
+            to the number you give us, under{' '}
             <a href="https://paystack.com/privacy/merchant" target="_blank" rel="noopener noreferrer">
               Paystack's privacy policy
             </a>

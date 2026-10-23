@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Bike, CheckCircle2, Clock, PackageSearch, Store, XCircle } from 'lucide-react';
 import { useOrder } from '../hooks/useOrders';
-import { useVerifyPayment } from '../hooks/usePayments';
+import { usePaymentConfirmation } from '../hooks/usePayments';
+import { PendingPayment } from '../components/payment/PendingPayment';
 import { PageSpinner } from '../components/ui/Spinner';
 import { ButtonLink } from '../components/ui/Button';
 import { OrderTimeline } from '../components/order/OrderTimeline';
@@ -27,24 +27,9 @@ export function OrderDetail() {
   const [params] = useSearchParams();
   const reference = params.get('reference') || params.get('trxref');
   const { data: order, isLoading, refetch } = useOrder(orderNumber);
-  const verifyPayment = useVerifyPayment();
-  const [verifying, setVerifying] = useState(Boolean(reference));
-  const attempted = useRef(false);
+  const payment = usePaymentConfirmation(reference, params.get('via') === 'mpesa', refetch);
 
-  useEffect(() => {
-    if (reference && !attempted.current) {
-      attempted.current = true;
-      verifyPayment.mutate(reference, {
-        onSettled: async () => {
-          await refetch();
-          setVerifying(false);
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reference]);
-
-  if (isLoading || verifying) return <PageSpinner />;
+  if (isLoading || payment.checking) return <PageSpinner />;
 
   if (!order) {
     return <ItemNotFound title="Order not found" linkTo="/account/orders" linkLabel="View your orders" />;
@@ -126,9 +111,15 @@ export function OrderDetail() {
         </div>
 
         {order.status === 'pending' && (
-          <p className="mt-6 rounded-xl bg-gold-300/30 p-3 text-center text-sm text-ink-700">
-            Payment hasn't been confirmed yet. If you completed payment, refresh this page in a moment.
-          </p>
+          <PendingPayment
+            target={{ order_number: order.order_number }}
+            returnPath={`/orders/${order.order_number}`}
+            amount={order.total_amount}
+            currency={order.currency}
+            defaultPhone={order.phone_number}
+            waitingForPin={payment.waitingForPin}
+            failed={payment.failed}
+          />
         )}
 
         <div className="mt-8 flex justify-center gap-3">

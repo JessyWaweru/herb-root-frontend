@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { CalendarCheck, CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { useConsultation } from '../../hooks/useConsultations';
-import { useVerifyPayment } from '../../hooks/usePayments';
+import { usePaymentConfirmation } from '../../hooks/usePayments';
+import { useAuthStore } from '../../stores/authStore';
+import { PendingPayment } from '../../components/payment/PendingPayment';
 import { PageSpinner } from '../../components/ui/Spinner';
 import { ButtonLink } from '../../components/ui/Button';
 import { ExpertAvatar } from '../../components/experts/ExpertCard';
@@ -28,25 +29,11 @@ export function ConsultationDetail() {
   const [params] = useSearchParams();
   const paymentReference = params.get('reference') || params.get('trxref');
   const { data: consultation, isLoading, refetch } = useConsultation(reference);
-  const verifyPayment = useVerifyPayment();
-  const [verifying, setVerifying] = useState(Boolean(paymentReference));
-  const attempted = useRef(false);
+  const userPhone = useAuthStore((s) => s.user?.phone_number);
+  // Coming back from Paystack or an M-Pesa prompt: confirm the payment before showing the booking.
+  const payment = usePaymentConfirmation(paymentReference, params.get('via') === 'mpesa', refetch);
 
-  // Coming back from Paystack: confirm the payment before showing the booking.
-  useEffect(() => {
-    if (paymentReference && !attempted.current) {
-      attempted.current = true;
-      verifyPayment.mutate(paymentReference, {
-        onSettled: async () => {
-          await refetch();
-          setVerifying(false);
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paymentReference]);
-
-  if (isLoading || verifying) return <PageSpinner />;
+  if (isLoading || payment.checking) return <PageSpinner />;
 
   if (!consultation) {
     return <ItemNotFound title="Booking not found" linkTo="/account/consultations" linkLabel="View your consultations" />;
@@ -110,9 +97,15 @@ export function ConsultationDetail() {
         </dl>
 
         {consultation.status === 'pending_payment' && (
-          <p className="mt-6 rounded-xl bg-gold-300/30 p-3 text-center text-sm text-ink-700">
-            Payment hasn't been confirmed yet. If you completed payment, refresh this page in a moment.
-          </p>
+          <PendingPayment
+            target={{ consultation_reference: consultation.reference }}
+            returnPath={`/consultations/${consultation.reference}`}
+            amount={consultation.fee}
+            currency={consultation.currency}
+            defaultPhone={consultation.phone_number || userPhone || ''}
+            waitingForPin={payment.waitingForPin}
+            failed={payment.failed}
+          />
         )}
 
         <div className="mt-8 flex justify-center gap-3">

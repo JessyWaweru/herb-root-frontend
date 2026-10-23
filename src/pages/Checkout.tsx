@@ -9,7 +9,9 @@ import { Bike, CheckCircle2, MapPin, Store } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAddresses } from '../hooks/useAddresses';
 import { useCheckout } from '../hooks/useOrders';
-import { useInitializePayment } from '../hooks/usePayments';
+import { usePay, type PaymentChoice } from '../hooks/usePayments';
+import { PaymentMethodPicker } from '../components/payment/PaymentMethodPicker';
+import { isMpesaNumber } from '../lib/payments';
 import { useDeliveryOptions, useDeliveryQuote } from '../hooks/useDelivery';
 import { useAddressAutofill } from '../hooks/useAddressAutofill';
 import { useAuthStore } from '../stores/authStore';
@@ -62,7 +64,9 @@ export function Checkout() {
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const quote = useDeliveryQuote(method === 'rider' ? pin : null);
   const checkoutMutation = useCheckout();
-  const initializePayment = useInitializePayment();
+  const pay = usePay();
+  const [payChoice, setPayChoice] = useState<PaymentChoice>({ method: 'mpesa', phone: user?.phone_number ?? '' });
+  const [phoneError, setPhoneError] = useState<string>();
   const navigate = useNavigate();
 
   const {
@@ -154,16 +158,29 @@ export function Checkout() {
       ...(method === 'agent' ? { pickup_agent: values.pickup_agent } : {}),
     };
 
+    // Checked before placing the order, so a typo doesn't leave an unpaid order behind.
+    if (payChoice.method === 'mpesa' && !isMpesaNumber(payChoice.phone)) {
+      return setPhoneError('Enter an M-Pesa number like 0712 345 678.');
+    }
+    setPhoneError(undefined);
+
+    let order;
     try {
-      const order = await checkoutMutation.mutateAsync(payload);
-      const payment = await initializePayment.mutateAsync(order.order_number);
-      window.location.href = payment.authorization_url;
+      order = await checkoutMutation.mutateAsync(payload);
     } catch (error) {
-      toast.error(apiErrorMessage(error, 'Could not place your order.'));
+      return toast.error(apiErrorMessage(error, 'Could not place your order.'));
+    }
+    const returnPath = `/orders/${order.order_number}`;
+    try {
+      await pay.mutateAsync({ target: { order_number: order.order_number }, choice: payChoice, returnPath });
+    } catch (error) {
+      // The order exists now; its page lets the customer pay without ordering twice.
+      toast.error(apiErrorMessage(error, 'Your order is saved, but we couldn’t start payment. Try again here.'));
+      navigate(returnPath);
     }
   };
 
-  const isPlacing = checkoutMutation.isPending || initializePayment.isPending;
+  const isPlacing = checkoutMutation.isPending || pay.isPending;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
@@ -297,6 +314,13 @@ export function Checkout() {
               <Textarea label="Order notes (optional)" rows={3} maxLength={1000} {...register('customer_notes')} />
             </section>
           )}
+
+          {method && (
+            <section className="flex flex-col gap-4">
+              <h2 className="font-display text-lg text-sage-900">3. Payment</h2>
+              <PaymentMethodPicker value={payChoice} onChange={setPayChoice} phoneError={phoneError} idPrefix="checkout" />
+            </section>
+          )}
         </div>
 
         <div className="h-fit rounded-2xl border border-cream-300 bg-cream-50 p-6 lg:sticky lg:top-24">
@@ -338,11 +362,13 @@ export function Checkout() {
             disabled={!method || Boolean(riderOutOfArea) || (method === 'rider' && !riderZone)}
             className="mt-5 w-full"
           >
-            Continue to payment
+            {payChoice.method === 'mpesa' ? 'Place order and pay with M-Pesa' : 'Continue to payment'}
           </Button>
           <div className="mt-4 flex items-start gap-2 text-xs text-ink-600">
             <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-sage-600" />
-            You'll be redirected to Paystack to complete payment securely via card or M-Pesa.
+            {payChoice.method === 'mpesa'
+              ? 'You’ll get an M-Pesa prompt on your phone. Payments are processed securely by Paystack.'
+              : 'You’ll be redirected to Paystack to pay securely by card, M-Pesa or other options.'}
           </div>
           <p className="mt-3 text-xs text-ink-600">
             By continuing you agree to our{' '}
