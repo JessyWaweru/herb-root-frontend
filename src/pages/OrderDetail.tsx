@@ -6,7 +6,7 @@ import { PendingPayment } from '../components/payment/PendingPayment';
 import { PageSpinner } from '../components/ui/Spinner';
 import { ButtonLink } from '../components/ui/Button';
 import { OrderTimeline } from '../components/order/OrderTimeline';
-import { formatDate, formatPrice } from '../lib/format';
+import { formatDate, formatPrice, resolveMediaUrl } from '../lib/format';
 import type { OrderStatus } from '../types';
 import { ItemNotFound } from '../components/ui/ItemNotFound';
 
@@ -55,7 +55,7 @@ export function OrderDetail() {
           {order.items.map((item) => (
             <div key={item.id} className="flex items-center gap-3">
               {item.product_image && (
-                <img src={item.product_image} alt="" className="h-14 w-14 rounded-xl object-cover" />
+                <img src={resolveMediaUrl(item.product_image)} alt="" className="h-14 w-14 rounded-xl object-cover" />
               )}
               <div className="flex-1">
                 <p className="text-sm font-semibold text-sage-900">{item.product_name}</p>
