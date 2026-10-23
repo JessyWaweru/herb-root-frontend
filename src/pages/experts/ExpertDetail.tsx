@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,7 +7,9 @@ import toast from 'react-hot-toast';
 import clsx from 'clsx';
 import { BadgeCheck, Clock, Languages, Mail, Phone, ShieldCheck, Video } from 'lucide-react';
 import { useBookConsultation, useExpert } from '../../hooks/useConsultations';
-import { useInitializeConsultationPayment } from '../../hooks/usePayments';
+import { usePay, type PaymentChoice } from '../../hooks/usePayments';
+import { PaymentMethodPicker } from '../../components/payment/PaymentMethodPicker';
+import { isMpesaNumber } from '../../lib/payments';
 import { useAuthStore } from '../../stores/authStore';
 import { PageSpinner } from '../../components/ui/Spinner';
 import { Button } from '../../components/ui/Button';
@@ -53,7 +56,9 @@ export function ExpertDetail() {
   const { data: expert, isLoading } = useExpert(slug);
   const { isAuthenticated, user } = useAuthStore();
   const book = useBookConsultation();
-  const pay = useInitializeConsultationPayment();
+  const pay = usePay();
+  const [payChoice, setPayChoice] = useState<PaymentChoice>({ method: 'mpesa', phone: user?.phone_number ?? '' });
+  const [phoneError, setPhoneError] = useState<string>();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -81,20 +86,30 @@ export function ExpertDetail() {
   ];
 
   const onSubmit = async (values: BookingForm) => {
+    // Checked before booking, so a typo doesn't leave an unpaid booking behind.
+    if (!isFree && payChoice.method === 'mpesa' && !isMpesaNumber(payChoice.phone)) {
+      return setPhoneError('Enter an M-Pesa number like 0712 345 678.');
+    }
+    setPhoneError(undefined);
+
+    let consultation;
     try {
-      const consultation = await book.mutateAsync({
+      consultation = await book.mutateAsync({
         ...values,
         expert_id: expert.id,
         preferred_time: new Date(values.preferred_time).toISOString(),
       });
-      if (consultation.status !== 'pending_payment') {
-        navigate(`/consultations/${consultation.reference}`);
-        return;
-      }
-      const payment = await pay.mutateAsync(consultation.reference);
-      window.location.href = payment.authorization_url;
     } catch (error) {
-      toast.error(apiErrorMessage(error, 'Could not book your consultation.'));
+      return toast.error(apiErrorMessage(error, 'Could not book your consultation.'));
+    }
+    const returnPath = `/consultations/${consultation.reference}`;
+    if (consultation.status !== 'pending_payment') return navigate(returnPath);
+    try {
+      await pay.mutateAsync({ target: { consultation_reference: consultation.reference }, choice: payChoice, returnPath });
+    } catch (error) {
+      // The booking exists now; its page lets the customer pay without booking twice.
+      toast.error(apiErrorMessage(error, 'Your booking is saved, but we couldn’t start payment. Try again here.'));
+      navigate(returnPath);
     }
   };
 
@@ -226,14 +241,18 @@ export function ExpertDetail() {
               </label>
               {errors.consent && <span className="-mt-3 text-xs text-rose-600">{errors.consent.message}</span>}
 
+              {!isFree && (
+                <PaymentMethodPicker value={payChoice} onChange={setPayChoice} phoneError={phoneError} idPrefix="booking" />
+              )}
+
               <Button type="submit" size="lg" isLoading={book.isPending || pay.isPending}>
-                {isFree ? 'Book session' : 'Continue to payment'}
+                {isFree ? 'Book session' : payChoice.method === 'mpesa' ? 'Book and pay with M-Pesa' : 'Continue to payment'}
               </Button>
               <p className="flex items-start gap-2 text-xs text-ink-600">
                 <ShieldCheck size={14} className="mt-0.5 shrink-0 text-sage-600" />
                 {isFree
                   ? `The expert will email you at ${user?.email} to confirm the exact time.`
-                  : `Pay securely with M-Pesa or card. The expert will email you at ${user?.email} to confirm the exact time.`}
+                  : `Payments are processed securely by Paystack. The expert will email you at ${user?.email} to confirm the exact time.`}
               </p>
             </form>
           )}

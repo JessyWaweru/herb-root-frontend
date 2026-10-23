@@ -232,6 +232,12 @@ export interface PaymentInit {
   public_key: string;
 }
 
+export interface MpesaCharge {
+  reference: string;
+  status: Payment['status'];
+  display_text: string;
+}
+
 export interface Payment {
   id: string;
   reference: string;

@@ -65,7 +65,7 @@ export function Cookies() {
             <strong>Cloudflare</strong> runs the "I'm human" check on the sign-up and password-reset pages.
           </li>
           <li>
-            <strong>Paystack</strong> runs the payment page you're sent to at checkout.
+            <strong>Paystack</strong> runs the payment page you're sent to if you choose to pay by card or on Paystack's page.
           </li>
           <li>
             <strong>OpenStreetMap</strong> provides the map when you choose a delivery location.
