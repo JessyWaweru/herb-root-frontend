@@ -23,8 +23,15 @@ export interface Symptom {
   description: string;
   /** Longer text for the concern's own page; may be empty. */
   intro: string;
+  /** Questions people ask about this concern, answered on its page; may be empty. */
+  faqs: ConcernQuestion[];
   icon: string;
   product_count: number;
+}
+
+export interface ConcernQuestion {
+  question: string;
+  answer: string;
 }
 
 export interface Ingredient {

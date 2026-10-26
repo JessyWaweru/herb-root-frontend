@@ -278,6 +278,7 @@ export interface ConcernForSeo {
   slug: string;
   description: string;
   intro?: string;
+  faqs?: { question: string; answer: string }[];
 }
 
 export function concernPath(slug: string) {
@@ -325,6 +326,20 @@ export function concernJsonLd(concern: ConcernForSeo, products: { name: string; 
       },
     },
     breadcrumbJsonLd(concernCrumbs(concern)),
+    ...(concern.faqs?.length
+      ? [
+          {
+            '@type': 'FAQPage',
+            '@id': `${url}#faq`,
+            url,
+            mainEntity: concern.faqs.map((faq) => ({
+              '@type': 'Question',
+              name: faq.question,
+              acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+            })),
+          },
+        ]
+      : []),
   );
 }
 

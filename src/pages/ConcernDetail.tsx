@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { ArrowDown, Leaf, Sparkles, Stethoscope, Tag } from 'lucide-react';
+import { ArrowDown, ChevronDown, Leaf, Sparkles, Stethoscope, Tag } from 'lucide-react';
 import { useIngredients, useProducts, useSymptoms } from '../hooks/useProducts';
 import { PageSpinner, Spinner } from '../components/ui/Spinner';
 import { Badge } from '../components/ui/Badge';
@@ -231,6 +231,33 @@ export function ConcernDetail() {
             </Link>
           )}
         </section>
+
+        {/* Common questions */}
+        {concern.faqs.length > 0 && (
+          <section className="py-12" aria-labelledby="faq-heading">
+            <m.h2 {...reveal()} id="faq-heading" className="mb-6 font-display text-3xl text-sage-900">
+              Common questions
+            </m.h2>
+            <div className="flex max-w-3xl flex-col gap-3">
+              {concern.faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  className="group rounded-2xl border border-cream-300 bg-cream-50 px-6 py-4 shadow-soft open:pb-5"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-sage-900 [&::-webkit-details-marker]:hidden">
+                    {faq.question}
+                    <ChevronDown
+                      size={18}
+                      aria-hidden="true"
+                      className="shrink-0 text-sage-600 transition-transform group-open:rotate-180"
+                    />
+                  </summary>
+                  <p className="mt-3 leading-relaxed text-ink-700">{faq.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Safety */}
         <m.aside

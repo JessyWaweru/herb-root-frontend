@@ -107,6 +107,7 @@ interface ApiSymptom {
   slug: string;
   description: string;
   intro?: string;
+  faqs?: { question: string; answer: string }[];
   icon?: string;
 }
 
@@ -275,6 +276,9 @@ function concernPage(concern: ApiSymptom, { products, symptoms }: Catalogue): St
       remedies.length
         ? `<ul>${remedies.map((p) => `<li><a href="/shop/${esc(p.slug)}">${esc(p.name)}</a> — ${esc(p.short_description)}</li>`).join('')}</ul>`
         : '<p>No remedies listed for this concern yet.</p>',
+      concern.faqs?.length
+        ? `<h2>Common questions</h2>${concern.faqs.map((faq) => `<h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p>`).join('')}`
+        : '',
       `<p>${esc(CONCERN_SAFETY_NOTE)} <a href="/experts">Talk to an expert</a>.</p>`,
       others.length
         ? `<h2>Other concerns</h2><ul>${others.map((s) => `<li><a href="${concernPath(esc(s.slug))}">${esc(s.name)}</a></li>`).join('')}</ul>`
