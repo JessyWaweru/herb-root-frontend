@@ -96,14 +96,35 @@ export function Terms() {
         </p>
       </Section>
 
-      <Section title="9. Using the site fairly">
+      <Section id="garden-points" title="9. Garden Points">
+        <ul className="bullets">
+          <li>
+            You earn points on orders once they're delivered, and for a review of a product you've received. Reviews earn
+            the same points whatever rating you give, and a review that earned points is labelled as such on the site.
+          </li>
+          <li>
+            If an order is refunded or cancelled, the points it earned are taken back. If we remove a review under
+            section 8, the points it earned are taken back too.
+          </li>
+          <li>
+            Points have no cash value, can't be exchanged for money or transferred to someone else, and end if you
+            delete your account. Unused vouchers are cancelled when you delete your account.
+          </li>
+          <li>
+            We may change the rewards, how many points they cost, or how points are earned. We'll tell you before a
+            change that reduces the value of points you already have.
+          </li>
+        </ul>
+      </Section>
+
+      <Section title="10. Using the site fairly">
         <p>
           Don't misuse the site: no fraud, no attempts to break in or disrupt it, no automated scraping or bulk
           account creation, and no using it to harm others. We may suspend accounts that do.
         </p>
       </Section>
 
-      <Section title="10. Content and copyright">
+      <Section title="11. Content and copyright">
         <p>
           The site's text, design, logo and our own photos belong to {LEGAL.businessName} or are used with permission.
           Some photos are by other people and used under their licences; they're credited where they appear. Please
@@ -111,7 +132,7 @@ export function Terms() {
         </p>
       </Section>
 
-      <Section title="11. Our responsibility to you">
+      <Section title="12. Our responsibility to you">
         <p>
           We'll provide our products and services with reasonable care and skill. Nothing in these terms limits our
           responsibility where the law doesn't allow it to be limited. Otherwise, we're not responsible for losses we
@@ -120,14 +141,14 @@ export function Terms() {
         </p>
       </Section>
 
-      <Section title="12. Law and disputes">
+      <Section title="13. Law and disputes">
         <p>
           These terms are governed by the laws of Kenya. If something goes wrong, please contact us first and we'll
           try to put it right. If we can't agree, the courts of Kenya will decide.
         </p>
       </Section>
 
-      <Section title="13. Changes to these terms">
+      <Section title="14. Changes to these terms">
         <p>
           We may update these terms. The version on this page when you place an order or book a consultation is the
           one that applies to it.

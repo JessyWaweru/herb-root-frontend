@@ -72,6 +72,8 @@ export interface Review {
   title: string;
   comment: string;
   is_verified_purchase: boolean;
+  /** True when the reviewer received Garden Points for it; shown so readers know. */
+  earned_points: boolean;
   /** True when the signed-in visitor wrote this review. */
   is_mine: boolean;
   created_at: string;
@@ -117,6 +119,8 @@ export interface User {
   phone_number: string;
   is_email_verified: boolean;
   newsletter_opt_in: boolean;
+  /** Review request emails and the occasional in-app pop-up. */
+  review_reminders: boolean;
   date_joined: string;
 }
 
@@ -295,4 +299,46 @@ export interface Consultation {
   currency: string;
   paid_at: string | null;
   created_at: string;
+}
+
+export interface PointsEntry {
+  id: string;
+  kind: 'order' | 'order_reversed' | 'review' | 'review_removed' | 'redeemed' | 'redemption_cancelled' | 'adjustment';
+  points: number;
+  label: string;
+  created_at: string;
+}
+
+export interface Reward {
+  id: string;
+  name: string;
+  description: string;
+  kind: 'discount' | 'experience';
+  points_cost: number;
+}
+
+export interface Redemption {
+  id: string;
+  reward_name: string;
+  points_spent: number;
+  code: string;
+  status: 'pending' | 'fulfilled' | 'cancelled';
+  created_at: string;
+}
+
+export interface ProductToReview {
+  name: string;
+  slug: string;
+  primary_image_url: string;
+}
+
+export interface PointsSummary {
+  balance: number;
+  kes_per_point: number;
+  review_points: number;
+  review_min_length: number;
+  rewards: Reward[];
+  redemptions: Redemption[];
+  entries: PointsEntry[];
+  to_review: ProductToReview[];
 }

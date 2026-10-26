@@ -8,5 +8,5 @@ export const LEGAL = {
   email: 'hello@goherbal.health',
   phone: '0115393779',
   website: 'goherbal.health',
-  lastUpdated: '14 October 2026',
+  lastUpdated: '26 October 2026',
 };

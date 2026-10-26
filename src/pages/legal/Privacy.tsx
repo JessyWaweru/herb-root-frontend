@@ -80,6 +80,19 @@ export function Privacy() {
                 <td>Contract</td>
               </tr>
               <tr>
+                <td>Garden Points: the points you earn and spend, and your vouchers</td>
+                <td>To run the points scheme you join by shopping with us</td>
+                <td>Contract</td>
+              </tr>
+              <tr>
+                <td>Review reminders: which of your delivered products you haven't reviewed yet</td>
+                <td>
+                  To email you a few days after an order arrives, and now and then ask on the site, whether you'd like to
+                  review it. You can turn these off in every email and under My account → Points
+                </td>
+                <td>Legitimate interests</td>
+              </tr>
+              <tr>
                 <td>Your location, only when you tap "Use my location"</td>
                 <td>To place the map pin for delivery. Your browser asks your permission first; we only keep the pin you save</td>
                 <td>Consent</td>
@@ -154,7 +167,7 @@ export function Privacy() {
           <li>Your account and saved details: until you delete your account.</li>
           <li>
             When you delete your account, we erase your name, email, phone, addresses, reviews, wishlist, basket and
-            consultation notes. We keep a record of past purchases (items, amounts and the town) without your name or
+            consultation notes, and your Garden Points end. We keep a record of past purchases (items, amounts and the town) without your name or
             address, because tax law requires us to keep sales records (generally for five years).
           </li>
           <li>Garden letter: until you unsubscribe.</li>

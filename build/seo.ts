@@ -389,6 +389,7 @@ function robots() {
     'Disallow: /reset-password/',
     'Disallow: /revert-email',
     'Disallow: /newsletter/',
+    'Disallow: /reminders/',
     // Free-text search results would be endless near-duplicate pages.
     'Disallow: /shop?q=',
     'Disallow: /shop?search=',

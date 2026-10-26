@@ -75,10 +75,11 @@ export function useCreateReview(productSlug: string) {
   return useMutation({
     mutationFn: (payload: { rating: number; title?: string; comment?: string }) =>
       createProductReview(productSlug, payload),
-    onSuccess: () => {
+    onSuccess: ({ points_awarded }) => {
       queryClient.invalidateQueries({ queryKey: ['reviews', productSlug] });
       queryClient.invalidateQueries({ queryKey: ['product', productSlug] });
-      toast.success('Thanks for your review!');
+      queryClient.invalidateQueries({ queryKey: ['points'] });
+      toast.success(points_awarded ? `Thanks for your review! +${points_awarded} Garden Points` : 'Thanks for your review!');
     },
     onError: (error) => toast.error(apiErrorMessage(error, 'Could not submit your review.')),
   });

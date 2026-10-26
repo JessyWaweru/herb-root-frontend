@@ -105,6 +105,7 @@ export const router = createBrowserRouter([
                   { path: 'addresses', ...lazyPage(() => import('../pages/account/AccountAddresses').then((m) => m.AccountAddresses), PAGES.addresses) },
                   { path: 'orders', ...lazyPage(() => import('../pages/account/AccountOrders').then((m) => m.AccountOrders), PAGES.orders) },
                   { path: 'wishlist', ...lazyPage(() => import('../pages/account/AccountWishlist').then((m) => m.AccountWishlist), PAGES.wishlist) },
+                  { path: 'points', ...lazyPage(() => import('../pages/account/AccountPoints').then((m) => m.AccountPoints), PAGES.points) },
                   {
                     path: 'consultations',
                     ...lazyPage(() => import('../pages/account/AccountConsultations').then((m) => m.AccountConsultations), PAGES.consultations),
@@ -127,6 +128,10 @@ export const router = createBrowserRouter([
       {
         path: '/newsletter/unsubscribe',
         ...lazyPage(() => import('../pages/NewsletterUnsubscribe').then((m) => m.NewsletterUnsubscribe), PAGES.unsubscribe),
+      },
+      {
+        path: '/reminders/unsubscribe',
+        ...lazyPage(() => import('../pages/RemindersUnsubscribe').then((m) => m.RemindersUnsubscribe), PAGES.remindersUnsubscribe),
       },
       { path: '/r/:token', ...lazyPage(() => import('../pages/RiderDelivery').then((m) => m.RiderDelivery), PAGES.rider) },
     ],

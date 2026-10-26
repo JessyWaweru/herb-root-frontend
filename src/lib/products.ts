@@ -82,7 +82,7 @@ export async function createProductReview(
   productSlug: string,
   payload: { rating: number; title?: string; comment?: string },
 ) {
-  const { data } = await api.post<Review>(`/products/${productSlug}/reviews/`, payload);
+  const { data } = await api.post<{ points_awarded: number }>(`/products/${productSlug}/reviews/`, payload);
   return data;
 }
 

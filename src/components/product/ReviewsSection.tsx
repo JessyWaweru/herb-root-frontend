@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Sprout, Star } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { StarRating } from '../ui/StarRating';
 import { Button } from '../ui/Button';
@@ -18,8 +18,16 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
   const createReview = useCreateReview(productSlug);
   const [justReviewed, setJustReviewed] = useState(false);
 
+  const { hash } = useLocation();
+  const sectionRef = useRef<HTMLDivElement>(null);
+
   // One review per customer: once theirs exists, thank them instead of showing the form again.
   const alreadyReviewed = justReviewed || reviews.some((review) => review.is_mine);
+
+  // Review emails and the review pop-up link straight here.
+  useEffect(() => {
+    if (hash === '#reviews') sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [hash]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +46,7 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
   };
 
   return (
-    <div className="grid gap-10 md:grid-cols-[1fr_1.2fr]">
+    <div ref={sectionRef} id="reviews" className="grid scroll-mt-24 gap-10 md:grid-cols-[1fr_1.2fr]">
       <div>
         <h2 className="font-display text-xl text-sage-900">Customer reviews</h2>
         {reviews.length === 0 ? (
@@ -52,11 +60,18 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
                   <span className="text-xs text-ink-600">{formatDate(review.created_at)}</span>
                 </div>
                 <StarRating value={review.rating} size={14} />
-                {review.is_verified_purchase && (
-                  <span className="mt-1 inline-block rounded-full bg-sage-100 px-2 py-0.5 text-[10px] font-semibold text-sage-700">
-                    Verified purchase
-                  </span>
-                )}
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  {review.is_verified_purchase && (
+                    <span className="inline-block rounded-full bg-sage-100 px-2 py-0.5 text-[10px] font-semibold text-sage-700">
+                      Verified purchase
+                    </span>
+                  )}
+                  {review.earned_points && (
+                    <span className="inline-block rounded-full bg-cream-200 px-2 py-0.5 text-[10px] font-semibold text-ink-700">
+                      Earned Garden Points for reviewing
+                    </span>
+                  )}
+                </div>
                 {review.title && <p className="mt-2 text-sm font-semibold text-ink-800">{review.title}</p>}
                 {review.comment && <p className="mt-1 text-sm text-ink-600">{review.comment}</p>}
               </div>
@@ -114,6 +129,10 @@ export function ReviewsSection({ productSlug, reviews }: { productSlug: string; 
             <Button type="submit" disabled={!rating} isLoading={createReview.isPending}>
               Submit review
             </Button>
+            <p className="flex items-start gap-1.5 text-xs text-ink-600">
+              <Sprout size={13} className="mt-px shrink-0 text-sage-600" aria-hidden="true" />
+              Bought and received this? A review of a couple of sentences earns Garden Points, whatever your rating.
+            </p>
           </form>
         )}
       </div>
