@@ -2,6 +2,8 @@
 
 React + Vite + TypeScript storefront for the GO herbal herbal remedies shop.
 
+> **Published with the client's permission.** This is client work for GO herbal, shared with their agreement. No credentials, customer data or production configuration are included: all secrets are loaded from environment variables, and the full repository history has been checked for leaked keys.
+
 ## Stack
 
 - React 19, React Router 7, TypeScript
