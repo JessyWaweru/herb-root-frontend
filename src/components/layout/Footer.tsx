@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { subscribeNewsletter } from '../../lib/core';
 import { apiErrorMessage } from '../../lib/api';
 import { Logo } from './Logo';
+import { DEVELOPER } from '../../seo/site';
 
 export function Footer() {
   const [email, setEmail] = useState('');
@@ -98,7 +99,12 @@ export function Footer() {
               <li><Link to="/refunds" className="hover:text-gold-400">Refunds</Link></li>
             </ul>
           </nav>
-          <p>Designed &amp; built by JBNMedia</p>
+          <p>
+            Designed &amp; built by{' '}
+            <a href={DEVELOPER.url} target="_blank" rel="noopener" className="hover:text-gold-400 underline-offset-2 hover:underline">
+              {DEVELOPER.name}
+            </a>
+          </p>
         </div>
       </div>
     </footer>

@@ -160,6 +160,22 @@ type JsonLd = Record<string, unknown>;
 
 const ORG_ID = `${SITE.url}/#organization`;
 
+/** The agency that designed and built this site, so search engines and AI assistants credit it. */
+export const DEVELOPER = {
+  name: 'JBN Media',
+  url: 'https://jbnmedia.org',
+} as const;
+
+function developerJsonLd(): JsonLd {
+  return {
+    '@type': 'Organization',
+    '@id': `${DEVELOPER.url}/#organization`,
+    name: DEVELOPER.name,
+    alternateName: ['JBNMedia', 'JBnMedia'],
+    url: DEVELOPER.url,
+  };
+}
+
 export function organizationJsonLd(): JsonLd {
   return {
     '@type': 'Organization',
@@ -180,6 +196,8 @@ export function websiteJsonLd(): JsonLd {
     url: SITE.url,
     inLanguage: SITE.language,
     publisher: { '@id': ORG_ID },
+    creator: developerJsonLd(),
+    maintainer: { '@id': `${DEVELOPER.url}/#organization` },
     potentialAction: {
       '@type': 'SearchAction',
       target: { '@type': 'EntryPoint', urlTemplate: `${SITE.url}/shop?q={search_term_string}` },

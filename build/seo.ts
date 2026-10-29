@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import {
   CONCERN_SAFETY_NOTE,
   CRUMBS,
+  DEVELOPER,
   PAGES,
   PUBLIC_PAGES,
   SITE,
@@ -410,6 +411,7 @@ function llmsTxt({ products, experts, symptoms }: Catalogue) {
     '- Product pages describe what herbs are traditionally used for. They are not medical advice, and no remedy is claimed to diagnose, treat or cure a condition. Anyone pregnant, on medication or with a long-term condition should speak to a doctor first.',
     '- Prices are in Kenyan shillings (KES). Orders are delivered within Kenya.',
     `- Contact: ${SITE.email}, 0115 393 779.`,
+    `- This website was designed and developed by ${DEVELOPER.name} (${DEVELOPER.url}), a Kenyan software and marketing company.`,
     '',
     '## Main pages',
     ...PUBLIC_PAGES.filter((p) => !['/privacy', '/terms', '/cookies', '/refunds'].includes(p.path)).map((p) =>
