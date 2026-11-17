@@ -16,7 +16,7 @@ export function PasswordChecklist({ password, id }: { password: string; id?: str
               'h-1 flex-1 rounded-full transition-colors duration-300',
               i < passed
                 ? strength === 1
-                  ? 'bg-sage-600'
+                  ? 'bg-sage-700'
                   : strength >= 0.5
                     ? 'bg-gold-500'
                     : 'bg-rose-400'
@@ -36,7 +36,7 @@ export function PasswordChecklist({ password, id }: { password: string; id?: str
               <span
                 className={clsx(
                   'flex h-4 w-4 shrink-0 items-center justify-center rounded-full border transition-all duration-200',
-                  ok ? 'scale-100 border-sage-600 bg-sage-600 text-cream-50' : 'border-cream-300 bg-cream-50',
+                  ok ? 'scale-100 border-sage-600 bg-sage-800 text-cream-50' : 'border-cream-300 bg-cream-50',
                 )}
               >
                 {ok && <Check size={11} strokeWidth={3} />}

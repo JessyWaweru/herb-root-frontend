@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
-import { Bike, CheckCircle2, MapPin, Store } from 'lucide-react';
+import { Bike, CheckCircle2, MapPin, ShieldCheck, Store } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { useAddresses } from '../hooks/useAddresses';
 import { useCheckout } from '../hooks/useOrders';
@@ -21,6 +21,8 @@ import { Button } from '../components/ui/Button';
 import { Input, Textarea } from '../components/ui/Input';
 import type { Pin } from '../components/checkout/LocationPicker';
 import { formatPrice } from '../lib/format';
+import { ProductImage } from '../components/product/ProductImage';
+import { Eyebrow } from '../components/ui/SectionHeading';
 import { apiErrorMessage } from '../lib/api';
 import type { CheckoutPayload } from '../lib/orders';
 import type { Address, DeliveryMethod, DeliveryOption } from '../types';
@@ -49,6 +51,18 @@ const METHOD_META: Record<DeliveryMethod, { title: string; icon: typeof Store }>
 };
 
 const METHODS: DeliveryMethod[] = ['pickup', 'rider', 'agent'];
+
+/** A numbered step title, as on a paper form. */
+function StepHeading({ step, children }: { step: number; children: string }) {
+  return (
+    <h2 className="flex items-center gap-3 font-display text-2xl leading-tight text-sage-900">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage-800 font-sans text-sm font-bold text-cream-50">
+        {step}
+      </span>
+      {children}
+    </h2>
+  );
+}
 
 function lowestFee(options: DeliveryOption[]) {
   return Math.min(...options.map((o) => parseFloat(o.fee)));
@@ -183,14 +197,15 @@ export function Checkout() {
   const isPlacing = checkoutMutation.isPending || pay.isPending;
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="font-display text-3xl text-sage-900">Checkout</h1>
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <Eyebrow>Secure checkout</Eyebrow>
+      <h1 className="mt-4 font-display text-4xl leading-none tracking-[-0.02em] text-sage-900 sm:text-5xl">Checkout</h1>
 
-      <form onSubmit={handleSubmit(placeOrder)} className="mt-8 grid gap-10 lg:grid-cols-[1fr_320px]">
-        <div className="flex flex-col gap-8">
-          <section>
-            <h2 className="font-display text-lg text-sage-900">1. How would you like to get your order?</h2>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      <form onSubmit={handleSubmit(placeOrder)} className="mt-10 grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-12">
+        <div className="flex flex-col gap-6">
+          <section className="card p-5 sm:p-7">
+            <StepHeading step={1}>How would you like to get your order?</StepHeading>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
               {availableMethods.map((m) => {
                 const { title, icon: Icon } = METHOD_META[m];
                 const options = optionsByMethod(m);
@@ -202,14 +217,24 @@ export function Checkout() {
                     onClick={() => setMethod(m)}
                     aria-pressed={method === m}
                     className={clsx(
-                      'flex flex-col items-start gap-1 rounded-2xl border p-4 text-left transition',
-                      method === m ? 'border-sage-500 bg-sage-50 ring-1 ring-sage-500' : 'border-cream-300 bg-cream-50 hover:border-sage-300',
+                      'relative flex flex-col items-start gap-1 rounded-3xl border p-4 text-left transition duration-200',
+                      method === m
+                        ? 'border-sage-800 bg-sage-50 shadow-soft ring-1 ring-sage-800'
+                        : 'border-cream-300 bg-cream-50 hover:-translate-y-0.5 hover:border-sage-400 hover:shadow-soft',
                     )}
                   >
-                    <Icon size={20} className="text-sage-700" />
-                    <span className="mt-1 text-sm font-semibold text-sage-900">{title}</span>
+                    <span
+                      className={clsx(
+                        'flex h-11 w-11 items-center justify-center rounded-full transition-colors',
+                        method === m ? 'bg-sage-800 text-gold-400' : 'bg-sage-100 text-sage-700',
+                      )}
+                    >
+                      <Icon size={20} aria-hidden="true" />
+                    </span>
+                    {method === m && <CheckCircle2 size={18} className="absolute right-4 top-4 text-sage-700" aria-hidden="true" />}
+                    <span className="mt-2 text-sm font-semibold text-sage-900">{title}</span>
                     <span className="text-xs text-ink-600">{options[0].eta}</span>
-                    <span className="mt-1 text-sm font-semibold text-ink-800">
+                    <span className="mt-2 font-display text-lg text-sage-900">
                       {options.length > 1 ? 'from ' : ''}
                       {formatPrice(fee)}
                     </span>
@@ -220,11 +245,11 @@ export function Checkout() {
           </section>
 
           {method && (
-            <section className="flex flex-col gap-4">
-              <h2 className="font-display text-lg text-sage-900">2. Your details</h2>
+            <section className="card flex animate-rise flex-col gap-4 p-5 sm:p-7">
+              <StepHeading step={2}>Your details</StepHeading>
 
               {method === 'pickup' && singleOption && (
-                <div className="rounded-2xl bg-sage-50 p-4 text-sm text-ink-700">
+                <div className="rounded-2xl bg-sage-50 p-4 text-sm leading-relaxed text-ink-700 ring-1 ring-sage-100">
                   <p className="font-semibold text-sage-900">{singleOption.name}</p>
                   <p>{singleOption.address}</p>
                   <p className="mt-1 text-xs text-ink-600">{singleOption.description}</p>
@@ -242,10 +267,10 @@ export function Checkout() {
                           onClick={() => applySavedAddress(address)}
                           aria-pressed={selectedAddressId === address.id}
                           className={clsx(
-                            'rounded-full border px-3 py-1.5 text-xs font-semibold transition',
+                            'rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors',
                             selectedAddressId === address.id
-                              ? 'border-sage-500 bg-sage-50 text-sage-800'
-                              : 'border-cream-300 text-ink-700 hover:border-sage-300',
+                              ? 'border-sage-800 bg-sage-800 text-cream-50'
+                              : 'border-cream-300 bg-cream-50 text-ink-700 hover:border-sage-400',
                           )}
                         >
                           {address.label}: {address.address_line1}
@@ -259,8 +284,8 @@ export function Checkout() {
                   {quote.data && (
                     <p
                       className={clsx(
-                        'rounded-xl p-3 text-sm',
-                        riderZone ? 'bg-sage-50 text-sage-800' : 'bg-gold-300/30 text-ink-700',
+                        'rounded-2xl p-3.5 text-sm font-medium',
+                        riderZone ? 'bg-sage-50 text-sage-800 ring-1 ring-sage-100' : 'bg-gold-200 text-ink-800',
                       )}
                     >
                       {riderZone
@@ -288,7 +313,7 @@ export function Checkout() {
 
               {method === 'agent' && singleOption && (
                 <>
-                  <p className="rounded-2xl bg-sage-50 p-4 text-sm text-ink-700">{singleOption.description}</p>
+                  <p className="rounded-2xl bg-sage-50 p-4 text-sm leading-relaxed text-ink-700 ring-1 ring-sage-100">{singleOption.description}</p>
                   <Input
                     label="Which agent will you collect from?"
                     placeholder="e.g. Kisumu — Mega Plaza"
@@ -316,26 +341,32 @@ export function Checkout() {
           )}
 
           {method && (
-            <section className="flex flex-col gap-4">
-              <h2 className="font-display text-lg text-sage-900">3. Payment</h2>
+            <section className="card flex animate-rise flex-col gap-4 p-5 sm:p-7">
+              <StepHeading step={3}>Payment</StepHeading>
               <PaymentMethodPicker value={payChoice} onChange={setPayChoice} phoneError={phoneError} idPrefix="checkout" />
             </section>
           )}
         </div>
 
-        <div className="h-fit rounded-2xl border border-cream-300 bg-cream-50 p-6 lg:sticky lg:top-24">
-          <h2 className="font-display text-lg text-sage-900">Order summary</h2>
-          <div className="mt-4 flex flex-col gap-3">
+        <div className="card h-fit p-6 sm:p-7 lg:sticky lg:top-28">
+          <h2 className="font-display text-2xl text-sage-900">Order summary</h2>
+          <ul className="mt-5 flex flex-col gap-3.5">
             {cart.items.map((item) => (
-              <div key={item.id} className="flex justify-between text-sm text-ink-700">
-                <span>
-                  {item.product.name} × {item.quantity}
+              <li key={item.id} className="flex items-center gap-3 text-sm text-ink-700">
+                <span className="relative shrink-0">
+                  <ProductImage src={item.product.primary_image_url} seed={item.product.id} className="h-12 w-12 rounded-xl" />
+                  <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-sage-800 px-1 text-[10px] font-bold text-cream-50">
+                    {item.quantity}
+                  </span>
                 </span>
-                <span>{formatPrice(item.line_total, item.product.currency)}</span>
-              </div>
+                <span className="min-w-0 flex-1 font-medium text-ink-800">
+                  {item.product.name} <span className="sr-only">× {item.quantity}</span>
+                </span>
+                <span className="font-semibold text-sage-900">{formatPrice(item.line_total, item.product.currency)}</span>
+              </li>
             ))}
-          </div>
-          <div className="mt-4 space-y-1 border-t border-cream-300 pt-4 text-sm text-ink-700">
+          </ul>
+          <div className="mt-5 space-y-2 border-t border-cream-300 pt-5 text-sm text-ink-700">
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>{formatPrice(subtotal)}</span>
@@ -351,21 +382,21 @@ export function Checkout() {
               </span>
             </div>
           </div>
-          <div className="mt-3 flex justify-between border-t border-cream-300 pt-3 font-display text-lg text-sage-900">
-            <span>Total</span>
-            <span>{formatPrice(subtotal + (deliveryFee ?? 0))}</span>
+          <div className="mt-4 flex items-baseline justify-between border-t border-cream-300 pt-4 font-display text-sage-900">
+            <span className="text-lg">Total</span>
+            <span className="text-3xl">{formatPrice(subtotal + (deliveryFee ?? 0))}</span>
           </div>
           <Button
             type="submit"
             size="lg"
             isLoading={isPlacing}
             disabled={!method || Boolean(riderOutOfArea) || (method === 'rider' && !riderZone)}
-            className="mt-5 w-full"
+            className="mt-6 w-full"
           >
             {payChoice.method === 'mpesa' ? 'Place order and pay with M-Pesa' : 'Continue to payment'}
           </Button>
-          <div className="mt-4 flex items-start gap-2 text-xs text-ink-600">
-            <CheckCircle2 size={14} className="mt-0.5 shrink-0 text-sage-600" />
+          <div className="mt-4 flex items-start gap-2 rounded-2xl bg-sage-50 p-3.5 text-xs leading-relaxed text-ink-700">
+            <ShieldCheck size={15} className="mt-px shrink-0 text-sage-600" aria-hidden="true" />
             {payChoice.method === 'mpesa'
               ? 'You’ll get an M-Pesa prompt on your phone. Payments are processed securely by Paystack.'
               : 'You’ll be redirected to Paystack to pay securely by card, M-Pesa or other options.'}
@@ -384,7 +415,7 @@ export function Checkout() {
           <button
             type="button"
             onClick={() => navigate('/cart')}
-            className="mt-4 text-xs font-semibold text-sage-700 underline"
+            className="mt-4 text-xs font-semibold text-sage-700 underline underline-offset-2"
           >
             Edit basket
           </button>

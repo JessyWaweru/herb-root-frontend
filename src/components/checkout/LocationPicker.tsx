@@ -150,13 +150,13 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
             onKeyDown={searchOnEnter}
             enterKeyHint="search"
             placeholder="Search estate, street or landmark"
-            className="min-w-0 flex-1 rounded-xl border border-cream-300 bg-cream-50 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-600 focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400"
+            className="min-w-0 flex-1 rounded-full border border-cream-300 bg-cream-50 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-600 transition-[border-color,box-shadow] hover:border-cream-400 focus:border-sage-600 focus:outline-none focus:ring-4 focus:ring-sage-600/15 focus-visible:outline-none"
           />
           <button
             type="button"
             onClick={search}
             disabled={searching}
-            className="flex items-center gap-1.5 rounded-xl bg-sage-600 px-4 text-sm font-semibold text-cream-50 transition hover:bg-sage-700 disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-full bg-sage-800 px-5 text-sm font-semibold text-cream-50 shadow-press transition hover:bg-sage-900 disabled:opacity-50"
           >
             <Search size={15} /> {searching ? 'Searching…' : 'Search'}
           </button>
@@ -165,7 +165,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
           type="button"
           onClick={locateMe}
           disabled={locating}
-          className="flex items-center justify-center gap-1.5 rounded-xl border border-sage-400 px-4 py-2.5 text-sm font-semibold text-sage-800 transition hover:bg-sage-50 disabled:opacity-60"
+          className="flex items-center justify-center gap-1.5 rounded-full border border-sage-800/25 bg-cream-50/70 px-4 py-2.5 text-sm font-semibold text-sage-900 transition hover:border-sage-800 hover:bg-sage-800 hover:text-cream-50 disabled:opacity-60"
         >
           <Crosshair size={15} className={locating ? 'animate-spin' : ''} /> {locating ? 'Finding you…' : 'Use my location'}
         </button>
@@ -190,7 +190,7 @@ export default function LocationPicker({ value, onChange, onPlaceFound }: Locati
         </ul>
       )}
 
-      <div className="relative z-0 h-72 overflow-hidden rounded-2xl border border-cream-300">
+      <div className="relative z-0 h-72 overflow-hidden rounded-3xl border border-cream-300 shadow-soft">
         <MapContainer
           center={value ? [value.latitude, value.longitude] : NAIROBI}
           zoom={value ? 16 : 12}

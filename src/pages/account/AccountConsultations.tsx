@@ -40,10 +40,10 @@ export function AccountConsultations() {
         <Link
           key={consultation.id}
           to={`/consultations/${consultation.reference}`}
-          className="flex items-center justify-between rounded-2xl border border-cream-300 bg-cream-50 p-5 transition hover:border-sage-300"
+          className="flex items-center justify-between card p-5 transition duration-300 hover:-translate-y-0.5 hover:border-sage-300 hover:shadow-lift"
         >
           <div>
-            <p className="font-semibold text-sage-900">{consultation.expert.name}</p>
+            <p className="font-display text-xl text-sage-900">{consultation.expert.name}</p>
             <p className="text-sm text-ink-600">
               {consultation.reference} · {formatDate(consultation.scheduled_for ?? consultation.preferred_time)}
             </p>

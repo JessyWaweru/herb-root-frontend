@@ -7,7 +7,8 @@ import { useAddToCart } from '../../hooks/useCart';
 import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { ButtonLink } from '../../components/ui/Button';
-import { formatPrice, resolveMediaUrl } from '../../lib/format';
+import { formatPrice } from '../../lib/format';
+import { ProductImage } from '../../components/product/ProductImage';
 
 export function AccountWishlist() {
   const { data: wishlist, isLoading } = useWishlist();
@@ -37,16 +38,16 @@ export function AccountWishlist() {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {wishlist.map((item) => (
-        <div key={item.id} className="flex gap-4 rounded-2xl border border-cream-300 bg-cream-50 p-4">
+        <div key={item.id} className="flex gap-4 rounded-3xl border border-cream-300 bg-cream-50 shadow-soft p-4">
           <Link to={`/shop/${item.product.slug}`} className="shrink-0">
-            <img src={resolveMediaUrl(item.product.primary_image_url)} alt={item.product.name} className="h-20 w-20 rounded-xl object-cover" />
+            <ProductImage src={item.product.primary_image_url} alt={item.product.name} seed={item.product.id} className="h-24 w-24 rounded-2xl" />
           </Link>
           <div className="flex flex-1 flex-col justify-between">
             <div>
               <Link to={`/shop/${item.product.slug}`}>
-                <h2 className="font-display text-base text-sage-900 hover:text-sage-700">{item.product.name}</h2>
+                <h2 className="font-display text-xl leading-tight text-sage-900 transition-colors hover:text-sage-600">{item.product.name}</h2>
               </Link>
-              <p className="text-sm font-semibold text-sage-800">{formatPrice(item.product.price, item.product.currency)}</p>
+              <p className="mt-1 text-sm font-semibold text-sage-800">{formatPrice(item.product.price, item.product.currency)}</p>
             </div>
             <div className="flex gap-3">
               <button

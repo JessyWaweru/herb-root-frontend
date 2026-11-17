@@ -1,9 +1,11 @@
 import { Hero } from '../components/home/Hero';
+import { HerbMarquee } from '../components/home/HerbMarquee';
 import { TrustStrip } from '../components/home/TrustStrip';
 import { SymptomGrid } from '../components/home/SymptomGrid';
 import { ProductSection } from '../components/home/ProductSection';
 import { GardenStory } from '../components/home/GardenStory';
 import { MindBodyTransition } from '../components/home/MindBodyTransition';
+import { ExpertCta } from '../components/home/ExpertCta';
 import { useBestsellers, useFeaturedProducts } from '../hooks/useProducts';
 
 export function Home() {
@@ -13,12 +15,17 @@ export function Home() {
   return (
     <div>
       <Hero />
+      <HerbMarquee />
       <TrustStrip />
-      <MindBodyTransition />
       <SymptomGrid />
+      <MindBodyTransition />
       <ProductSection
         eyebrow="Editor's picks"
-        title="Featured remedies"
+        title={
+          <>
+            Featured <em>remedies</em>
+          </>
+        }
         subtitle="A few of our favorites this season."
         products={featured.data}
         isLoading={featured.isLoading}
@@ -27,12 +34,17 @@ export function Home() {
       <GardenStory />
       <ProductSection
         eyebrow="Loved by customers"
-        title="Bestsellers"
+        title={
+          <>
+            The <em>bestsellers</em>
+          </>
+        }
         subtitle="What everyone keeps coming back for."
         products={bestsellers.data}
         isLoading={bestsellers.isLoading}
         viewAllHref="/shop?is_bestseller=true"
       />
+      <ExpertCta />
     </div>
   );
 }

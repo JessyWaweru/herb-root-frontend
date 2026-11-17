@@ -22,13 +22,21 @@ export function AppToaster() {
     <div id={LAYER_ID} popover="manual" className="toast-layer">
       <Toaster
         position="top-center"
+        containerStyle={{ top: 20 }}
         toastOptions={{
           style: {
-            background: '#3f5d3a',
-            color: '#fbf7ee',
+            background: '#0a3829',
+            color: '#fffdf8',
             borderRadius: '9999px',
             fontSize: '14px',
+            fontWeight: 600,
+            padding: '10px 18px 10px 12px',
+            border: '1px solid rgba(143, 210, 177, 0.25)',
+            boxShadow: '0 2px 6px rgba(6, 36, 26, 0.2), 0 24px 48px -16px rgba(6, 36, 26, 0.5)',
+            maxWidth: 'min(92vw, 28rem)',
           },
+          success: { iconTheme: { primary: '#e8b751', secondary: '#0a3829' } },
+          error: { iconTheme: { primary: '#e49c84', secondary: '#0a3829' } },
         }}
       />
     </div>

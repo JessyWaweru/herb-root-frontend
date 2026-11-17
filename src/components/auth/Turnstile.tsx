@@ -84,7 +84,7 @@ export const Turnstile = forwardRef<TurnstileHandle, { onToken: (token: string |
 
     if (failed) {
       return (
-        <p role="alert" className="rounded-xl border border-rose-300 bg-rose-300/10 px-3 py-2 text-xs text-rose-600">
+        <p role="alert" className="rounded-xl border border-rose-300 bg-rose-50 px-3 py-2 text-xs text-rose-600">
           We couldn't load the security check. Check your connection, disable any blocker for this page, and
           refresh.
         </p>

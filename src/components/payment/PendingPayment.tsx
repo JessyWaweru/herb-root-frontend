@@ -26,7 +26,7 @@ export function PendingPayment({ target, returnPath, amount, currency, defaultPh
 
   if (waitingForPin) {
     return (
-      <div role="status" className="mt-6 flex items-start gap-3 rounded-xl bg-sage-50 p-4 text-sm text-ink-700">
+      <div role="status" className="mt-6 flex items-start gap-3.5 rounded-3xl bg-sage-50 p-5 text-sm leading-relaxed text-ink-700 ring-1 ring-sage-200">
         <span className="relative mt-0.5 flex shrink-0">
           <Smartphone size={22} className="text-sage-700" aria-hidden />
           <span className="absolute -right-1 -top-1 h-2.5 w-2.5 animate-ping rounded-full bg-sage-500" aria-hidden />
@@ -55,8 +55,8 @@ export function PendingPayment({ target, returnPath, amount, currency, defaultPh
   };
 
   return (
-    <div className="mt-6 rounded-xl border border-cream-300 p-4">
-      <p role={failed ? 'alert' : undefined} className="mb-4 rounded-lg bg-gold-300/30 p-3 text-sm text-ink-700">
+    <div className="mt-6 rounded-3xl border border-cream-300 bg-cream-100/60 p-5">
+      <p role={failed ? 'alert' : undefined} className="mb-5 rounded-2xl bg-gold-200 p-3.5 text-sm leading-relaxed text-ink-800">
         {failed
           ? "We couldn't confirm that payment. If M-Pesa sent you a confirmation SMS, refresh this page in a minute. Otherwise, try again below."
           : "Payment hasn't been confirmed yet. If you've just paid, refresh this page in a moment. Otherwise, pay below."}

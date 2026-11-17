@@ -2,7 +2,10 @@ import { Link, useParams } from 'react-router-dom';
 import { m } from 'framer-motion';
 import { ArrowDown, ChevronDown, Leaf, Sparkles, Stethoscope, Tag } from 'lucide-react';
 import { useIngredients, useProducts, useSymptoms } from '../hooks/useProducts';
-import { PageSpinner, Spinner } from '../components/ui/Spinner';
+import { PageSpinner } from '../components/ui/Spinner';
+import { ProductGridSkeleton } from '../components/ui/Skeleton';
+import { Eyebrow, SectionHeading } from '../components/ui/SectionHeading';
+import { Sprig } from '../components/art/Botanical';
 import { Badge } from '../components/ui/Badge';
 import { ButtonLink } from '../components/ui/Button';
 import { buttonClasses } from '../components/ui/buttonStyles';
@@ -61,40 +64,29 @@ export function ConcernDetail() {
       />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-botanical">
+      <section className="bg-botanical relative -mt-[4.5rem] overflow-hidden border-b border-cream-300 pt-[4.5rem]">
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <Sprig className="absolute -left-10 bottom-[-4rem] h-80 -rotate-[16deg] text-sage-300/60" leaves={8} />
           <div className="absolute -top-24 right-0 h-96 w-96 rounded-full bg-gold-300/25 blur-3xl" />
-          <div className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-sage-200/40 blur-3xl" />
-          <m.span
-            className="absolute left-[6%] top-24 text-6xl opacity-20"
-            animate={{ y: [0, -14, 0], rotate: [-5, 5, -5] }}
-            transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            🌿
-          </m.span>
-          <m.span
-            className="absolute bottom-10 left-[45%] text-5xl opacity-15"
-            animate={{ y: [0, 12, 0], rotate: [4, -4, 4] }}
-            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            🍃
-          </m.span>
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-          <Breadcrumbs items={concernCrumbs(concern)} />
+        <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 lg:px-8 lg:pb-20">
+          <Breadcrumbs items={concernCrumbs(concern)} className="mb-8" />
           <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:justify-between">
             <div className="max-w-2xl text-center lg:text-left">
               <m.div {...rise(0)}>
-                <Badge className="mb-4">
+                <Eyebrow>
                   <Sparkles size={12} aria-hidden="true" /> Shop by concern
-                </Badge>
+                </Eyebrow>
               </m.div>
-              <m.h1 {...rise(0.08)} className="text-balance font-display text-4xl leading-tight text-sage-900 sm:text-5xl">
+              <m.h1
+                {...rise(0.08)}
+                className="mt-4 text-balance font-display text-4xl leading-[1.03] tracking-[-0.02em] text-sage-900 sm:text-5xl lg:text-6xl"
+              >
                 {meta.heading}
               </m.h1>
               {concern.description && (
-                <m.p {...rise(0.16)} className="mt-4 text-lg text-ink-700">
+                <m.p {...rise(0.16)} className="mt-5 text-lg leading-relaxed text-ink-700">
                   {concern.description}
                 </m.p>
               )}
@@ -118,6 +110,7 @@ export function ConcernDetail() {
                   label="Describe how you feel"
                   placeholder="Or describe it in your own words…"
                   className="w-full max-w-xs"
+                  inputClassName="h-13"
                 />
               </m.div>
             </div>
@@ -129,17 +122,17 @@ export function ConcernDetail() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Guide + at a glance */}
         {lead && (
-          <section className="grid gap-10 py-16 lg:grid-cols-[1fr_320px]" aria-label="About this concern">
+          <section className="grid gap-10 py-16 lg:grid-cols-[1fr_340px] lg:gap-16 lg:py-24" aria-label="About this concern">
             <div>
               <m.p
                 {...reveal()}
-                className="relative border-l-4 border-gold-500 pl-6 font-display text-2xl leading-snug text-sage-900 sm:text-3xl"
+                className="relative border-l-2 border-gold-500 pl-6 font-display text-2xl leading-[1.3] text-sage-900 sm:pl-8 sm:text-[2rem]"
               >
                 {lead}
               </m.p>
-              <div className="mt-8 flex flex-col gap-5">
+              <div className="mt-10 flex max-w-2xl flex-col gap-5 sm:pl-8">
                 {paragraphs.map((text, i) => (
-                  <m.p key={i} {...reveal(0.05 * i)} className="leading-relaxed text-ink-700">
+                  <m.p key={i} {...reveal(0.05 * i)} className="text-[17px] leading-[1.75] text-ink-700">
                     {text}
                   </m.p>
                 ))}
@@ -148,18 +141,18 @@ export function ConcernDetail() {
 
             <m.aside
               {...reveal(0.1)}
-              className="h-fit rounded-3xl border border-cream-300 bg-cream-50 p-6 shadow-soft lg:sticky lg:top-24"
+              className="card h-fit p-7 lg:sticky lg:top-28"
             >
-              <h2 className="font-display text-xl text-sage-900">At a glance</h2>
-              <dl className="mt-4 flex flex-col gap-4 text-sm">
+              <h2 className="font-display text-2xl text-sage-900">At a glance</h2>
+              <dl className="mt-5 flex flex-col gap-5 text-sm">
                 <div>
-                  <dt className="text-xs font-semibold uppercase tracking-wide text-ink-600">Remedies</dt>
-                  <dd className="mt-1 font-display text-2xl text-sage-900">{products?.count ?? concern.product_count}</dd>
+                  <dt className="eyebrow text-[10px] text-ink-600">Remedies</dt>
+                  <dd className="mt-1 font-display text-5xl leading-none text-sage-900">{products?.count ?? concern.product_count}</dd>
                 </div>
                 {prices.length > 0 && (
                   <div>
-                    <dt className="text-xs font-semibold uppercase tracking-wide text-ink-600">Price range</dt>
-                    <dd className="mt-1 text-ink-800">
+                    <dt className="eyebrow text-[10px] text-ink-600">Price range</dt>
+                    <dd className="mt-1.5 font-display text-xl text-sage-900">
                       {formatPrice(Math.min(...prices), remedies[0].currency)}
                       {Math.max(...prices) !== Math.min(...prices) && ` – ${formatPrice(Math.max(...prices), remedies[0].currency)}`}
                     </dd>
@@ -167,11 +160,11 @@ export function ConcernDetail() {
                 )}
                 {categories.length > 0 && (
                   <div>
-                    <dt className="text-xs font-semibold uppercase tracking-wide text-ink-600">Comes as</dt>
+                    <dt className="eyebrow text-[10px] text-ink-600">Comes as</dt>
                     <dd className="mt-2 flex flex-wrap gap-1.5">
                       {categories.map((category) => (
                         <Link key={category.slug} to={`/shop?category=${category.slug}`}>
-                          <Badge tone="sage" className="hover:bg-sage-200">
+                          <Badge tone="sage" className="hover:bg-sage-800 hover:text-cream-50">
                             <Tag size={11} aria-hidden="true" /> {category.name}
                           </Badge>
                         </Link>
@@ -180,7 +173,7 @@ export function ConcernDetail() {
                   </div>
                 )}
               </dl>
-              <div className="mt-6 flex flex-col gap-2">
+              <div className="mt-7 flex flex-col gap-2 border-t border-cream-200 pt-6">
                 <a href="#remedies" className={buttonClasses()}>
                   Shop these remedies
                 </a>
@@ -194,16 +187,21 @@ export function ConcernDetail() {
 
         {/* Herbs mentioned in the guide */}
         {herbs.length > 0 && (
-          <section className="py-12" aria-labelledby="herbs-heading">
-            <m.div {...reveal()} className="mb-8 flex items-end justify-between gap-4">
-              <div>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-sage-600">
-                  <Leaf size={13} aria-hidden="true" /> From the garden
-                </span>
-                <h2 id="herbs-heading" className="mt-1 font-display text-3xl text-sage-900">
-                  Herbs in this guide
-                </h2>
-              </div>
+          <section className="py-12 lg:py-16" aria-labelledby="herbs-heading">
+            <m.div {...reveal()}>
+              <SectionHeading
+                id="herbs-heading"
+                eyebrow={
+                  <>
+                    <Leaf size={13} aria-hidden="true" /> From the garden
+                  </>
+                }
+                title={
+                  <>
+                    Herbs in <em>this guide</em>
+                  </>
+                }
+              />
             </m.div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {herbs.map((herb, i) => (
@@ -214,18 +212,23 @@ export function ConcernDetail() {
         )}
 
         {/* Remedies */}
-        <section id="remedies" className="scroll-mt-24 py-12" aria-labelledby="remedies-heading">
-          <m.div {...reveal()} className="mb-8 flex flex-wrap items-center gap-3">
-            <h2 id="remedies-heading" className="font-display text-3xl text-sage-900">
-              Remedies for {concern.name.toLowerCase()}
-            </h2>
-            {products && <Badge>{products.count}</Badge>}
+        <section id="remedies" className="scroll-mt-28 py-12 lg:py-16" aria-labelledby="remedies-heading">
+          <m.div {...reveal()}>
+            <SectionHeading
+              id="remedies-heading"
+              eyebrow={products ? `${products.count} ${products.count === 1 ? 'remedy' : 'remedies'}` : 'Remedies'}
+              title={
+                <>
+                  Remedies for <em>{concern.name.toLowerCase()}</em>
+                </>
+              }
+            />
           </m.div>
-          {productsLoading ? <Spinner /> : <ProductGrid products={remedies} animated />}
+          {productsLoading ? <ProductGridSkeleton /> : <ProductGrid products={remedies} animated />}
           {products?.next && (
             <Link
               to={`/shop?symptom=${concern.slug}`}
-              className="mt-6 inline-block text-sm font-semibold text-sage-700 underline"
+              className="mt-8 inline-block text-sm font-semibold text-sage-700 underline underline-offset-2"
             >
               See all {products.count} remedies in the shop
             </Link>
@@ -234,25 +237,29 @@ export function ConcernDetail() {
 
         {/* Common questions */}
         {concern.faqs.length > 0 && (
-          <section className="py-12" aria-labelledby="faq-heading">
-            <m.h2 {...reveal()} id="faq-heading" className="mb-6 font-display text-3xl text-sage-900">
-              Common questions
-            </m.h2>
-            <div className="flex max-w-3xl flex-col gap-3">
+          <section className="grid gap-8 py-12 lg:grid-cols-[1fr_1.6fr] lg:gap-16 lg:py-16" aria-labelledby="faq-heading">
+            <m.div {...reveal()}>
+              <SectionHeading
+                id="faq-heading"
+                eyebrow="Good to know"
+                title={
+                  <>
+                    Common <em>questions</em>
+                  </>
+                }
+                className="mb-0"
+              />
+            </m.div>
+            <div className="flex flex-col border-t border-cream-300">
               {concern.faqs.map((faq) => (
-                <details
-                  key={faq.question}
-                  className="group rounded-2xl border border-cream-300 bg-cream-50 px-6 py-4 shadow-soft open:pb-5"
-                >
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-sage-900 [&::-webkit-details-marker]:hidden">
+                <details key={faq.question} className="group border-b border-cream-300">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 font-display text-xl leading-snug text-sage-900 transition-colors hover:text-sage-600 [&::-webkit-details-marker]:hidden">
                     {faq.question}
-                    <ChevronDown
-                      size={18}
-                      aria-hidden="true"
-                      className="shrink-0 text-sage-600 transition-transform group-open:rotate-180"
-                    />
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-sage-800/20 text-sage-800 transition duration-300 group-open:rotate-180 group-open:border-sage-800 group-open:bg-sage-800 group-open:text-cream-50">
+                      <ChevronDown size={17} aria-hidden="true" />
+                    </span>
                   </summary>
-                  <p className="mt-3 leading-relaxed text-ink-700">{faq.answer}</p>
+                  <p className="max-w-2xl pb-6 leading-relaxed text-ink-700">{faq.answer}</p>
                 </details>
               ))}
             </div>
@@ -262,16 +269,16 @@ export function ConcernDetail() {
         {/* Safety */}
         <m.aside
           {...reveal()}
-          className="relative my-12 overflow-hidden rounded-[2.5rem] bg-sage-800 p-8 text-cream-50 sm:p-12"
+          className="bg-forest relative my-12 overflow-hidden rounded-[2.5rem] p-8 text-cream-50 sm:p-12"
         >
-          <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-gold-500/20 blur-2xl" aria-hidden="true" />
+          <Sprig className="pointer-events-none absolute -right-6 -top-10 h-64 rotate-[28deg] text-sage-300/20" leaves={7} />
           <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex max-w-2xl items-start gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cream-50/10 text-gold-400">
                 <Stethoscope size={22} aria-hidden="true" />
               </span>
               <div>
-                <h2 className="font-display text-2xl text-cream-50">Not sure it's right for you?</h2>
+                <h2 className="font-display text-3xl text-cream-50">Not sure it's right for you?</h2>
                 <p className="mt-2 text-sm leading-relaxed text-cream-100/85">{CONCERN_SAFETY_NOTE}</p>
               </div>
             </div>
@@ -283,11 +290,19 @@ export function ConcernDetail() {
 
         {/* Other concerns */}
         {others.length > 0 && (
-          <section className="py-12" aria-labelledby="other-concerns-heading">
-            <m.h2 {...reveal()} id="other-concerns-heading" className="mb-6 font-display text-3xl text-sage-900">
-              Explore other concerns
-            </m.h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+          <section className="py-12 lg:py-16" aria-labelledby="other-concerns-heading">
+            <m.div {...reveal()}>
+              <SectionHeading
+                id="other-concerns-heading"
+                eyebrow="Keep exploring"
+                title={
+                  <>
+                    Explore <em>other concerns</em>
+                  </>
+                }
+              />
+            </m.div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {others.map((c, i) => (
                 <ConcernCard key={c.id} concern={c} index={i} />
               ))}

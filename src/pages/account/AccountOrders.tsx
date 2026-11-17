@@ -40,15 +40,15 @@ export function AccountOrders() {
         <Link
           key={order.id}
           to={`/orders/${order.order_number}`}
-          className="flex flex-col gap-2 rounded-2xl border border-cream-300 bg-cream-50 p-5 transition hover:border-sage-300 sm:flex-row sm:items-center sm:justify-between"
+          className="flex flex-col gap-2 card p-5 transition duration-300 hover:-translate-y-0.5 hover:border-sage-300 hover:shadow-lift sm:flex-row sm:items-center sm:justify-between"
         >
           <div>
-            <p className="font-semibold text-sage-900">#{order.order_number}</p>
+            <p className="font-display text-xl text-sage-900">#{order.order_number}</p>
             <p className="text-sm text-ink-600">{formatDate(order.created_at)} · {order.items.length} item(s)</p>
           </div>
           <div className="flex items-center gap-4">
             <Badge tone={STATUS_TONE[order.status] ?? 'sage'}>{order.status.replace(/_/g, ' ')}</Badge>
-            <span className="font-semibold text-sage-900">{formatPrice(order.total_amount, order.currency)}</span>
+            <span className="font-display text-xl text-sage-900">{formatPrice(order.total_amount, order.currency)}</span>
           </div>
         </Link>
       ))}

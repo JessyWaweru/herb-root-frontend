@@ -20,14 +20,16 @@ export function PaymentMethodPicker({ value, onChange, phoneError, idPrefix = 'p
   return (
     <div className="flex flex-col gap-4">
       <fieldset>
-        <legend className="text-sm font-medium text-ink-700">How would you like to pay?</legend>
-        <div className="mt-2 grid grid-cols-2 gap-2">
+        <legend className="text-[13px] font-semibold text-ink-700">How would you like to pay?</legend>
+        <div className="mt-2.5 grid grid-cols-2 gap-3">
           {METHODS.map(({ value: method, label, hint, icon: Icon }) => (
             <label
               key={method}
               className={clsx(
-                'flex cursor-pointer flex-col items-start gap-0.5 rounded-xl border p-3 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-sage-400',
-                value.method === method ? 'border-sage-500 bg-sage-50 ring-1 ring-sage-500' : 'border-cream-300 hover:border-sage-300',
+                'flex cursor-pointer flex-col items-start gap-0.5 rounded-3xl border p-4 transition duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-sage-600',
+                value.method === method
+                  ? 'border-sage-800 bg-sage-50 shadow-soft ring-1 ring-sage-800'
+                  : 'border-cream-300 bg-cream-50 hover:border-sage-400',
               )}
             >
               <input
@@ -38,8 +40,15 @@ export function PaymentMethodPicker({ value, onChange, phoneError, idPrefix = 'p
                 onChange={() => onChange({ ...value, method })}
                 className="sr-only"
               />
-              <Icon size={18} className="text-sage-700" aria-hidden />
-              <span className="mt-1 text-sm font-semibold text-sage-900">{label}</span>
+              <span
+                className={clsx(
+                  'flex h-10 w-10 items-center justify-center rounded-full transition-colors',
+                  value.method === method ? 'bg-sage-800 text-gold-400' : 'bg-sage-100 text-sage-700',
+                )}
+              >
+                <Icon size={18} aria-hidden />
+              </span>
+              <span className="mt-2 text-sm font-semibold text-sage-900">{label}</span>
               <span className="text-xs text-ink-600">{hint}</span>
             </label>
           ))}

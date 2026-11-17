@@ -79,10 +79,10 @@ export function ProfileDetailsCard() {
   };
 
   return (
-    <div className="rounded-2xl border border-cream-300 bg-cream-50 p-6">
+    <div className="card p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-lg text-sage-900">Profile details</h2>
+          <h2 className="font-display text-xl text-sage-900">Profile details</h2>
           {!editing && <p className="mt-0.5 text-xs text-ink-600">Click Edit to change your details.</p>}
         </div>
         {!editing && (

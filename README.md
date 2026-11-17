@@ -29,9 +29,19 @@ README for setup, including `python manage.py seed_products`.
 - `src/lib/` — API clients per domain (`products.ts`, `auth.ts`, `orders.ts`, `payments.ts`, `core.ts`) + axios instance with refresh-token interceptor
 - `src/hooks/` — TanStack Query hooks wrapping the API clients
 - `src/stores/authStore.ts` — persisted auth state (user, JWT pair)
-- `src/components/` — `ui/` (buttons, inputs, spinners…), `layout/` (navbar, footer, auth shell), `product/`, `home/`
+- `src/components/` — `ui/` (buttons, inputs, spinners…), `layout/` (navbar, footer, auth shell, page hero), `product/`, `home/`, `art/` (botanical drawings)
 - `src/pages/` — route-level pages, including `account/` (nested account section) and `auth/`
 - `src/routes/router.tsx` — route tree; `/checkout`, `/orders/:id`, and `/account/*` are behind `ProtectedRoute`
+
+## Design system
+
+Everything visual hangs off `src/index.css`:
+
+- **Colours** are built out from the GOherbal mark: its deep green (`sage-800`), mint (`sage-300`) and gold dot (`gold-500`), on warm paper (`cream-*`), with hibiscus (`rose-*`) for warnings and sale prices. Comments beside each scale say which steps are safe for text.
+- **Surfaces**: `card` (the standard panel), `bg-botanical` (paper with soft colour washes, used behind page headers), `bg-forest` (the deep green panel: garden story, basket summary, footer).
+- **Type**: Fraunces for headings, Manrope for everything else. `eyebrow` is the small capitals line above a heading; `accent-italic` (or an `<em>` inside `SectionHeading` / `PageHero`) is the italic green word that carries a headline.
+- **Shared pieces**: `components/ui/` (buttons, fields, badges, dialog, skeleton loaders, `SectionHeading`), `components/layout/PageHero.tsx` (the band at the top of listing pages), `components/art/Botanical.tsx` (the drawn sprig, brand leaf and turning seal used instead of emoji), and `components/product/ProductImage.tsx` (a product's photo, or a drawn panel when it has none yet).
+- Looping CSS animations are switched off for visitors who ask their device for reduced motion; Framer Motion honours the same setting through `MotionConfig`.
 
 ## Key flows
 

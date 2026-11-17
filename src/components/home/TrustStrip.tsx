@@ -9,20 +9,21 @@ const ITEMS = [
 
 export function TrustStrip() {
   return (
-    <section className="border-y border-cream-300 bg-cream-50/60">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-10 sm:px-6 md:grid-cols-4 lg:px-8">
+    <section aria-label="Our promises" className="border-y border-cream-300 bg-cream-300">
+      {/* A one-pixel gap over the border colour draws the hairlines between the cells. */}
+      <ul className="mx-auto grid max-w-[90rem] grid-cols-2 gap-px lg:grid-cols-4">
         {ITEMS.map(({ icon: Icon, title, desc }) => (
-          <div key={title} className="flex flex-col items-center gap-2 text-center sm:flex-row sm:text-left">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sage-700">
-              <Icon size={19} />
+          <li key={title} className="group flex flex-col gap-4 bg-cream-50 px-5 py-8 transition-colors duration-300 hover:bg-sage-50 sm:px-8 sm:py-10">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full border border-sage-200 bg-cream-50 text-sage-700 transition-colors duration-300 group-hover:border-sage-800 group-hover:bg-sage-800 group-hover:text-gold-400">
+              <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div>
-              <p className="text-sm font-semibold text-sage-900">{title}</p>
-              <p className="text-xs text-ink-600">{desc}</p>
+              <p className="font-display text-xl leading-tight text-sage-900">{title}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-ink-600">{desc}</p>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

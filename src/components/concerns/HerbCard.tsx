@@ -1,5 +1,5 @@
 import { m } from 'framer-motion';
-import { Leaf } from 'lucide-react';
+import { Sprig } from '../art/Botanical';
 import { gardenPhotoFor } from '../../lib/gardenPhotos';
 import type { Ingredient } from '../../types';
 
@@ -13,9 +13,9 @@ export function HerbCard({ herb, index = 0 }: { herb: Ingredient; index?: number
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
       whileHover={{ y: -6 }}
-      className="group flex flex-col overflow-hidden rounded-3xl border border-cream-300 bg-cream-50 shadow-soft"
+      className="card group flex flex-col overflow-hidden transition-shadow duration-300 hover:shadow-lift"
     >
-      <div className="relative h-40 overflow-hidden bg-gradient-to-br from-sage-100 via-sage-50 to-gold-300/40">
+      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-sage-100 via-sage-50 to-gold-200">
         {photo ? (
           <img
             src={photo.src}
@@ -25,14 +25,15 @@ export function HerbCard({ herb, index = 0 }: { herb: Ingredient; index?: number
             style={{ objectPosition: photo.focus }}
           />
         ) : (
-          <span className="flex h-full items-center justify-center text-sage-500" aria-hidden="true">
-            <Leaf size={44} className="animate-leaf-sway" />
+          <span className="flex h-full items-center justify-center" aria-hidden="true">
+            <span className="absolute aspect-square h-[70%] rounded-full bg-cream-50/60" />
+            <Sprig className="relative h-[78%] animate-leaf-sway text-sage-600" leaves={5} />
           </span>
         )}
       </div>
-      <figcaption className="flex flex-1 flex-col gap-1 p-5">
-        <span className="font-display text-lg text-sage-900">{herb.name}</span>
-        {herb.description && <span className="text-sm text-ink-600">{herb.description}</span>}
+      <figcaption className="flex flex-1 flex-col gap-1.5 p-6">
+        <span className="font-display text-2xl leading-tight text-sage-900">{herb.name}</span>
+        {herb.description && <span className="text-sm leading-relaxed text-ink-600">{herb.description}</span>}
         {photo && (
           <span className="mt-auto pt-3 text-[11px] leading-snug text-ink-600">
             Photo:{' '}

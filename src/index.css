@@ -1,90 +1,88 @@
 @import 'tailwindcss';
 
+/*
+ * The palette is built out from the GOherbal mark: its deep green (sage-800), its mint
+ * (sage-300) and its gold dot (gold-500), on warm paper. Text pairings used across the
+ * site are checked for 4.5:1 contrast; the notes below say which steps are safe for text.
+ */
 @theme {
   --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
   --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
 
+  /* Paper. 50 is a card, 100 the page, 300 a hairline border. */
   --color-cream-50: #fffdf8;
-  --color-cream-100: #fbf7ee;
-  --color-cream-200: #f6efe1;
-  --color-cream-300: #e9ddc4;
+  --color-cream-100: #faf6ec;
+  --color-cream-200: #f3ecda;
+  --color-cream-300: #e5dbc2;
+  --color-cream-400: #d2c5a4;
 
-  --color-sage-50: #f2f6ee;
-  --color-sage-100: #e1ebd7;
-  --color-sage-200: #c3d8b0;
-  --color-sage-300: #a9c088;
-  --color-sage-400: #8aa876;
-  --color-sage-500: #6b8e5a;
-  --color-sage-600: #587649;
-  --color-sage-700: #45603a;
-  --color-sage-800: #3f5d3a;
-  --color-sage-900: #2c4023;
+  /* Green, from a mint wash to the logo's deep green. 600 and darker are safe for text on paper. */
+  --color-sage-50: #f0f7f2;
+  --color-sage-100: #dcefe3;
+  --color-sage-200: #badfc9;
+  --color-sage-300: #8fd2b1;
+  --color-sage-400: #57b38b;
+  --color-sage-500: #2b9069;
+  --color-sage-600: #17714f;
+  --color-sage-700: #105b41;
+  --color-sage-800: #0e4d3a;
+  --color-sage-900: #0a3829;
+  --color-sage-950: #06241a;
 
-  --color-gold-300: #f0dca4;
-  --color-gold-400: #e7c873;
-  --color-gold-500: #c9a15a;
-  --color-gold-600: #a8813f;
-  /* Gold text on light gold backgrounds (5:1 contrast; gold-600 is only 3:1 there). */
-  --color-gold-700: #7d5f29;
+  /* Gold. 700 is the only step for gold text on light backgrounds (500 and 600 are too pale). */
+  --color-gold-200: #fbefcc;
+  --color-gold-300: #f6e0a3;
+  --color-gold-400: #f0cb72;
+  --color-gold-500: #e8b751;
+  --color-gold-600: #c58f2c;
+  --color-gold-700: #7a5916;
 
-  --color-rose-300: #edc2b6;
-  --color-rose-400: #e3a99a;
-  --color-rose-500: #c97b5f;
-  --color-rose-600: #a85f45;
-  --color-rose-700: #8f4b37;
+  /* Hibiscus: warnings, sale prices, hearts. 600 and darker are safe for text on paper. */
+  --color-rose-50: #fdf4f0;
+  --color-rose-100: #fae4db;
+  --color-rose-300: #f0c0ae;
+  --color-rose-400: #e49c84;
+  --color-rose-500: #d06d4e;
+  --color-rose-600: #b34f30;
+  --color-rose-700: #8f3d24;
 
-  --color-ink-600: #6b6146;
-  --color-ink-700: #4a4237;
-  --color-ink-800: #3b3226;
-  --color-ink-900: #2a241b;
+  /* Text. Green-black rather than brown, so it sits with the greens. */
+  --color-ink-600: #56635b;
+  --color-ink-700: #3b4841;
+  --color-ink-800: #25322b;
+  --color-ink-900: #131c17;
 
-  --shadow-soft: 0 1px 2px rgba(43, 37, 24, 0.04), 0 8px 24px -8px rgba(43, 37, 24, 0.12);
-  --shadow-lift: 0 12px 32px -12px rgba(43, 37, 24, 0.28);
+  --shadow-soft: 0 1px 2px rgba(10, 56, 41, 0.05), 0 10px 28px -12px rgba(10, 56, 41, 0.14);
+  --shadow-lift: 0 2px 6px rgba(10, 56, 41, 0.05), 0 28px 56px -20px rgba(10, 56, 41, 0.3);
+  --shadow-press: inset 0 1px 0 rgba(255, 253, 248, 0.16), 0 1px 2px rgba(6, 36, 26, 0.3), 0 10px 22px -10px rgba(6, 36, 26, 0.55);
+  --shadow-gold: inset 0 1px 0 rgba(255, 253, 248, 0.45), 0 1px 2px rgba(122, 89, 22, 0.25), 0 10px 22px -10px rgba(197, 143, 44, 0.7);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-spin-slow: spin 28s linear infinite;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-leaf-sway: leaf-sway 6s ease-in-out infinite;
+  --animate-rise: rise 0.6s var(--ease-out-soft) both;
 }
 
-@layer base {
-  body {
-    margin: 0;
-    background-color: var(--color-cream-100);
-    color: var(--color-ink-800);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
-    color: var(--color-sage-900);
-  }
-
-  ::selection {
-    background: var(--color-sage-200);
-    color: var(--color-sage-900);
-  }
+:root {
+  /* Fine paper grain: a speckle of the deep green at a few percent, tiled. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04 0 0 0 0 .22 0 0 0 0 .16 .2 0 0 0 -.07'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* The same grain in cream, for dark green panels. */
+  --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .97 0 0 0 0 .9 .18 0 0 0 -.06'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-@layer utilities {
-  .bg-botanical {
-    background-image:
-      radial-gradient(circle at 12% 18%, rgba(107, 142, 90, 0.08), transparent 32%),
-      radial-gradient(circle at 88% 8%, rgba(201, 161, 90, 0.1), transparent 30%),
-      radial-gradient(circle at 92% 78%, rgba(201, 123, 95, 0.08), transparent 34%);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
   }
 }
-
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
 @keyframes leaf-sway {
   0%,
   100% {
@@ -94,9 +92,204 @@
     transform: rotate(2deg) translateY(-4px);
   }
 }
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
 
-.animate-leaf-sway {
-  animation: leaf-sway 6s ease-in-out infinite;
+@layer base {
+  html {
+    /* In-page links (#remedies, #reviews) stop below the sticky header. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-cream-100);
+    background-image: var(--grain);
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-sage-900);
+    font-optical-sizing: auto;
+    letter-spacing: -0.012em;
+  }
+
+  ::selection {
+    background: var(--color-sage-800);
+    color: var(--color-cream-50);
+  }
+
+  /* Number steppers in price filters: the arrows crowd a small field. */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  input[type='checkbox'],
+  input[type='radio'] {
+    accent-color: var(--color-sage-700);
+  }
+
+  @media (pointer: fine) {
+    html {
+      scrollbar-color: var(--color-sage-300) transparent;
+    }
+  }
+}
+
+/* ---------- Surfaces ---------- */
+
+/* Soft washes of green, gold and hibiscus over the paper, for page and section backgrounds. */
+@utility bg-botanical {
+  background-image:
+    var(--grain),
+    radial-gradient(60% 50% at 8% 0%, rgba(143, 210, 177, 0.26), transparent 70%),
+    radial-gradient(45% 45% at 96% 4%, rgba(232, 183, 81, 0.2), transparent 70%),
+    radial-gradient(50% 50% at 90% 96%, rgba(208, 109, 78, 0.09), transparent 70%);
+}
+
+/* The deep green panel: hero bands, the garden story, the footer. */
+@utility bg-forest {
+  background-color: var(--color-sage-900);
+  background-image:
+    var(--grain-light),
+    radial-gradient(70% 90% at 0% 0%, rgba(43, 144, 105, 0.42), transparent 62%),
+    radial-gradient(55% 70% at 100% 100%, rgba(232, 183, 81, 0.13), transparent 65%),
+    linear-gradient(160deg, var(--color-sage-800), var(--color-sage-950));
+}
+
+/* The standard card: a sheet of lighter paper with a hairline edge. */
+@utility card {
+  border-radius: 1.75rem;
+  border: 1px solid var(--color-cream-300);
+  background-color: var(--color-cream-50);
+  box-shadow: var(--shadow-soft);
+}
+
+/* A photo window with a rounded top, like a greenhouse arch. */
+@utility arch {
+  border-radius: 999px 999px 1.5rem 1.5rem;
+}
+
+/* ---------- Type ---------- */
+
+/* The small capitals line above a heading. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-sage-600);
+}
+
+/*
+ * For the very largest headlines. Fraunces thins its hairlines as text grows; past about
+ * 60px they get wispy enough to hurt reading, so this holds the drawing at a sturdier cut.
+ */
+@utility display-sturdy {
+  font-variation-settings: 'opsz' 60;
+}
+
+/* The italic word or two that carries a headline. */
+@utility accent-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-sage-600);
+}
+
+/* A link whose underline draws in from the left on hover. */
+@utility link-sweep {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.35s var(--ease-out-soft), color 0.2s;
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- Helpers ---------- */
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Fades the left and right edges of a scrolling strip. */
+@utility mask-fade-x {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* A placeholder block that shimmers while content loads. */
+@utility skeleton {
+  border-radius: 0.75rem;
+  background-color: var(--color-cream-200);
+  background-image: linear-gradient(100deg, transparent 30%, rgba(255, 253, 248, 0.9) 50%, transparent 70%);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* Dialogs rise in over a backdrop that fades; closing is instant, as before. */
+dialog[open] {
+  animation: dialog-in 0.32s var(--ease-out-soft);
+}
+dialog[open]::backdrop {
+  animation: backdrop-in 0.3s ease-out;
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Visitors who ask their device for less motion get none of the looping or sliding CSS animations. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-spin-slow,
+  .animate-leaf-sway,
+  .animate-rise,
+  .skeleton,
+  dialog[open],
+  dialog[open]::backdrop {
+    animation: none;
+  }
 }
 
 /* The popover holding the toaster (see AppToaster): invisible itself, never blocks clicks. */
@@ -119,6 +312,11 @@
   color: var(--color-sage-700);
   font-weight: 600;
   text-decoration: underline;
+  text-decoration-color: var(--color-sage-300);
+  text-underline-offset: 3px;
+}
+.legal a:hover {
+  text-decoration-color: currentColor;
 }
 .legal ul.bullets {
   list-style: disc;
@@ -126,6 +324,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+}
+.legal ul.bullets ::marker {
+  color: var(--color-sage-400);
 }
 .legal table {
   width: 100%;
@@ -140,14 +341,34 @@
   vertical-align: top;
 }
 .legal th {
-  background: var(--color-cream-100);
+  background: var(--color-sage-50);
   color: var(--color-sage-900);
 }
 
-/* A clear focus ring for keyboard users everywhere (mouse clicks don't show it). */
-:where(a, button, [role='button'], input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-sage-600);
-  outline-offset: 2px;
+/*
+ * A clear focus ring for keyboard users everywhere (mouse clicks don't show it). It sits in the
+ * base layer so a component that draws its own ring (inputs, the search bar) can switch it off.
+ */
+@layer base {
+  :where(a, button, [role='button'], input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-sage-600);
+    outline-offset: 2px;
+  }
+  /* On the deep green panels the ring switches to gold so it stays visible. */
+  :where(.bg-forest) :where(a, button, [role='button'], input, select, textarea, summary, [tabindex]):focus-visible {
+    outline-color: var(--color-gold-400);
+  }
+}
+
+/*
+ * iPhone Safari zooms the whole page when you tap a field whose text is under 16px, and
+ * doesn't zoom back. On touch screens, fields styled with one of the small text sizes are
+ * held at 16px. Outside any layer on purpose, so it wins over the size utilities.
+ */
+@media (pointer: coarse) {
+  :is(input, select, textarea):where([class*='text-sm'], [class*='text-xs'], [class*='text-[1']) {
+    font-size: 1rem;
+  }
 }
 
 /* Plain page summary the build writes for visitors without JavaScript. */

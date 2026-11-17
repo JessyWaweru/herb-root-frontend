@@ -113,7 +113,7 @@ export function VerifyCodeForm({
       </div>
 
       <fieldset>
-        <legend className="mb-2 text-sm font-medium text-ink-700">Verification code</legend>
+        <legend className="mb-2 text-[13px] font-semibold text-ink-700">Verification code</legend>
         <div className="flex justify-between gap-2">
           {digits.map((digit, i) => (
             <input
@@ -136,9 +136,9 @@ export function VerifyCodeForm({
               aria-invalid={Boolean(error)}
               disabled={submitting}
               className={clsx(
-                'h-14 w-full min-w-0 rounded-xl border bg-cream-50 text-center font-display text-2xl text-sage-900 transition',
-                'focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400',
-                error ? 'border-rose-400' : digit ? 'border-sage-400' : 'border-cream-300',
+                'h-16 w-full min-w-0 rounded-2xl border bg-cream-50 text-center font-display text-3xl text-sage-900 shadow-[inset_0_1px_2px_rgba(10,56,41,0.04)] transition-[border-color,box-shadow,background-color] duration-200',
+                'focus:border-sage-600 focus:outline-none focus:ring-4 focus:ring-sage-600/15 focus-visible:outline-none',
+                error ? 'border-rose-400' : digit ? 'border-sage-600 bg-sage-50' : 'border-cream-300',
               )}
             />
           ))}

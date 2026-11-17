@@ -134,9 +134,9 @@ export function AccountAddresses() {
           {addresses.map((addr) => {
             const hasPin = toPin(addr) !== null;
             return (
-              <div key={addr.id} className="flex flex-col rounded-2xl border border-cream-300 bg-cream-50 p-5">
+              <div key={addr.id} className="flex flex-col card p-5">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-display text-lg text-sage-900">{addr.label}</p>
+                  <p className="font-display text-xl text-sage-900">{addr.label}</p>
                   {addr.is_default && (
                     <span className="flex shrink-0 items-center gap-1 rounded-full bg-gold-300/50 px-2 py-0.5 text-xs font-semibold text-gold-700">
                       <Star size={11} className="fill-current" /> Default
@@ -170,7 +170,7 @@ export function AccountAddresses() {
                 ) : (
                   <button
                     onClick={() => openForm(addr)}
-                    className="mt-3 flex w-fit items-center gap-1 rounded-full bg-gold-300/40 px-2.5 py-1 text-xs font-semibold text-gold-700"
+                    className="mt-3 flex w-fit items-center gap-1 rounded-full bg-gold-200 px-2.5 py-1 text-xs font-semibold text-gold-700"
                   >
                     <MapPinOff size={12} /> No map pin — add one for rider delivery
                   </button>
@@ -214,9 +214,9 @@ export function AccountAddresses() {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex max-w-2xl flex-col gap-4 rounded-2xl border border-cream-300 bg-cream-50 p-6"
+          className="flex max-w-2xl flex-col gap-4 card p-6"
         >
-          <h2 className="font-display text-lg text-sage-900">
+          <h2 className="font-display text-xl text-sage-900">
             {editing === 'new' ? 'Add an address' : `Edit “${editing.label}”`}
           </h2>
           <Suspense fallback={<Spinner />}>

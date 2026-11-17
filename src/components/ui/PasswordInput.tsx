@@ -1,6 +1,8 @@
 import { forwardRef, useState, type InputHTMLAttributes } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import clsx from 'clsx';
+import { FieldError } from './Input';
+import { fieldClasses, labelClasses } from './fieldStyles';
 
 interface PasswordInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
@@ -15,7 +17,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-ink-700">
+          <label htmlFor={inputId} className={labelClasses}>
             {label}
           </label>
         )}
@@ -27,12 +29,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             autoCapitalize="none"
             autoCorrect="off"
             spellCheck={false}
-            className={clsx(
-              'w-full rounded-xl border bg-cream-50 py-2.5 pl-4 pr-12 text-ink-900 placeholder:text-ink-600',
-              'transition focus:border-sage-400 focus:outline-none focus:ring-2 focus:ring-sage-400',
-              error ? 'border-rose-400' : 'border-cream-300',
-              className,
-            )}
+            className={clsx(fieldClasses(error), 'pr-12', className)}
             {...props}
           />
           <button
@@ -41,12 +38,12 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             aria-label={visible ? 'Hide password' : 'Show password'}
             aria-pressed={visible}
             aria-controls={inputId}
-            className="absolute inset-y-0 right-1.5 my-auto flex h-9 w-9 items-center justify-center rounded-lg text-ink-600 transition hover:bg-sage-50 hover:text-sage-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-400"
+            className="absolute inset-y-0 right-1.5 my-auto flex h-9 w-9 items-center justify-center rounded-full text-ink-600 transition hover:bg-sage-100 hover:text-sage-800"
           >
             {visible ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
         </div>
-        {error && <span className="text-xs text-rose-600">{error}</span>}
+        <FieldError>{error}</FieldError>
       </div>
     );
   },

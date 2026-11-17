@@ -72,10 +72,10 @@ export function ChangePasswordCard() {
   };
 
   return (
-    <div className="rounded-2xl border border-cream-300 bg-cream-50 p-6">
+    <div className="card p-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="font-display text-lg text-sage-900">Password</h2>
+          <h2 className="font-display text-xl text-sage-900">Password</h2>
           {!open && <p className="mt-0.5 text-xs text-ink-600">Click Change password to set a new one.</p>}
         </div>
         {!open && (

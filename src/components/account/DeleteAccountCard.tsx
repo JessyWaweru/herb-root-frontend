@@ -58,8 +58,8 @@ export function DeleteAccountCard() {
   };
 
   return (
-    <div className="rounded-2xl border border-rose-300 bg-rose-300/10 p-6">
-      <h2 className="font-display text-lg text-sage-900">Delete account</h2>
+    <div className="rounded-2xl border border-rose-300 bg-rose-50 p-6">
+      <h2 className="font-display text-xl text-sage-900">Delete account</h2>
       <p className="mt-1 text-sm text-ink-700">
         Permanently erase your account and personal details. This can't be undone.
       </p>

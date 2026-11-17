@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Sprig } from '../art/Botanical';
 
 export function EmptyState({
   icon = '🌿',
@@ -16,11 +17,18 @@ export function EmptyState({
 }) {
   const Heading = headingLevel === 1 ? 'h1' : 'h2';
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-sage-300 bg-sage-50/50 px-6 py-16 text-center">
-      <span className="text-4xl" aria-hidden="true">{icon}</span>
-      <Heading className="font-display text-xl text-sage-900">{title}</Heading>
-      {description && <p className="max-w-sm text-sm text-ink-600">{description}</p>}
-      {action}
+    <div className="relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-[2rem] border border-cream-300 bg-cream-50/70 px-6 py-16 text-center shadow-soft">
+      <Sprig className="pointer-events-none absolute -left-6 bottom-0 h-44 -rotate-12 text-sage-300/60" />
+      <Sprig className="pointer-events-none absolute -right-4 top-2 h-36 rotate-[160deg] text-gold-400/50" leaves={5} />
+      <span
+        className="relative flex h-20 w-20 items-center justify-center rounded-full bg-sage-100 text-4xl ring-8 ring-sage-50"
+        aria-hidden="true"
+      >
+        {icon}
+      </span>
+      <Heading className="relative mt-2 font-display text-2xl text-sage-900">{title}</Heading>
+      {description && <p className="relative max-w-sm text-sm leading-relaxed text-ink-600">{description}</p>}
+      {action && <div className="relative mt-3">{action}</div>}
     </div>
   );
 }

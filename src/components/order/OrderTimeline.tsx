@@ -35,16 +35,16 @@ export function OrderTimeline({ order }: { order: Order }) {
             <div className="flex flex-col items-center">
               <span
                 className={clsx(
-                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2',
-                  done ? 'border-sage-600 bg-sage-600 text-cream-50' : 'border-cream-300 bg-cream-50',
-                  index === currentIndex && 'ring-4 ring-sage-100',
+                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                  done ? 'border-sage-800 bg-sage-800 text-gold-400' : 'border-cream-300 bg-cream-50',
+                  index === currentIndex && 'ring-4 ring-sage-200',
                 )}
               >
                 {done && <Check size={13} strokeWidth={3} />}
               </span>
-              {!isLast && <span className={clsx('w-0.5 flex-1', index < currentIndex ? 'bg-sage-600' : 'bg-cream-300')} />}
+              {!isLast && <span className={clsx('w-0.5 flex-1', index < currentIndex ? 'bg-sage-800' : 'bg-cream-300')} />}
             </div>
-            <div className={clsx('pb-5', isLast && 'pb-0')}>
+            <div className={clsx('pb-6 pt-0.5', isLast && 'pb-0')}>
               <p className={clsx('text-sm font-semibold', done ? 'text-sage-900' : 'text-ink-600')}>{step.label}</p>
               {done && time && <p className="text-xs text-ink-600">{timeFormat.format(new Date(time))}</p>}
             </div>

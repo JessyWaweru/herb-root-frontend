@@ -6,7 +6,9 @@ import { usePoints, useRedeemReward } from '../../hooks/usePoints';
 import { useAuthStore } from '../../stores/authStore';
 import { updateMe } from '../../lib/auth';
 import { apiErrorMessage } from '../../lib/api';
-import { formatDate, resolveMediaUrl } from '../../lib/format';
+import { formatDate } from '../../lib/format';
+import { ProductImage } from '../../components/product/ProductImage';
+import { Sprig } from '../../components/art/Botanical';
 import { Spinner } from '../../components/ui/Spinner';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
@@ -28,12 +30,13 @@ export function AccountPoints() {
 
   return (
     <div className="flex flex-col gap-8">
-      <section className="rounded-3xl bg-sage-800 p-6 text-cream-50 sm:p-8" aria-labelledby="balance-heading">
-        <h2 id="balance-heading" className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-cream-100/80">
-          <Sprout size={16} aria-hidden="true" /> Garden Points
+      <section className="bg-forest relative overflow-hidden rounded-[2rem] p-7 text-cream-50 sm:p-10" aria-labelledby="balance-heading">
+        <Sprig className="pointer-events-none absolute -right-6 -top-10 h-72 rotate-[28deg] text-sage-300/20" leaves={8} />
+        <h2 id="balance-heading" className="eyebrow relative flex items-center gap-2 text-gold-400">
+          <Sprout size={15} aria-hidden="true" /> Garden Points
         </h2>
-        <p className="mt-2 font-display text-5xl">{data.balance.toLocaleString()}</p>
-        <ul className="mt-4 flex flex-col gap-1 text-sm text-cream-100/85">
+        <p className="relative mt-3 font-display text-7xl leading-none tracking-[-0.02em] sm:text-8xl">{data.balance.toLocaleString()}</p>
+        <ul className="relative mt-6 flex max-w-xl flex-col gap-1.5 text-sm leading-relaxed text-cream-100/85">
           <li>1 point for every KES {data.kes_per_point} you spend, once your order arrives.</li>
           <li>
             {data.review_points} points for an honest review of a remedy you've received, good or bad. A couple of
@@ -49,8 +52,8 @@ export function AccountPoints() {
           </h2>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {data.to_review.map((product) => (
-              <li key={product.slug} className="flex items-center gap-4 rounded-2xl border border-cream-300 bg-cream-50 p-3">
-                <img src={resolveMediaUrl(product.primary_image_url)} alt="" className="h-14 w-14 rounded-xl object-cover" />
+              <li key={product.slug} className="flex items-center gap-4 rounded-3xl border border-cream-300 bg-cream-50 shadow-soft p-3">
+                <ProductImage src={product.primary_image_url} seed={product.slug} className="h-14 w-14 shrink-0 rounded-2xl" />
                 <div className="flex-1">
                   <p className="font-semibold text-sage-900">{product.name}</p>
                   <Link
@@ -74,14 +77,14 @@ export function AccountPoints() {
           {data.rewards.map((reward) => {
             const short = reward.points_cost - data.balance;
             return (
-              <li key={reward.id} className="flex flex-col rounded-2xl border border-cream-300 bg-cream-50 p-5">
+              <li key={reward.id} className="flex flex-col card p-5">
                 <span className="text-2xl" aria-hidden="true">
                   {reward.kind === 'experience' ? '🌿' : '🏷️'}
                 </span>
-                <h3 className="mt-2 font-display text-lg text-sage-900">{reward.name}</h3>
+                <h3 className="mt-2 font-display text-xl text-sage-900">{reward.name}</h3>
                 {reward.description && <p className="mt-1 text-sm text-ink-600">{reward.description}</p>}
                 <div
-                  className="mt-4 h-2 overflow-hidden rounded-full bg-cream-200"
+                  className="mt-5 h-2 overflow-hidden rounded-full bg-cream-200"
                   role="progressbar"
                   aria-label={`Progress towards ${reward.name}`}
                   aria-valuemin={0}
@@ -89,7 +92,7 @@ export function AccountPoints() {
                   aria-valuenow={Math.min(data.balance, reward.points_cost)}
                 >
                   <div
-                    className="h-full rounded-full bg-gold-500"
+                    className="h-full rounded-full bg-gradient-to-r from-gold-400 to-gold-600"
                     style={{ width: `${Math.min(100, (data.balance / reward.points_cost) * 100)}%` }}
                   />
                 </div>
@@ -123,7 +126,7 @@ export function AccountPoints() {
           </p>
           <ul className="mt-4 flex flex-col gap-3">
             {data.redemptions.map((redemption) => (
-              <li key={redemption.id} className="flex flex-wrap items-center gap-3 rounded-2xl border border-cream-300 bg-cream-50 p-4">
+              <li key={redemption.id} className="flex flex-wrap items-center gap-3 rounded-3xl border border-cream-300 bg-cream-50 shadow-soft p-4">
                 <Ticket size={18} className="text-sage-600" aria-hidden="true" />
                 <div className="flex-1">
                   <p className="font-semibold text-sage-900">{redemption.reward_name}</p>
@@ -144,9 +147,9 @@ export function AccountPoints() {
         {data.entries.length === 0 ? (
           <p className="mt-2 text-sm text-ink-600">No points yet. They'll appear here once an order arrives or you write a review.</p>
         ) : (
-          <ul className="mt-3 divide-y divide-cream-300 rounded-2xl border border-cream-300 bg-cream-50">
+          <ul className="card mt-4 divide-y divide-cream-200 overflow-hidden">
             {data.entries.map((entry) => (
-              <li key={entry.id} className="flex items-center justify-between gap-4 px-4 py-3 text-sm">
+              <li key={entry.id} className="flex items-center justify-between gap-4 px-5 py-3.5 text-sm">
                 <div>
                   <p className="text-ink-800">{entry.label}</p>
                   <p className="text-xs text-ink-600">{formatDate(entry.created_at)}</p>
@@ -208,8 +211,8 @@ function ReviewRemindersSetting() {
   };
 
   return (
-    <section className="rounded-2xl border border-cream-300 bg-cream-50 p-5" aria-labelledby="reminders-heading">
-      <h2 id="reminders-heading" className="font-display text-lg text-sage-900">
+    <section className="card p-5" aria-labelledby="reminders-heading">
+      <h2 id="reminders-heading" className="font-display text-xl text-sage-900">
         Review reminders
       </h2>
       <label className="mt-2 flex items-start gap-3 text-sm text-ink-700">

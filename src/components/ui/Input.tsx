@@ -1,5 +1,11 @@
 import { type InputHTMLAttributes, type TextareaHTMLAttributes, forwardRef } from 'react';
 import clsx from 'clsx';
+import { fieldClasses, labelClasses } from './fieldStyles';
+
+export function FieldError({ children }: { children?: string }) {
+  if (!children) return null;
+  return <span className="text-xs font-medium text-rose-600">{children}</span>;
+}
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,22 +18,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-ink-700">
+          <label htmlFor={inputId} className={labelClasses}>
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          id={inputId}
-          className={clsx(
-            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600',
-            'focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 transition',
-            error ? 'border-rose-400' : 'border-cream-300',
-            className,
-          )}
-          {...props}
-        />
-        {error && <span className="text-xs text-rose-600">{error}</span>}
+        <input ref={ref} id={inputId} className={clsx(fieldClasses(error), className)} {...props} />
+        <FieldError>{error}</FieldError>
       </div>
     );
   },
@@ -45,22 +41,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={inputId} className="text-sm font-medium text-ink-700">
+          <label htmlFor={inputId} className={labelClasses}>
             {label}
           </label>
         )}
-        <textarea
-          ref={ref}
-          id={inputId}
-          className={clsx(
-            'rounded-xl border bg-cream-50 px-4 py-2.5 text-ink-900 placeholder:text-ink-600',
-            'focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-sage-400 transition resize-none',
-            error ? 'border-rose-400' : 'border-cream-300',
-            className,
-          )}
-          {...props}
-        />
-        {error && <span className="text-xs text-rose-600">{error}</span>}
+        <textarea ref={ref} id={inputId} className={clsx(fieldClasses(error), 'resize-none', className)} {...props} />
+        <FieldError>{error}</FieldError>
       </div>
     );
   },

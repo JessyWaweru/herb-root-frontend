@@ -4,7 +4,7 @@ import { PenLine } from 'lucide-react';
 import { useAuthStore } from '../../stores/authStore';
 import { fetchReviewPrompt } from '../../lib/points';
 import { updateMe } from '../../lib/auth';
-import { resolveMediaUrl } from '../../lib/format';
+import { ProductImage } from '../product/ProductImage';
 import { Dialog } from '../ui/Dialog';
 import { Button } from '../ui/Button';
 import type { ProductToReview } from '../../types';
@@ -78,8 +78,8 @@ export function ReviewPrompt() {
   return (
     <Dialog open onClose={() => setPrompt(null)} title="How did it work for you?">
       <div className="flex items-center gap-4">
-        <img src={resolveMediaUrl(product.primary_image_url)} alt="" className="h-16 w-16 rounded-xl object-cover" />
-        <p className="text-sm text-ink-700">
+        <ProductImage src={product.primary_image_url} seed={product.slug} className="h-20 w-20 shrink-0 rounded-2xl" />
+        <p className="text-sm leading-relaxed text-ink-700">
           You've had <strong className="text-sage-900">{product.name}</strong> for a little while. An honest review, good
           or bad, helps others choose, and earns you <strong className="text-sage-900">{points} Garden Points</strong>.
         </p>
@@ -98,7 +98,7 @@ export function ReviewPrompt() {
           Write a review
         </Button>
       </div>
-      <button type="button" onClick={stopReminders} className="mt-4 text-xs text-ink-600 underline">
+      <button type="button" onClick={stopReminders} className="mt-4 text-xs text-ink-600 underline underline-offset-2 hover:text-sage-800">
         Don't ask me again
       </button>
     </Dialog>

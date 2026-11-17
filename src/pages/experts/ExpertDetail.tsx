@@ -130,7 +130,7 @@ export function ExpertDetail() {
           <div className="flex items-center gap-5">
             <ExpertAvatar expert={expert} size="lg" />
             <div>
-              <h1 className="font-display text-3xl text-sage-900">{expert.name}</h1>
+              <h1 className="font-display text-4xl leading-tight tracking-[-0.02em] text-sage-900 sm:text-5xl">{expert.name}</h1>
               <p className="text-ink-700">{expert.title}</p>
               <p className="mt-1 text-sm font-semibold text-sage-700">{expert.kind_label}</p>
             </div>
@@ -155,7 +155,7 @@ export function ExpertDetail() {
           {expert.specialties && (
             <div className="mt-6 flex flex-wrap gap-2">
               {expert.specialties.split(',').map((specialty) => (
-                <span key={specialty} className="rounded-full bg-sage-50 px-3 py-1 text-sm text-sage-800">
+                <span key={specialty} className="rounded-full bg-sage-50 px-3.5 py-1.5 text-sm font-medium text-sage-800 ring-1 ring-sage-100">
                   {specialty.trim()}
                 </span>
               ))}
@@ -163,17 +163,17 @@ export function ExpertDetail() {
           )}
 
           {expert.kind === 'herbal_coach' && (
-            <p className="mt-8 rounded-xl bg-cream-200 p-4 text-xs text-ink-600">
+            <p className="mt-8 rounded-3xl border border-cream-300 bg-cream-50/70 p-5 text-xs leading-relaxed text-ink-600">
               Herbal coaches share guidance on traditional remedies and wellbeing. This isn't a medical diagnosis. If
               you're pregnant, on medication or have a long-term condition, also speak to a doctor.
             </p>
           )}
         </div>
 
-        <div className="h-fit rounded-2xl border border-cream-300 bg-cream-50 p-6">
+        <div className="card h-fit p-6 sm:p-7 lg:sticky lg:top-28">
           <div className="flex items-baseline justify-between">
             <h2 className="font-display text-xl text-sage-900">Book a session</h2>
-            <span className="font-display text-xl text-sage-900">{isFree ? 'Free' : formatPrice(expert.fee, expert.currency)}</span>
+            <span className="font-display text-3xl text-sage-900">{isFree ? 'Free' : formatPrice(expert.fee, expert.currency)}</span>
           </div>
 
           {!isAuthenticated ? (
@@ -187,7 +187,7 @@ export function ExpertDetail() {
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="mt-5 flex flex-col gap-4">
               <fieldset>
-                <legend className="text-sm font-medium text-ink-700">How would you like to talk?</legend>
+                <legend className="text-[13px] font-semibold text-ink-700">How would you like to talk?</legend>
                 <div className="mt-2 grid grid-cols-3 gap-2">
                   {expert.modes.map((mode) => {
                     const { label, icon: Icon } = MODE_META[mode];
@@ -195,8 +195,10 @@ export function ExpertDetail() {
                       <label
                         key={mode}
                         className={clsx(
-                          'flex cursor-pointer flex-col items-center gap-1 rounded-xl border p-3 text-xs font-semibold transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-sage-400',
-                          selectedMode === mode ? 'border-sage-500 bg-sage-50 text-sage-800' : 'border-cream-300 text-ink-700',
+                          'flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl border p-3.5 text-xs font-semibold transition duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-sage-600',
+                          selectedMode === mode
+                            ? 'border-sage-800 bg-sage-800 text-cream-50 shadow-press [&_svg]:text-gold-400'
+                            : 'border-cream-300 bg-cream-50 text-ink-700 hover:border-sage-400',
                         )}
                       >
                         <input type="radio" value={mode} {...register('mode')} className="sr-only" />

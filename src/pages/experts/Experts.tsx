@@ -5,7 +5,7 @@ import { Spinner } from '../../components/ui/Spinner';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { ExpertCard } from '../../components/experts/ExpertCard';
 import { EmailUsButton } from '../../components/experts/EmailUsButton';
-import { Breadcrumbs } from '../../components/seo/Breadcrumbs';
+import { PageHero } from '../../components/layout/PageHero';
 import { CRUMBS } from '../../seo/site';
 import type { ExpertKind } from '../../types';
 
@@ -20,56 +20,64 @@ export function Experts() {
   const { data: experts, isLoading } = useExperts(kind);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-      <Breadcrumbs items={CRUMBS['/experts']} />
-      <div className="max-w-2xl">
-        <h1 className="font-display text-4xl text-sage-900">Talk to an expert</h1>
-        <p className="mt-3 text-ink-700">
-          Not sure which remedy is right for you? Book a one-to-one session with one of our herbal coaches, or with a
-          licensed medical specialist, by email, phone or video.
+    <div>
+      <PageHero
+        crumbs={CRUMBS['/experts']}
+        eyebrow="One-to-one sessions"
+        title={
+          <>
+            Talk to an <em>expert</em>
+          </>
+        }
+        description="Not sure which remedy is right for you? Book a one-to-one session with one of our herbal coaches, or with a licensed medical specialist, by email, phone or video."
+      >
+        <EmailUsButton subject="A quick question about your remedies" label="Quick question? Email us" className="mt-7" />
+      </PageHero>
+
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <div className="no-scrollbar flex gap-2 overflow-x-auto p-1" role="group" aria-label="Filter experts">
+          {FILTERS.map((filter) => (
+            <button
+              key={filter.label}
+              onClick={() => setKind(filter.kind)}
+              aria-pressed={kind === filter.kind}
+              className={clsx(
+                'shrink-0 rounded-full border px-5 py-2.5 text-sm font-semibold transition-colors duration-200',
+                kind === filter.kind
+                  ? 'border-sage-800 bg-sage-800 text-cream-50 shadow-press'
+                  : 'border-cream-300 bg-cream-50 text-ink-700 hover:border-sage-400 hover:text-sage-900',
+              )}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8">
+          {isLoading ? (
+            <Spinner />
+          ) : experts && experts.length > 0 ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {experts.map((expert) => (
+                <ExpertCard key={expert.id} expert={expert} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              icon="🌿"
+              title="Our experts are joining soon"
+              description="We're adding herbal coaches and medical specialists. In the meantime, message us and we'll help."
+              action={<EmailUsButton subject="I'd like advice on a remedy" />}
+            />
+          )}
+        </div>
+
+        <p className="mt-12 max-w-3xl rounded-3xl border border-cream-300 bg-cream-50/70 p-5 text-xs leading-relaxed text-ink-600">
+          Herbal coaches share guidance on traditional remedies and wellbeing; this isn't a medical diagnosis. For
+          diagnosis or treatment, book a medical specialist or see your doctor. In an emergency, go to the nearest
+          hospital.
         </p>
-        <EmailUsButton subject="A quick question about your remedies" label="Quick question? Email us" className="mt-5" />
       </div>
-
-      <div className="mt-10 flex gap-2 overflow-x-auto">
-        {FILTERS.map((filter) => (
-          <button
-            key={filter.label}
-            onClick={() => setKind(filter.kind)}
-            className={clsx(
-              'shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition',
-              kind === filter.kind ? 'bg-sage-600 text-cream-50' : 'bg-cream-200 text-ink-700 hover:bg-sage-100',
-            )}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-6">
-        {isLoading ? (
-          <Spinner />
-        ) : experts && experts.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {experts.map((expert) => (
-              <ExpertCard key={expert.id} expert={expert} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            icon="🌿"
-            title="Our experts are joining soon"
-            description="We're adding herbal coaches and medical specialists. In the meantime, message us and we'll help."
-            action={<EmailUsButton subject="I'd like advice on a remedy" />}
-          />
-        )}
-      </div>
-
-      <p className="mt-12 max-w-3xl text-xs text-ink-600">
-        Herbal coaches share guidance on traditional remedies and wellbeing; this isn't a medical diagnosis. For
-        diagnosis or treatment, book a medical specialist or see your doctor. In an emergency, go to the nearest
-        hospital.
-      </p>
     </div>
   );
 }

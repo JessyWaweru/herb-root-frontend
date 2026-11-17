@@ -4,7 +4,8 @@ import { ArrowRight, Search, Sparkles } from 'lucide-react';
 import clsx from 'clsx';
 import { useSmartSearchNavigate } from '../../hooks/useSmartSearch';
 import { useSmartSearch } from '../../hooks/useProducts';
-import { formatPrice, resolveMediaUrl } from '../../lib/format';
+import { formatPrice } from '../../lib/format';
+import { ProductImage } from '../product/ProductImage';
 
 const SUGGESTION_LIMIT = 5;
 const DEBOUNCE_MS = 250;
@@ -89,11 +90,11 @@ export function SmartSearchBar({
     <form ref={rootRef} onSubmit={handleSubmit} className={clsx('relative', className)} role="search" aria-label={label}>
       <div
         className={clsx(
-          'flex w-full items-center gap-2 rounded-full border border-cream-300 bg-cream-50 px-4 py-2 focus-within:ring-2 focus-within:ring-sage-400',
+          'flex h-11 w-full items-center gap-2.5 rounded-full border border-cream-300 bg-cream-50/90 px-4 shadow-[inset_0_1px_2px_rgba(10,56,41,0.04)] transition-[border-color,box-shadow] duration-200 hover:border-cream-400 focus-within:border-sage-600 focus-within:ring-4 focus-within:ring-sage-600/15',
           inputClassName,
         )}
       >
-        <Search size={16} className="shrink-0 text-ink-600" />
+        <Search size={16} className="shrink-0 text-sage-700" aria-hidden="true" />
         <input
           value={value}
           onChange={(e) => {
@@ -110,22 +111,22 @@ export function SmartSearchBar({
           aria-expanded={showPanel && suggestions.length > 0}
           aria-controls={listId}
           aria-activedescendant={showPanel && active >= 0 ? `${listId}-${active}` : undefined}
-          className="w-full bg-transparent text-sm text-ink-800 placeholder:text-ink-600 focus:outline-none"
+          className="w-full min-w-0 bg-transparent text-sm text-ink-900 placeholder:text-ink-600 focus:outline-none focus-visible:outline-none"
         />
         <Sparkles
           size={15}
-          className={clsx('shrink-0 text-sage-500', isFetching && 'animate-pulse')}
+          className={clsx('shrink-0 text-gold-600', isFetching && 'animate-pulse')}
           aria-hidden="true"
         />
       </div>
 
       {showPanel && (
-        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-cream-300 bg-cream-50 text-left shadow-lift">
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 min-w-72 animate-rise overflow-hidden rounded-3xl border border-cream-300 bg-cream-50 text-left shadow-lift [animation-duration:0.25s]">
           {data.concerns.length > 0 && (
-            <div className="flex flex-wrap items-center gap-1.5 border-b border-cream-300 px-4 py-2.5">
-              <span className="text-xs text-ink-600">Sounds like:</span>
+            <div className="flex flex-wrap items-center gap-1.5 border-b border-cream-200 bg-sage-50/60 px-4 py-3">
+              <span className="eyebrow mr-1 text-[10px]">Sounds like</span>
               {data.concerns.map((c) => (
-                <span key={c.id} className="rounded-full bg-sage-100 px-2.5 py-0.5 text-xs font-semibold text-sage-800">
+                <span key={c.id} className="rounded-full bg-cream-50 px-2.5 py-0.5 text-xs font-semibold text-sage-800 ring-1 ring-sage-200">
                   {c.icon} {c.name}
                 </span>
               ))}
@@ -133,7 +134,7 @@ export function SmartSearchBar({
           )}
 
           {suggestions.length > 0 ? (
-            <ul role="listbox" id={listId} aria-label="Suggested remedies">
+            <ul role="listbox" id={listId} aria-label="Suggested remedies" className="p-1.5">
               {suggestions.map((p, i) => (
                 // Keyboard users pick with the arrow keys and Enter in the search box (the combobox
                 // pattern), so options are clickable but not separately focusable.
@@ -146,32 +147,28 @@ export function SmartSearchBar({
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => goToProduct(p.slug)}
                   className={clsx(
-                    'flex w-full cursor-pointer items-center gap-3 px-4 py-2 text-left transition',
-                    i === active ? 'bg-sage-50' : 'hover:bg-sage-50',
+                    'flex w-full cursor-pointer items-center gap-3 rounded-2xl px-2.5 py-2 text-left transition-colors',
+                    i === active ? 'bg-sage-100' : 'hover:bg-sage-50',
                   )}
                 >
-                  <img
-                    src={resolveMediaUrl(p.primary_image_url)}
-                    alt=""
-                    className="h-10 w-10 shrink-0 rounded-lg bg-sage-50 object-cover"
-                  />
+                  <ProductImage src={p.primary_image_url} seed={p.id} className="h-11 w-11 shrink-0 rounded-xl" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-medium text-ink-800">{p.name}</span>
+                    <span className="block truncate text-sm font-semibold text-sage-900">{p.name}</span>
                     <span className="block truncate text-xs text-ink-600">{p.short_description}</span>
                   </span>
-                  <span className="shrink-0 text-xs font-semibold text-sage-700">
+                  <span className="shrink-0 font-display text-sm text-sage-900">
                     {formatPrice(p.price, p.currency)}
                   </span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="px-4 py-3 text-sm text-ink-600">No exact match yet — try describing how you feel.</p>
+            <p className="px-4 py-4 text-sm text-ink-600">No exact match yet — try describing how you feel.</p>
           )}
 
           <button
             type="submit"
-            className="flex w-full items-center justify-between border-t border-cream-300 px-4 py-2.5 text-sm font-semibold text-sage-700 transition hover:bg-sage-50"
+            className="flex w-full items-center justify-between border-t border-cream-200 px-4 py-3 text-sm font-semibold text-sage-800 transition-colors hover:bg-sage-800 hover:text-cream-50"
           >
             {data.fallback ? 'Browse popular remedies' : `See all ${data.count} results`}
             <ArrowRight size={14} />

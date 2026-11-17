@@ -12,12 +12,12 @@ import type { ConsultationStatus } from '../../types';
 import { ItemNotFound } from '../../components/ui/ItemNotFound';
 
 const STATUS_META: Record<ConsultationStatus, { headline: string; tone: string; icon: typeof Clock }> = {
-  pending_payment: { headline: 'Awaiting payment', tone: 'text-gold-700 bg-gold-300/40', icon: Clock },
+  pending_payment: { headline: 'Awaiting payment', tone: 'text-gold-700 bg-gold-200', icon: Clock },
   confirmed: { headline: 'You’re booked in!', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
   scheduled: { headline: 'Your session is scheduled', tone: 'text-sage-700 bg-sage-100', icon: CalendarCheck },
   completed: { headline: 'Session completed', tone: 'text-sage-700 bg-sage-100', icon: CheckCircle2 },
-  cancelled: { headline: 'Booking cancelled', tone: 'text-rose-700 bg-rose-300/40', icon: XCircle },
-  refunded: { headline: 'Booking refunded', tone: 'text-rose-700 bg-rose-300/40', icon: XCircle },
+  cancelled: { headline: 'Booking cancelled', tone: 'text-rose-700 bg-rose-100', icon: XCircle },
+  refunded: { headline: 'Booking refunded', tone: 'text-rose-700 bg-rose-100', icon: XCircle },
 };
 
 const MODE_LABEL = { email: 'Email consultation', phone: 'Phone call', video: 'Video call' } as const;
@@ -45,12 +45,12 @@ export function ConsultationDetail() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
-      <div className="rounded-3xl border border-cream-300 bg-cream-50 p-8">
+      <div className="card animate-rise p-7 sm:p-9">
         <div className="flex flex-col items-center text-center">
-          <span className={`flex h-14 w-14 items-center justify-center rounded-full ${status.tone}`}>
+          <span className={`flex h-16 w-16 items-center justify-center rounded-full ring-8 ring-cream-100 ${status.tone}`}>
             <StatusIcon size={26} />
           </span>
-          <h1 className="mt-4 font-display text-2xl text-sage-900">{status.headline}</h1>
+          <h1 className="mt-5 text-balance font-display text-3xl leading-tight text-sage-900 sm:text-4xl">{status.headline}</h1>
           <p className="mt-1 text-sm text-ink-600">Booking {consultation.reference}</p>
           {consultation.status === 'confirmed' && (
             <p className="mt-3 max-w-md text-sm text-ink-700">
@@ -62,7 +62,7 @@ export function ConsultationDetail() {
         <div className="mt-8 flex items-center gap-4 border-t border-cream-300 pt-6">
           <ExpertAvatar expert={expert} />
           <div>
-            <p className="font-semibold text-sage-900">{expert.name}</p>
+            <p className="font-display text-xl text-sage-900">{expert.name}</p>
             <p className="text-sm text-ink-600">{expert.title}</p>
           </div>
         </div>

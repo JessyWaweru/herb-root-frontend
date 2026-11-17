@@ -28,7 +28,7 @@ export function AccountProfile() {
   return (
     <div className="flex flex-col gap-8">
       {user && !user.is_email_verified && (
-        <div className="flex flex-col items-start gap-2 rounded-2xl border border-gold-400 bg-gold-300/20 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-start gap-2 rounded-2xl border border-gold-400 bg-gold-200/60 p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-ink-700">Your email address isn't verified yet.</p>
           <Button size="sm" variant="secondary" onClick={onResend} isLoading={resending}>
             Resend verification email

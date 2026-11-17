@@ -154,24 +154,24 @@ interface Stage {
 const STAGES: Stage[] = [
   {
     Illustration: WholePlant,
-    palette: { stroke: '#45603a', fill: '#e1ebd7', accent: '#e8b751' },
-    tint: 'rgba(107, 142, 90, 0.22)',
+    palette: { stroke: '#105b41', fill: '#dcefe3', accent: '#e8b751' },
+    tint: 'rgba(87, 179, 139, 0.24)',
     eyebrow: 'The whole plant',
     title: 'Root, leaf & flower.',
     line: 'We use every part that works — never an isolated extract.',
   },
   {
     Illustration: CalmMind,
-    palette: { stroke: '#8a6a2f', fill: '#fbf3dd', accent: '#e7c873' },
-    tint: 'rgba(201, 161, 90, 0.24)',
+    palette: { stroke: '#7a5916', fill: '#fbefcc', accent: '#f0cb72' },
+    tint: 'rgba(232, 183, 81, 0.26)',
     eyebrow: 'For the mind',
     title: 'Quiet the noise.',
     line: 'Herbs long used to ease stress and settle a restless head.',
   },
   {
     Illustration: CaredBody,
-    palette: { stroke: '#a85f45', fill: '#f8e3dc', accent: '#8aa876' },
-    tint: 'rgba(201, 123, 95, 0.22)',
+    palette: { stroke: '#8f3d24', fill: '#fae4db', accent: '#57b38b' },
+    tint: 'rgba(208, 109, 78, 0.2)',
     eyebrow: 'And the body',
     title: 'Feel it, day to day.',
     line: 'Carried through to support how your body feels, every day.',
@@ -211,7 +211,7 @@ function Slide({
       <div className="grid w-full max-w-5xl items-center gap-8 md:grid-cols-2 md:gap-16">
         <m.div
           style={{ x: artX, rotate: artRotate, scale: artScale, opacity: fade }}
-          className="relative mx-auto aspect-square w-56 sm:w-72 md:w-80"
+          className="relative mx-auto aspect-square w-60 sm:w-72 md:w-[22rem]"
         >
           <div className="absolute inset-0 rounded-full" style={{ background: `radial-gradient(circle, ${palette.fill} 0%, transparent 70%)` }} />
           <m.svg
@@ -223,7 +223,7 @@ function Slide({
             <circle cx="100" cy="100" r="94" fill="none" stroke={palette.stroke} strokeOpacity="0.25" strokeWidth="1" strokeDasharray="3 7" />
             <circle cx="100" cy="6" r="3.5" fill={palette.accent} />
           </m.svg>
-          <div className="absolute inset-[14%] rounded-full bg-cream-50/70 shadow-soft backdrop-blur-sm" />
+          <div className="absolute inset-[14%] rounded-full bg-cream-50/80 shadow-lift ring-1 ring-cream-300/70 backdrop-blur-sm" />
           <div className="absolute inset-[18%]">
             <Illustration {...palette} active={active || reduced} />
           </div>
@@ -231,12 +231,12 @@ function Slide({
 
         <m.div style={{ x: textX, opacity: fade }} className="text-center md:text-left">
           <p className="flex items-center justify-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] md:justify-start" style={{ color: palette.stroke }}>
-            <span className="font-display text-2xl tracking-normal">0{index + 1}</span>
+            <span className="font-display text-3xl italic tracking-normal">0{index + 1}</span>
             <span className="h-px w-8" style={{ background: palette.stroke }} />
             {stage.eyebrow}
           </p>
-          <h2 className="mt-4 font-display text-4xl leading-tight text-sage-900 sm:text-5xl">{stage.title}</h2>
-          <p className="mx-auto mt-4 max-w-sm text-balance text-ink-600 md:mx-0">{stage.line}</p>
+          <h2 className="mt-5 font-display text-5xl leading-[1.02] text-sage-900 sm:text-6xl">{stage.title}</h2>
+          <p className="mx-auto mt-5 max-w-sm text-balance text-lg leading-relaxed text-ink-600 md:mx-0">{stage.line}</p>
         </m.div>
       </div>
     </div>
@@ -280,11 +280,15 @@ export function MindBodyTransition() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-botanical py-16 sm:py-24" aria-roledescription="carousel" aria-label="One herb, taken whole">
+    <section className="relative overflow-hidden border-y border-cream-300 bg-cream-50/60 py-20 sm:py-28" aria-roledescription="carousel" aria-label="One herb, taken whole">
       <m.div className="pointer-events-none absolute inset-0" style={{ background: backdrop }} />
 
-      <div className="relative mb-6 text-center sm:mb-10">
-        <span className="text-xs font-semibold uppercase tracking-[0.2em] text-sage-600">One herb, taken whole</span>
+      <div className="relative mb-8 flex justify-center sm:mb-12">
+        <span className="eyebrow inline-flex items-center gap-3">
+          <span className="h-px w-7 bg-current opacity-50" aria-hidden="true" />
+          One herb, taken whole
+          <span className="h-px w-7 bg-current opacity-50" aria-hidden="true" />
+        </span>
       </div>
 
       <div
@@ -298,7 +302,7 @@ export function MindBodyTransition() {
         ))}
       </div>
 
-      <div className="relative mx-auto mt-10 flex max-w-5xl items-center justify-between gap-6 px-6 sm:px-12">
+      <div className="relative mx-auto mt-12 flex max-w-5xl items-center justify-between gap-6 px-6 sm:px-12">
         <div className="flex flex-1 gap-2">
           {STAGES.map((stage, i) => (
             <ProgressSegment
@@ -345,7 +349,7 @@ function ProgressSegment({
   const fill = useTransform(position, [index - 1, index], [0, 1]);
   return (
     <button onClick={onClick} aria-label={`Go to ${label}`} aria-current={current} className="relative h-8 flex-1">
-      <span className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 overflow-hidden rounded-full bg-sage-200/60">
+      <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-cream-300">
         <m.span className="absolute inset-0 origin-left rounded-full" style={{ background: color, scaleX: fill }} />
       </span>
     </button>
@@ -369,10 +373,10 @@ function NavButton({
       disabled={disabled}
       aria-label={label}
       className={clsx(
-        'flex h-11 w-11 items-center justify-center rounded-full border transition',
+        'flex h-12 w-12 items-center justify-center rounded-full border transition duration-200',
         disabled
           ? 'cursor-not-allowed border-cream-300 text-ink-600/30'
-          : 'border-sage-300 bg-cream-50 text-sage-800 shadow-soft hover:-translate-y-0.5 hover:bg-sage-800 hover:text-cream-50',
+          : 'border-sage-800/25 bg-cream-50 text-sage-900 shadow-soft hover:-translate-y-0.5 hover:border-sage-800 hover:bg-sage-800 hover:text-cream-50',
       )}
     >
       {children}

@@ -1,8 +1,10 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import type { ProductSummary } from '../../types';
 import { ProductGrid } from '../product/ProductGrid';
-import { Spinner } from '../ui/Spinner';
+import { ProductGridSkeleton } from '../ui/Skeleton';
+import { SectionHeading } from '../ui/SectionHeading';
 
 export function ProductSection({
   eyebrow,
@@ -13,29 +15,30 @@ export function ProductSection({
   viewAllHref,
 }: {
   eyebrow: string;
-  title: string;
+  /** May hold an <em> for the italic accent word. */
+  title: ReactNode;
   subtitle?: string;
   products?: ProductSummary[];
   isLoading: boolean;
   viewAllHref: string;
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <span className="text-xs font-semibold uppercase tracking-wide text-sage-600">{eyebrow}</span>
-          <h2 className="mt-2 font-display text-3xl text-sage-900">{title}</h2>
-          {subtitle && <p className="mt-2 max-w-md text-sm text-ink-600">{subtitle}</p>}
-        </div>
-        <Link
-          to={viewAllHref}
-          className="flex items-center gap-1.5 text-sm font-semibold text-sage-700 hover:text-sage-900"
-        >
-          View all <ArrowRight size={15} />
-        </Link>
-      </div>
+    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <SectionHeading
+        eyebrow={eyebrow}
+        title={title}
+        description={subtitle}
+        action={
+          <Link to={viewAllHref} className="group inline-flex items-center gap-3 text-sm font-semibold text-sage-900">
+            <span className="link-sweep">View all</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-sage-800/25 transition-colors duration-200 group-hover:border-sage-800 group-hover:bg-sage-800 group-hover:text-cream-50">
+              <ArrowRight size={16} aria-hidden="true" />
+            </span>
+          </Link>
+        }
+      />
 
-      {isLoading ? <Spinner /> : <ProductGrid products={products ?? []} />}
+      {isLoading ? <ProductGridSkeleton /> : <ProductGrid products={products ?? []} animated />}
     </section>
   );
 }

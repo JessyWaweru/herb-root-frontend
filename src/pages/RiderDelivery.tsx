@@ -96,29 +96,29 @@ export function RiderDelivery() {
       </span>
 
       {!data.is_paid && (
-        <p className="mt-4 rounded-xl bg-rose-300/40 p-3 text-sm font-semibold text-rose-600">
+        <p className="mt-4 rounded-xl bg-rose-100 p-3 text-sm font-semibold text-rose-600">
           Not paid yet. Don’t deliver. Call the GOherbal team.
         </p>
       )}
 
-      <section className="mt-5 rounded-2xl border border-cream-300 bg-cream-50 p-5">
+      <section className="mt-5 card p-5">
         <p className="text-xs uppercase tracking-wide text-ink-600">Customer</p>
         <p className="mt-1 font-display text-xl text-sage-900">{data.full_name}</p>
         <a
           href={`tel:${data.phone_number}`}
-          className="mt-3 flex items-center justify-center gap-2 rounded-full bg-sage-600 py-3 text-base font-semibold text-cream-50"
+          className="mt-4 flex items-center justify-center gap-2 rounded-full bg-sage-800 py-3.5 text-base font-semibold text-cream-50 shadow-press"
         >
           <Phone size={18} /> Call {data.phone_number}
         </a>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-cream-300 bg-cream-50 p-5">
+      <section className="mt-4 card p-5">
         <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink-600">
           <MapPin size={13} /> Drop-off
         </p>
         <p className="mt-1 text-base text-ink-800">{address}</p>
         {data.landmark && (
-          <p className="mt-2 rounded-lg bg-gold-300/30 p-2 text-sm text-ink-800">
+          <p className="mt-2 rounded-lg bg-gold-200 p-2 text-sm text-ink-800">
             <span className="font-semibold">Directions:</span> {data.landmark}
           </p>
         )}
@@ -127,14 +127,14 @@ export function RiderDelivery() {
             href={data.directions_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 flex items-center justify-center gap-2 rounded-full border-2 border-sage-600 py-3 text-base font-semibold text-sage-800"
+            className="mt-4 flex items-center justify-center gap-2 rounded-full border-2 border-sage-800 py-3 text-base font-semibold text-sage-900"
           >
             <Navigation size={18} /> Navigate in Google Maps
           </a>
         )}
       </section>
 
-      <section className="mt-4 rounded-2xl border border-cream-300 bg-cream-50 p-5">
+      <section className="mt-4 card p-5">
         <p className="flex items-center gap-1.5 text-xs uppercase tracking-wide text-ink-600">
           <Package size={13} /> Package
         </p>
@@ -148,7 +148,7 @@ export function RiderDelivery() {
         {data.is_paid && <p className="mt-2 text-sm font-semibold text-sage-700">Already paid. Nothing to collect.</p>}
       </section>
 
-      {error && <p className="mt-4 rounded-xl bg-rose-300/40 p-3 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mt-4 rounded-xl bg-rose-100 p-3 text-sm text-rose-600">{error}</p>}
 
       <Button size="lg" className="mt-6 w-full" disabled={!data.is_paid} onClick={() => setConfirming(next)}>
         {ACTION_COPY[next].button}
@@ -169,8 +169,8 @@ export function RiderDelivery() {
 
 function Shell({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-cream-100">
-      <header className="border-b border-cream-300 bg-cream-50 px-4 py-3">
+    <div className="bg-botanical min-h-screen">
+      <header className="border-b border-cream-300 bg-cream-50/90 px-4 py-3 backdrop-blur">
         <Logo />
       </header>
       <main className="mx-auto max-w-md px-4 py-6">{children}</main>
